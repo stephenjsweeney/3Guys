@@ -1,0 +1,12 @@
+dev/*
+!dev/screenshots
+data
+fonts
+gfx
+music
+sound
+3Guys
+*.o
+.DS_Store
+dist/*
+/3Guys.exe
