@@ -18,45 +18,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "diamond.h"
+#include "../common.h"
 
-static void touch(Entity *other);
-static void describe(void);
-static int blocking(void);
+extern Sprite *getSprite(char *name);
+extern void initItem(Entity *e);
+extern int isGuy(Entity *e);
+extern void playSound(int snd, int ch);
 
-void initDiamond(Entity *e)
-{
-	e->type = ET_DIAMOND;
-	e->sprite = getSprite("Diamond");
-	e->touch = touch;
-	e->describe = describe;
-	e->isBlocking = blocking;
-}
-
-static void touch(Entity *other)
-{
-	if (other->type == ET_RED_GUY)
-	{
-		self->alive = 0;
-		
-		level.moves--;
-		
-		completeLevel();
-
-		playSound(SND_DIAMOND, 1);
-
-		/*
-		game.stats[STAT_DIAMONDS]++;
-		*/
-	}
-}
-
-static void describe(void)
-{
-	level.message = app.strings[ST_DIAMOND_DESC];
-}
-
-static int blocking(void)
-{
-	return 0;
-}
+extern App app;
+extern Entity *self;
+extern Level level;

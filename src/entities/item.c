@@ -18,45 +18,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "diamond.h"
+#include "item.h"
 
-static void touch(Entity *other);
-static void describe(void);
-static int blocking(void);
+static void tick(void);
+static void resetSpinTimer(void);
 
-void initDiamond(Entity *e)
+void initItem(Entity *e)
 {
-	e->type = ET_DIAMOND;
-	e->sprite = getSprite("Diamond");
-	e->touch = touch;
-	e->describe = describe;
-	e->isBlocking = blocking;
+	self = e;
+	
+	resetSpinTimer();
+	
+	e->tick = tick;
 }
 
-static void touch(Entity *other)
+static void tick(void)
 {
-	if (other->type == ET_RED_GUY)
+	if (--self->spinTimer < 0)
 	{
-		self->alive = 0;
-		
-		level.moves--;
-		
-		completeLevel();
+		self->spin += 0.1f;
 
-		playSound(SND_DIAMOND, 1);
+		self->angle = (float) sin(self->spin) * 25;
 
-		/*
-		game.stats[STAT_DIAMONDS]++;
-		*/
+		if (self->spinTimer < -(FPS * 3) && (int) self->angle == 0)
+		{
+			resetSpinTimer();
+		}
 	}
 }
 
-static void describe(void)
+static void resetSpinTimer(void)
 {
-	level.message = app.strings[ST_DIAMOND_DESC];
-}
+	self->angle = 0;
 
-static int blocking(void)
-{
-	return 0;
+	self->spinTimer = randF() * FPS * 25;
 }

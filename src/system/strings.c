@@ -23,8 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void initStrings(void)
 {
 	app.strings[ST_CLICK_TO_CONTINUE] = _("Click to continue");
+	app.strings[ST_OUT_OF_MOVES] = _("Out of moves!");
 	app.strings[ST_DIAMOND_DESC] = _("A diamond. It's very shiny. I'll have it for lunch.");
 	app.strings[ST_STAR_DESC] = _("A star. It looks tasty. Will make a nice side for the diamond.");
 	app.strings[ST_LEVEL_NUM] = _("Level %03d / 100");
 	app.strings[ST_NUM_MOVES] = _("Moves: %d");
+	app.strings[ST_KEY_DESC] = _("A key. I can use it to open doors.");
+	app.strings[ST_ALREADY_HAVE_KEY] = _("I've already got a key.");
+	app.strings[ST_DOOR_DESC] = _("It's a door. It can be opened with a key.");
 }

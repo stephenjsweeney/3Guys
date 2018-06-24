@@ -118,12 +118,16 @@ struct EntityDef {
 
 struct Entity {
 	int type;
-	char name[MAX_NAME_LENGTH];
 	float x, y;
 	int visible;
 	int solid;
 	int alive;
+	int spinTimer;
+	float spin;
+	float angle;
 	Sprite *sprite;
+	Entity *carrying;
+	Entity *owner;
 	void (*move)(void);
 	void (*touch)(Entity *other);
 	void (*activate)(void);
@@ -201,6 +205,7 @@ typedef struct {
 	SDL_Point route[MAP_WIDTH * MAP_HEIGHT];
 	Entity entityHead, *entityTail;
 	Effect effectHead, *effectTail;
+	SDL_Point oldPosition;
 	int numTips;
 	char **tips;
 	char *message;

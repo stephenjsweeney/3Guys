@@ -77,19 +77,22 @@ static void loadMeta(cJSON *metaJSON)
 			n++;
 		}
 		
-		level.tips = malloc(sizeof(char*) * n);
-		
-		n = 0;
-		
-		for (tip = tips->child ; tip != NULL ; tip = tip->next)
+		if (n > 0)
 		{
-			level.tips[n] = malloc(strlen(_(tip->valuestring)) + 1);
-			strcpy(level.tips[n], _(tip->valuestring));
+			level.tips = malloc(sizeof(char*) * n);
 			
-			n++;
+			n = 0;
+			
+			for (tip = tips->child ; tip != NULL ; tip = tip->next)
+			{
+				level.tips[n] = malloc(strlen(_(tip->valuestring)) + 1);
+				strcpy(level.tips[n], _(tip->valuestring));
+				
+				n++;
+			}
+			
+			level.numTips = n;
 		}
-		
-		level.numTips = n;
 	}
 }
 
@@ -178,6 +181,9 @@ void initEntityDefs(void)
 	addEntityDef("Diamond", initDiamond);
 	addEntityDef("RedGuy", initRedGuy);
 	addEntityDef("GreenGuy", initGreenGuy);
+	addEntityDef("Star", initStar);
+	addEntityDef("NormalKey", initNormalKey);
+	addEntityDef("NormalDoor", initNormalDoor);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))

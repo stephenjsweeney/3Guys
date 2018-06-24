@@ -35,7 +35,7 @@ void initStar(Entity *e)
 
 static void touch(Entity *other)
 {
-	if (other->type == ET_RED_GUY || other->type == ET_GREEN_GUY || other->type == ET_YELLOW_GUY)
+	if (isGuy(other))
 	{
 		self->alive = 0;
 

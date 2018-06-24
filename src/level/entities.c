@@ -44,7 +44,7 @@ void doEntities(void)
 	
 	for (self = level.entityHead.next ; self != NULL ; self = self->next)
 	{
-		if (self->tick)
+		if (self->tick != NULL)
 		{
 			self->tick();
 		}
@@ -127,7 +127,7 @@ static void guyFallDownHoles(void)
 		{
 			if (level.guy->type == ET_YELLOW_GUY && level.tools != 0)
 			{
-				playSound(SND_BRIDGE, 1);
+				playSound(SND_BRIDGE, -1);
 				
 				addFloor(level.guy->x, level.guy->y);
 
@@ -152,13 +152,19 @@ void drawEntities(void)
 	
 	for (e = level.entityHead.next ; e != NULL ; e = e->next)
 	{
-		x = LEVEL_RENDER_X + e->x * TILE_SIZE;
-		y = LEVEL_RENDER_Y + e->y * TILE_SIZE;
+		if (e->visible)
+		{
+			x = LEVEL_RENDER_X + e->x * TILE_SIZE;
+			y = LEVEL_RENDER_Y + e->y * TILE_SIZE;
+			
+			x += TILE_SIZE / 2;
+			y += TILE_SIZE / 2;
 		
-		x += TILE_SIZE / 2;
-		y += TILE_SIZE / 2;
-		
-		drawGLRectangleBatch(getCurrentFrame(e->sprite), x, y, 1);
+			glRectangleBatch.rotate = 1;
+			glRectangleBatch.angle = e->angle;
+			drawGLRectangleBatch(getCurrentFrame(e->sprite), x, y, 1);
+			glRectangleBatch.rotate = 0;
+		}
 	}
 }
 

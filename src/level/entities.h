@@ -27,4 +27,5 @@ extern void playSound(int snd, int ch);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 
 extern Entity *self;
+extern GLRectangleBatch glRectangleBatch;
 extern Level level;

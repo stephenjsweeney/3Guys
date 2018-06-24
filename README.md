@@ -23,3 +23,5 @@ The source code is licensed under the GPL.
 ## Building
 
 Building this game is simple: with the SDL and OpenGL libraries installed, simply run make. Three make files are included: one for Linux (make), one for Windows (make.win32), and one for Mac (make.mac).
+
+Work in progress goes into the develop branch, stable releases can be found in master.

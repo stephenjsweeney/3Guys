@@ -35,6 +35,7 @@ void destroyLevel(void);
 static void doLevel(void);
 static void doTips(void);
 static void drawTips(void);
+void failLevel(void);
 
 static Atlas *tiles[MAX_TILES];
 static Atlas *routeBlob;
@@ -48,6 +49,7 @@ static int restarting;
 static Background background;
 static int show;
 static int currentTip;
+static int tickTimer;
 
 void initLevel(int id)
 {
@@ -80,6 +82,8 @@ void initLevel(int id)
 	background.b = (float) (0.25 + (randF() * 0.5));
 	
 	moveTimer = 0;
+	
+	tickTimer = 0;
 	
 	level.state = LS_INCOMPLETE;
 	
@@ -125,6 +129,8 @@ static void logic(void)
 	
 	background.x += background.dx;
 	background.y += background.dy;
+	
+	tickTimer++;
 	
 	animateSprites();
 	
@@ -173,6 +179,11 @@ static void doLevel(void)
 			moveGuy();
 			
 			moveEntities();
+			
+			if (level.moves == 0)
+			{
+				failLevel();
+			}
 		}
 	}
 	else
@@ -215,24 +226,34 @@ static void moveGuy(void)
 {
 	if (--moveTimer < 1)
 	{
-		level.guy->x = level.route[level.routeIndex].x;
-		level.guy->y = level.route[level.routeIndex].y;
-		
-		moveTimer = 4;
-		
-		level.route[level.routeIndex].x = -1;
-		level.route[level.routeIndex].y = -1;
-		
-		level.routeIndex++;
-		
 		if (level.routeIndex == MAP_WIDTH * MAP_HEIGHT || level.route[level.routeIndex].x == -1)
 		{
 			level.walkRoute = 0;
 			
 			level.routeIndex = 0;
+			
+			if (level.moves > -1)
+			{
+				level.moves--;
+			}
 		}
-		
-		playSound(SND_WALK, 0);
+		else
+		{
+			level.oldPosition.x = level.guy->x;
+			level.oldPosition.y = level.guy->y;
+			
+			level.guy->x = level.route[level.routeIndex].x;
+			level.guy->y = level.route[level.routeIndex].y;
+			
+			moveTimer = 4;
+			
+			level.route[level.routeIndex].x = -1;
+			level.route[level.routeIndex].y = -1;
+			
+			level.routeIndex++;
+			
+			playSound(SND_WALK, 0);
+		}
 	}
 }
 
@@ -266,6 +287,8 @@ void failLevel(void)
 		level.state = LS_FAILED;
 		level.finishTimer = FPS * 2;
 		clearRoute();
+		
+		playSound(SND_FAIL, -1);
 	}
 }
 
@@ -385,7 +408,19 @@ static void drawTopBar(void)
 	
 	if (level.moves > -1)
 	{
-		drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, app.strings[ST_NUM_MOVES], level.moves);
+		if (level.moves > 0 || level.state == LS_COMPLETE)
+		{
+			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, app.strings[ST_NUM_MOVES], level.moves);
+		}
+		else
+		{
+			if (tickTimer % 60 < 30)
+			{
+				setGLRectangleBatchColor(1.0, 0.0, 0.0, 1.0);
+			}
+			
+			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, app.strings[ST_OUT_OF_MOVES]);
+		}
 	}
 }
 

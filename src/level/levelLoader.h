@@ -24,9 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern char *buildFormattedString(const char *format, ...);
 extern void destroyLevel(void);
 extern int getRandomFloorTile(void);
-extern char *readFile(const char *filename);
 extern void initDiamond(Entity *e);
-extern void initRedGuy(Entity *e);
 extern void initGreenGuy(Entity *e);
+extern void initNormalDoor(Entity *e);
+extern void initNormalKey(Entity *e);
+extern void initRedGuy(Entity *e);
+extern void initStar(Entity *e);
+extern char *readFile(const char *filename);
 
 extern Level level;

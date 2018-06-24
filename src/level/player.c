@@ -83,11 +83,18 @@ static void doControls(void)
 			}
 		}
 	}
-	else if (level.routeIndex > 0)
+	else
 	{
-		level.walkRoute = 1;
-		
-		level.routeIndex = 0;
+		if (level.routeIndex > 1)
+		{
+			level.walkRoute = 1;
+			
+			level.routeIndex = 0;
+		}
+		else
+		{
+			clearRoute();
+		}
 	}
 }
 
@@ -203,6 +210,12 @@ static void cancelLastNode(void)
 			level.routeIndex--;
 		}
 	}
+}
+
+void stepBack(void)
+{
+	level.guy->x = level.oldPosition.x;
+	level.guy->y = level.oldPosition.y;
 }
 
 void clearRoute(void)

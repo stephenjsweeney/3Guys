@@ -18,16 +18,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "diamond.h"
+#include "door.h"
 
+static int canOpen(Entity *other);
 static void touch(Entity *other);
 static void describe(void);
 static int blocking(void);
 
-void initDiamond(Entity *e)
+void initNormalDoor(Entity *e)
 {
-	e->type = ET_DIAMOND;
-	e->sprite = getSprite("Diamond");
+	e->type = ET_NORMAL_DOOR;
+	e->sprite = getSprite("NormalDoor");
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
@@ -35,25 +36,46 @@ void initDiamond(Entity *e)
 
 static void touch(Entity *other)
 {
-	if (other->type == ET_RED_GUY)
+	if (isGuy(other))
 	{
-		self->alive = 0;
-		
-		level.moves--;
-		
-		completeLevel();
+		if (other->carrying != NULL && canOpen(other))
+		{
+			other->carrying = NULL;
+			
+			self->alive = 0;
+			
+			playSound(SND_OPEN, -1);
+		}
+		else
+		{
+			stepBack();
+			
+			clearRoute();
+		}
+	}
+}
 
-		playSound(SND_DIAMOND, 1);
-
-		/*
-		game.stats[STAT_DIAMONDS]++;
-		*/
+static int canOpen(Entity *other)
+{
+	switch (self->type)
+	{
+		case ET_RED_DOOR:
+			return other->type == ET_RED_GUY;
+			
+		case ET_GREEN_DOOR:
+			return other->type == ET_GREEN_GUY;
+			
+		case ET_YELLOW_DOOR:
+			return other->type == ET_YELLOW_GUY;
+			
+		default:
+			return 1;
 	}
 }
 
 static void describe(void)
 {
-	level.message = app.strings[ST_DIAMOND_DESC];
+	level.message = app.strings[ST_DOOR_DESC];
 }
 
 static int blocking(void)
