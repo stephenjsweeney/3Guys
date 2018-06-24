@@ -65,8 +65,6 @@ void prepareScene(void)
 	glEnableClientState(GL_COLOR_ARRAY);
 	
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-	
-	glScalef(app.scaleX, app.scaleY, 1);
 }
 
 void presentScene(void)
@@ -89,7 +87,7 @@ void presentScene(void)
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	SDL_RenderPresent(app.renderer);
+	SDL_GL_SwapWindow(app.window);
 }
 
 void drawRect(int x, int y, int w, int h, float r, float g, float b, float a)

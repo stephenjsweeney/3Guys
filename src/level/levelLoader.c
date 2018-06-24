@@ -184,6 +184,13 @@ void initEntityDefs(void)
 	addEntityDef("Star", initStar);
 	addEntityDef("NormalKey", initNormalKey);
 	addEntityDef("NormalDoor", initNormalDoor);
+	addEntityDef("YellowKey", initYellowKey);
+	addEntityDef("GreenKey", initGreenKey);
+	addEntityDef("RedKey", initRedKey);
+	addEntityDef("YellowDoor", initYellowDoor);
+	addEntityDef("GreenDoor", initGreenDoor);
+	addEntityDef("RedDoor", initRedDoor);
+	addEntityDef("PushBlock", initPushBlock);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))

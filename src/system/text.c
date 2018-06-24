@@ -69,7 +69,7 @@ static void initFont(char *name, char *filename, int size)
 	
 	for (i = ' ' ; i <= 'z' ; i++)
 	{
-		memset(c, 2, 0);
+		memset(c, 0, 2);
 		
 		sprintf(c, "%c", i);
 		

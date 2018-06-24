@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "key.h"
 
-static int canCarryType(Entity *other);
 static void touch(Entity *other);
 static void describe(void);
 static int blocking(void);
@@ -36,43 +35,55 @@ void initNormalKey(Entity *e)
 	initItem(e);
 }
 
+void initYellowKey(Entity *e)
+{
+	e->type = ET_YELLOW_KEY;
+	e->sprite = getSprite("YellowKey");
+	e->touch = touch;
+	e->describe = describe;
+	e->isBlocking = blocking;
+	
+	initItem(e);
+}
+
+void initGreenKey(Entity *e)
+{
+	e->type = ET_GREEN_KEY;
+	e->sprite = getSprite("GreenKey");
+	e->touch = touch;
+	e->describe = describe;
+	e->isBlocking = blocking;
+	
+	initItem(e);
+}
+
+void initRedKey(Entity *e)
+{
+	e->type = ET_RED_KEY;
+	e->sprite = getSprite("RedKey");
+	e->touch = touch;
+	e->describe = describe;
+	e->isBlocking = blocking;
+	
+	initItem(e);
+}
+
 static void touch(Entity *other)
 {
 	if (isGuy(other))
 	{
 		if (other->carrying == NULL)
 		{
-			if (canCarryType(other))
-			{
-				other->carrying = self;
-				self->owner = other;
-				self->alive = 0;
-				
-				playSound(SND_PICKUP, -1);
-			}
+			other->carrying = self;
+			self->owner = other;
+			self->alive = 0;
+			
+			playSound(SND_PICKUP, -1);
 		}
 		else
 		{
 			level.message = app.strings[ST_ALREADY_HAVE_KEY];
 		}
-	}
-}
-
-static int canCarryType(Entity *other)
-{
-	switch (self->type)
-	{
-		case ET_RED_KEY:
-			return other->type == ET_RED_GUY;
-			
-		case ET_GREEN_KEY:
-			return other->type == ET_GREEN_GUY;
-			
-		case ET_YELLOW_KEY:
-			return other->type == ET_YELLOW_GUY;
-			
-		default:
-			return 1;
 	}
 }
 

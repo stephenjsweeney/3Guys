@@ -44,8 +44,9 @@ void doPlayer(void)
 
 static void doControls(void)
 {
-	Entity *e;
+	Entity **candiates;
 	float x, y;
+	int n, i;
 	
 	if (app.mouse.button[SDL_BUTTON_LEFT])
 	{
@@ -63,11 +64,21 @@ static void doControls(void)
 		
 		if (level.routeIndex == 0)
 		{
-			e = getEntityAt(x, y);
+			candiates = getEntitiesAt(x, y, &n);
 			
-			if (e != NULL)
+			if (n == 1)
 			{
-				handleEntityClick(e);
+				handleEntityClick(candiates[0]);
+			}
+			else
+			{
+				for (i = 0 ; i < n ; i++)
+				{
+					if (isGuy(candiates[i]))
+					{
+						handleEntityClick(candiates[i]);
+					}
+				}
 			}
 		}
 		else
@@ -214,8 +225,8 @@ static void cancelLastNode(void)
 
 void stepBack(void)
 {
-	level.guy->x = level.oldPosition.x;
-	level.guy->y = level.oldPosition.y;
+	level.guy->x -= level.dx;
+	level.guy->y -= level.dy;
 }
 
 void clearRoute(void)

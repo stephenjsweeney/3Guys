@@ -176,7 +176,7 @@ typedef struct {
 	int keyboard[MAX_KEYBOARD_KEYS];
 	int joypadButton[SDL_CONTROLLER_BUTTON_MAX];
 	int joypadAxis[JOYPAD_AXIS_MAX];
-	SDL_Renderer *renderer;
+	SDL_GLContext *glContext;
 	SDL_Window *window;
 	Delegate delegate;
 	char *strings[ST_MAX];
@@ -205,7 +205,8 @@ typedef struct {
 	SDL_Point route[MAP_WIDTH * MAP_HEIGHT];
 	Entity entityHead, *entityTail;
 	Effect effectHead, *effectTail;
-	SDL_Point oldPosition;
+	int dx;
+	int dy;
 	int numTips;
 	char **tips;
 	char *message;

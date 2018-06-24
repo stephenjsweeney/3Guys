@@ -59,30 +59,20 @@ static int blocking(void)
 
 static void die(void)
 {
-	int x, y;
-	
 	self->alive = 0;
-	
-	x = LEVEL_RENDER_X;
-	x += self->x * TILE_SIZE;
-	x += TILE_SIZE / 2;
-	
-	y = LEVEL_RENDER_Y;
-	y += self->y * TILE_SIZE;
-	y += TILE_SIZE / 2;
 	
 	switch (self->type)
 	{
 		case ET_RED_GUY:
-			addExplosionEffect(x, y, 1, 0, 0);
+			addExplosionEffect(self, 1, 0, 0);
 			break;
 			
 		case ET_GREEN_GUY:
-			addExplosionEffect(x, y, 0, 1, 0);
+			addExplosionEffect(self, 0, 1, 0);
 			break;
 			
 		case ET_YELLOW_GUY:
-			addExplosionEffect(x, y, 1, 1, 0);
+			addExplosionEffect(self, 1, 1, 0);
 			break;
 	}
 	

@@ -239,8 +239,8 @@ static void moveGuy(void)
 		}
 		else
 		{
-			level.oldPosition.x = level.guy->x;
-			level.oldPosition.y = level.guy->y;
+			level.dx = level.route[level.routeIndex].x - level.guy->x;
+			level.dy = level.route[level.routeIndex].y - level.guy->y;
 			
 			level.guy->x = level.route[level.routeIndex].x;
 			level.guy->y = level.route[level.routeIndex].y;

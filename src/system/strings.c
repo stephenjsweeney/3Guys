@@ -31,4 +31,5 @@ void initStrings(void)
 	app.strings[ST_KEY_DESC] = _("A key. I can use it to open doors.");
 	app.strings[ST_ALREADY_HAVE_KEY] = _("I've already got a key.");
 	app.strings[ST_DOOR_DESC] = _("It's a door. It can be opened with a key.");
+	app.strings[ST_PUSH_BLOCK_DESC] = _("A heavy object. Green Guy can push it.");
 }

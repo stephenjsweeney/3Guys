@@ -34,6 +34,33 @@ void initNormalDoor(Entity *e)
 	e->isBlocking = blocking;
 }
 
+void initYellowDoor(Entity *e)
+{
+	e->type = ET_YELLOW_DOOR;
+	e->sprite = getSprite("YellowDoor");
+	e->touch = touch;
+	e->describe = describe;
+	e->isBlocking = blocking;
+}
+
+void initGreenDoor(Entity *e)
+{
+	e->type = ET_GREEN_DOOR;
+	e->sprite = getSprite("GreenDoor");
+	e->touch = touch;
+	e->describe = describe;
+	e->isBlocking = blocking;
+}
+
+void initRedDoor(Entity *e)
+{
+	e->type = ET_RED_DOOR;
+	e->sprite = getSprite("RedDoor");
+	e->touch = touch;
+	e->describe = describe;
+	e->isBlocking = blocking;
+}
+
 static void touch(Entity *other)
 {
 	if (isGuy(other))
@@ -60,13 +87,13 @@ static int canOpen(Entity *other)
 	switch (self->type)
 	{
 		case ET_RED_DOOR:
-			return other->type == ET_RED_GUY;
+			return other->carrying->type == ET_RED_KEY;
 			
 		case ET_GREEN_DOOR:
-			return other->type == ET_GREEN_GUY;
+			return other->carrying->type == ET_GREEN_KEY;
 			
 		case ET_YELLOW_DOOR:
-			return other->type == ET_YELLOW_GUY;
+			return other->carrying->type == ET_YELLOW_KEY;
 			
 		default:
 			return 1;

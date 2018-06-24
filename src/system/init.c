@@ -85,7 +85,9 @@ void initSDL(void)
 	app.config.winWidth = 540;
 	app.config.winHeight = 960;
 	
-	SDL_CreateWindowAndRenderer(app.config.winWidth, app.config.winHeight, SDL_WINDOW_OPENGL, &app.window, &app.renderer);
+	app.window = SDL_CreateWindow("3Guys", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, app.config.winWidth, app.config.winHeight, SDL_WINDOW_OPENGL);
+	
+	app.glContext = SDL_GL_CreateContext(app.window);
 
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
@@ -100,10 +102,10 @@ void initOpenGL(void)
 {
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, app.config.winWidth, app.config.winHeight);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 1.0f);
+	glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
@@ -172,8 +174,6 @@ static void showLoadingStep(float step, float maxSteps)
 void cleanup(void)
 {
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Cleaning up ...");
-	
-	SDL_DestroyRenderer(app.renderer);
 	
 	SDL_DestroyWindow(app.window);
 	
