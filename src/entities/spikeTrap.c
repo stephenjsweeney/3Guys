@@ -18,78 +18,47 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "guy.h"
+#include "spikeTrap.h"
+
+static Sprite *activeTrap;
 
 static void touch(Entity *other);
-static void die(void);
 static int blocking(void);
+static void die(void);
 
-static void initGuy(Entity *e)
+void initSpikeTrap(Entity *e)
 {
+	e->type = ET_SPIKE_TRAP;
+	e->sprite = getSprite("HiddenSpikeTrap");
 	e->touch = touch;
 	e->die = die;
 	e->isBlocking = blocking;
-}
-
-void initRedGuy(Entity *e)
-{
-	e->type = ET_RED_GUY;
-	e->sprite = getSprite("RedGuy");
-	initGuy(e);
 	
-	level.guy = e;
-}
-
-void initGreenGuy(Entity *e)
-{
-	e->type = ET_GREEN_GUY;
-	e->sprite = getSprite("GreenGuy");
-	initGuy(e);
-}
-
-void initYellowGuy(Entity *e)
-{
-	e->type = ET_YELLOW_GUY;
-	e->sprite = getSprite("YellowGuy");
-	initGuy(e);
+	activeTrap = getSprite("SpikeTrap");
 }
 
 static void touch(Entity *other)
 {
-
+	if (isGuy(other))
+	{
+		other->alive = 0;
+		
+		self->sprite = activeTrap;
+	}
+	else if (other->type == ET_PUSH_BLOCK)
+	{
+		self->alive = 0;
+	}
 }
 
 static int blocking(void)
 {
-	return 1;
+	return 0;
 }
 
 static void die(void)
 {
-	self->alive = 0;
-	
-	switch (self->type)
-	{
-		case ET_RED_GUY:
-			addExplosionEffect(self, 1, 0, 0);
-			break;
-			
-		case ET_GREEN_GUY:
-			addExplosionEffect(self, 0, 1, 0);
-			break;
-			
-		case ET_YELLOW_GUY:
-			addExplosionEffect(self, 1, 1, 0);
-			break;
-	}
-	
 	playSound(SND_DIE, -1);
-	playSound(SND_FAIL, -1);
 	
-	failLevel();
-}
-
-int isGuy(Entity *e)
-{
-	return (e->type == ET_RED_GUY ||e->type == ET_GREEN_GUY || e->type == ET_YELLOW_GUY); 
+	addExplosionEffect(self, 1, 1, 1);
 }

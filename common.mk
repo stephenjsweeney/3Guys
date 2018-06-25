@@ -29,8 +29,8 @@ _OBJS += key.o
 _OBJS += level.o levelLoader.o lookup.o
 _OBJS += main.o maths.o
 _OBJS += player.o pushBlock.o
-_OBJS += sound.o sprites.o star.o strings.o
-_OBJS += test.o text.o textures.o title.o
+_OBJS += sound.o spikeTrap.o sprites.o star.o strings.o
+_OBJS += test.o text.o textures.o title.o tools.o
 _OBJS += util.o
 _OBJS += wipe.o
 

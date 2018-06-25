@@ -2,7 +2,7 @@
 # Copyright 2018, Stephen J Sweeney
 # This file is distributed under the GNU GPL 3.0
 # Email: stephenjsweeney@battleforthesolarsystem.com
-# https://github.com/stephenjsweeney/blobwarsAttrition
+# https://github.com/stephenjsweeney/3Guys
 
 msgid ""
 msgstr ""

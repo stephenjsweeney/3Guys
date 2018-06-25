@@ -191,6 +191,9 @@ void initEntityDefs(void)
 	addEntityDef("GreenDoor", initGreenDoor);
 	addEntityDef("RedDoor", initRedDoor);
 	addEntityDef("PushBlock", initPushBlock);
+	addEntityDef("YellowGuy", initYellowGuy);
+	addEntityDef("Tools", initTools);
+	addEntityDef("SpikeTrap", initSpikeTrap);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))

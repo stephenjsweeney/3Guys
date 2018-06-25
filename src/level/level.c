@@ -313,6 +313,8 @@ static void draw(void)
 	
 	drawRoute();
 	
+	drawGLRectangleBatch(&selectRect->rect, LEVEL_RENDER_X + level.guy->x * TILE_SIZE, LEVEL_RENDER_Y + level.guy->y * TILE_SIZE, 0);
+	
 	drawEntities();
 	
 	drawEffects();

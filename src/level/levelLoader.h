@@ -33,10 +33,13 @@ extern void initNormalKey(Entity *e);
 extern void initPushBlock(Entity *e);
 extern void initRedDoor(Entity *e);
 extern void initRedGuy(Entity *e);
+extern void initYellowGuy(Entity *e);
 extern void initRedKey(Entity *e);
 extern void initStar(Entity *e);
 extern void initYellowDoor(Entity *e);
 extern void initYellowKey(Entity *e);
+extern void initTools(Entity *e);
+extern void initSpikeTrap(Entity *e);
 extern char *readFile(const char *filename);
 
 extern Level level;

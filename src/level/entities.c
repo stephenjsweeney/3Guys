@@ -51,6 +51,11 @@ void doEntities(void)
 		
 		if (!self->alive)
 		{
+			if (self->die != NULL)
+			{
+				self->die();
+			}
+			
 			if (self == level.entityTail)
 			{
 				level.entityTail = prev;
@@ -137,7 +142,7 @@ static void guyFallDownHoles(void)
 			}
 			else
 			{
-				level.guy->die();
+				level.guy->alive = 0;
 			}
 		}
 	}
