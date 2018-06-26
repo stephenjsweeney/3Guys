@@ -43,6 +43,8 @@ extern void drawText(int x, int y, int align, const char *format, ...);
 extern void drawWipe(void);
 extern float getAngle(int x1, int y1, int x2, int y2);
 extern Atlas *getImageFromAtlas(char *filename, int required);
+extern void guyFallDownHoles(void);
+extern void guyTouchOthers(void);
 extern void initEffects(void);
 extern void initEntities(void);
 extern void initGLRectangle(GLRectangle *rect, int width, int height);
@@ -56,8 +58,6 @@ extern double randF(void);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void setTextWidth(int width);
 extern void useFont(char *name);
-extern void guyTouchOthers(void);
-extern void guyFallDownHoles(void);
 
 extern App app;
 extern GLRectangleBatch glRectangleBatch;

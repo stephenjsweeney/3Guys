@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
-extern int isGuy(Entity *e);
 
 extern App app;
 extern Entity *self;
