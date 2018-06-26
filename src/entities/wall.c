@@ -33,6 +33,8 @@ void initWall(Entity *e)
 	e->isBlocking = blocking;
 	e->die = die;
 	e->activate = activate;
+	
+	e->solid = 1;
 }
 
 static void touch(Entity *other)
