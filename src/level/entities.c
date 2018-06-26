@@ -184,7 +184,7 @@ Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore)
 			{
 				memset(candidates, 0, sizeof(Entity*) * MAX_CANDIDATES);
 				candidates[0] = e;
-				*n = 0;
+				*n = 1;
 				return candidates;
 			}
 			
