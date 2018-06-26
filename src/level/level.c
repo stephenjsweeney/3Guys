@@ -310,13 +310,15 @@ static void draw(void)
 {
 	drawBackground(&background.rect, background.x, background.y, background.r, background.g, background.b);
 	
+	drawEntities(1);
+	
 	drawMap();
 	
 	drawRoute();
 	
 	drawGLRectangleBatch(&selectRect->rect, LEVEL_RENDER_X + level.guy->x * TILE_SIZE, LEVEL_RENDER_Y + level.guy->y * TILE_SIZE, 0);
 	
-	drawEntities();
+	drawEntities(0);
 	
 	drawEffects();
 	

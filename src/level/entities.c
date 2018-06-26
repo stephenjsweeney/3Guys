@@ -142,7 +142,7 @@ void guyFallDownHoles(void)
 	}
 }
 
-void drawEntities(void)
+void drawEntities(int backgroundPlane)
 {
 	Entity *e;
 	int x, y;
@@ -151,7 +151,7 @@ void drawEntities(void)
 	
 	for (e = level.entityHead.next ; e != NULL ; e = e->next)
 	{
-		if (e->visible)
+		if (e->visible && e->backgroundPlane == backgroundPlane)
 		{
 			x = LEVEL_RENDER_X + e->x * TILE_SIZE;
 			y = LEVEL_RENDER_Y + e->y * TILE_SIZE;

@@ -34,6 +34,8 @@ void initMovingPlatform(Entity *e)
 	e->describe = describe;
 	e->move = move;
 	e->isBlocking = blocking;
+	
+	e->backgroundPlane = 1;
 }
 
 static void touch(Entity *other)

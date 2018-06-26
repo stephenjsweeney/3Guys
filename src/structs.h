@@ -131,6 +131,7 @@ struct Entity {
 	float angle;
 	int weight;
 	int active;
+	int backgroundPlane;
 	Sprite *sprite;
 	Entity *carrying;
 	Entity *owner;
