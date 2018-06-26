@@ -18,47 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "spikeTrap.h"
+#include "../common.h"
 
-static Sprite *activeTrap;
+extern Sprite *getSprite(char *name);
+extern int isGuy(Entity *e);
+extern void playSound(int snd, int ch);
 
-static void touch(Entity *other);
-static int blocking(void);
-static void die(void);
-
-void initSpikeTrap(Entity *e)
-{
-	e->type = ET_SPIKE_TRAP;
-	e->sprite = getSprite("HiddenSpikeTrap");
-	e->touch = touch;
-	e->die = die;
-	e->isBlocking = blocking;
-	
-	activeTrap = getSprite("SpikeTrap");
-}
-
-static void touch(Entity *other)
-{
-	if (isGuy(other))
-	{
-		other->alive = 0;
-		
-		self->sprite = activeTrap;
-	}
-	else if (other->type == ET_PUSH_BLOCK)
-	{
-		self->alive = 0;
-	}
-}
-
-static int blocking(void)
-{
-	return 0;
-}
-
-static void die(void)
-{
-	playSound(SND_DIE, -1);
-	
-	addExplosionEffect(self->x, self->y, 1, 1, 1);
-}
+extern App app;
+extern Entity *self;
+extern Level level;

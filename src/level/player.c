@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "player.h"
 
 static void handleEntityClick(Entity *e);
+static void handleMapClick(int x, int y);
 static int addRouteNode(void);
 void clearRoute(void);
 static void cancelLastNode(void);
@@ -66,7 +67,11 @@ static void doControls(void)
 		{
 			candiates = getEntitiesAt(x, y, &n, NULL);
 			
-			if (n == 1)
+			if (n == 0)
+			{
+				handleMapClick(x, y);
+			}
+			else if (n == 1)
 			{
 				handleEntityClick(candiates[0]);
 			}
@@ -107,6 +112,23 @@ static void doControls(void)
 		else
 		{
 			clearRoute();
+		}
+	}
+}
+
+static void handleMapClick(int x, int y)
+{
+	if (x >= 0 && y >= 0 && x < MAP_WIDTH && y < MAP_HEIGHT && level.data[x][y] == TILE_WALL && level.tnt != 0)
+	{
+		addFloor(x, y);
+
+		addExplosionEffect(x, y, 1, 1, 1);
+
+		playSound(SND_BOMB, -1);
+
+		if (level.tnt != -1)
+		{
+			level.tnt--;
 		}
 	}
 }

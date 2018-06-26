@@ -71,15 +71,15 @@ static void die(void)
 	switch (self->type)
 	{
 		case ET_RED_GUY:
-			addExplosionEffect(self, 1, 0, 0);
+			addExplosionEffect(self->x, self->y, 1, 0, 0);
 			break;
 			
 		case ET_GREEN_GUY:
-			addExplosionEffect(self, 0, 1, 0);
+			addExplosionEffect(self->x, self->y, 0, 1, 0);
 			break;
 			
 		case ET_YELLOW_GUY:
-			addExplosionEffect(self, 1, 1, 0);
+			addExplosionEffect(self->x, self->y, 1, 1, 0);
 			break;
 	}
 	

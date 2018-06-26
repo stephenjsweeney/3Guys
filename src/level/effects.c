@@ -68,17 +68,17 @@ void drawEffects(void)
 	}
 }
 
-void addExplosionEffect(Entity *ent, float r, float g, float b)
+void addExplosionEffect(int mx, int my, float r, float g, float b)
 {
 	Effect *e;
 	int i, x, y;
 	
 	x = LEVEL_RENDER_X;
-	x += ent->x * TILE_SIZE;
+	x += mx * TILE_SIZE;
 	x += TILE_SIZE / 2;
 	
 	y = LEVEL_RENDER_Y;
-	y += ent->y * TILE_SIZE;
+	y += my * TILE_SIZE;
 	y += TILE_SIZE / 2;
 	
 	for (i = 0 ; i < 4 ; i++)

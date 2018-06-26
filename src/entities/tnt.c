@@ -18,47 +18,39 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "spikeTrap.h"
-
-static Sprite *activeTrap;
+#include "tnt.h"
 
 static void touch(Entity *other);
+static void describe(void);
 static int blocking(void);
-static void die(void);
 
-void initSpikeTrap(Entity *e)
+void initTNT(Entity *e)
 {
-	e->type = ET_SPIKE_TRAP;
-	e->sprite = getSprite("HiddenSpikeTrap");
+	e->type = ET_TNT;
+	e->sprite = getSprite("TNT");
 	e->touch = touch;
-	e->die = die;
+	e->describe = describe;
 	e->isBlocking = blocking;
-	
-	activeTrap = getSprite("SpikeTrap");
 }
 
 static void touch(Entity *other)
 {
 	if (isGuy(other))
 	{
-		other->alive = 0;
-		
-		self->sprite = activeTrap;
-	}
-	else if (other->type == ET_PUSH_BLOCK)
-	{
 		self->alive = 0;
+
+		playSound(SND_PICKUP, -1);
+		
+		level.tnt++;
 	}
+}
+
+static void describe(void)
+{
+	level.message = app.strings[ST_TNT_DESC];
 }
 
 static int blocking(void)
 {
 	return 0;
-}
-
-static void die(void)
-{
-	playSound(SND_DIE, -1);
-	
-	addExplosionEffect(self->x, self->y, 1, 1, 1);
 }

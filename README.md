@@ -8,7 +8,7 @@ to find out more.
 
 ## Gameplay
 
-The game involves a ridiculous plot about a Red Guy who is hungry and is looking for diamond to have for lunch. He has requested help from his friends Green Guy and Yellow Guy. Together, they will solve puzzles, avoid deadly hazards, and collect keys and push blocks around to help sate their hunger for shiny rocks.
+The game involves a ridiculous plot about a Red Guy who is hungry and is looking for diamond to have for lunch. He has requested help from his friends: Green Guy and Yellow Guy. Together, they will solve puzzles, avoid deadly hazards, and collect keys and push blocks around to help sate their hunger for shiny rocks.
 
 This is a mouse-driven game and doesn't rely on twitch reflexes, so you can take your time over solving the levels.
 

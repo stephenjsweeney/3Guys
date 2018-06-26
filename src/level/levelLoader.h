@@ -44,6 +44,7 @@ extern void initWall(Entity *e);
 extern void initYellowDoor(Entity *e);
 extern void initYellowGuy(Entity *e);
 extern void initYellowKey(Entity *e);
+extern void initTNT(Entity *e);
 extern char *readFile(const char *filename);
 
 extern Level level;

@@ -208,6 +208,7 @@ void initEntityDefs(void)
 	addEntityDef("Wall", initWall);
 	addEntityDef("MovingPlatform", initMovingPlatform);
 	addEntityDef("CrumblingFloor", initCrumblingFloor);
+	addEntityDef("TNT", initTNT);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))
