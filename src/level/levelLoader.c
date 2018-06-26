@@ -143,6 +143,16 @@ static void loadEntities(cJSON *entitiesJSON)
 		e->x = cJSON_GetObjectItem(entityJSON, "x")->valueint;
 		e->y = cJSON_GetObjectItem(entityJSON, "y")->valueint;
 		e->visible = cJSON_GetObjectItem(entityJSON, "visible")->valueint;
+		
+		if (cJSON_GetObjectItem(entityJSON, "name") != NULL)
+		{
+			STRNCPY(e->name, cJSON_GetObjectItem(entityJSON, "name")->valuestring, MAX_NAME_LENGTH);
+		}
+		
+		if (cJSON_GetObjectItem(entityJSON, "target") != NULL)
+		{
+			STRNCPY(e->target, cJSON_GetObjectItem(entityJSON, "target")->valuestring, MAX_NAME_LENGTH);
+		}
 	}
 }
 
@@ -194,6 +204,9 @@ void initEntityDefs(void)
 	addEntityDef("YellowGuy", initYellowGuy);
 	addEntityDef("Tools", initTools);
 	addEntityDef("SpikeTrap", initSpikeTrap);
+	addEntityDef("PressurePlate", initPressurePlate);
+	addEntityDef("Wall", initWall);
+	addEntityDef("MovingPlatform", initMovingPlatform);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))

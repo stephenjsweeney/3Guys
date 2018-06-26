@@ -18,14 +18,41 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
+#include "pressurePlate.h"
 
-extern void addExplosionEffect(Entity *ent, float r, float g, float b);
-extern void clearRoute(void);
-extern Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
-extern Sprite *getSprite(char *name);
-extern void playSound(int snd, int ch);
+static void describe(void);
+static int blocking(void);
+static void tick(void);
 
-extern App app;
-extern Entity *self;
-extern Level level;
+void initPressurePlate(Entity *e)
+{
+	e->type = ET_PRESSURE_PLATE;
+	e->sprite = getSprite("PressurePlate");
+	e->tick = tick;
+	e->describe = describe;
+	e->isBlocking = blocking;
+}
+
+static void tick(void)
+{
+	int n;
+	
+	getEntitiesAt(self->x, self->y, &n, self);
+
+	if (n != self->weight)
+	{
+		activateEntities(self->target);
+	}
+	
+	self->weight = n;
+}
+
+static void describe(void)
+{
+	level.message = app.strings[ST_PRESSURE_PLATE_DESC];
+}
+
+static int blocking(void)
+{
+	return 0;
+}

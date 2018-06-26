@@ -18,43 +18,63 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "diamond.h"
+#include "wall.h"
 
 static void touch(Entity *other);
-static void describe(void);
 static int blocking(void);
+static void die(void);
+static void activate(void);
 
-void initDiamond(Entity *e)
+void initWall(Entity *e)
 {
-	e->type = ET_DIAMOND;
-	e->sprite = getSprite("Diamond");
+	e->type = ET_WALL;
+	e->sprite = getSprite("Wall");
 	e->touch = touch;
-	e->describe = describe;
 	e->isBlocking = blocking;
+	e->die = die;
+	e->activate = activate;
 }
 
 static void touch(Entity *other)
 {
-	if (other->type == ET_RED_GUY)
+	if (self->visible && isGuy(other))
 	{
-		self->alive = 0;
-		
-		completeLevel();
+		stepBack();
 
-		playSound(SND_DIAMOND, 1);
-
-		/*
-		game.stats[STAT_DIAMONDS]++;
-		*/
+		clearRoute();
 	}
 }
 
-static void describe(void)
+static void activate(void)
 {
-	level.message = app.strings[ST_DIAMOND_DESC];
+	Entity **candidates;
+	int i, n;
+	
+	self->solid = self->visible = !self->visible;
+	
+	candidates = getEntitiesAt(self->x, self->y, &n, self);
+
+	for (i = 0 ; i < n ; i++)
+	{
+		if (isGuy(candidates[i]))
+		{
+			candidates[i]->alive = 0;
+		}
+		else if (candidates[i]->type == ET_PUSH_BLOCK)
+		{
+			self->alive = 0;
+		}
+	}
+}
+
+static void die(void)
+{
+	playSound(SND_DIE, -1);
+	
+	addExplosionEffect(self, 1, 1, 1);
 }
 
 static int blocking(void)
 {
-	return 0;
+	return self->visible;
 }

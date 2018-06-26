@@ -20,11 +20,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void addExplosionEffect(Entity *ent, float r, float g, float b);
-extern void clearRoute(void);
-extern Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
+extern void completeLevel(void);
 extern Sprite *getSprite(char *name);
 extern void playSound(int snd, int ch);
+extern Entity *getEntityAt(int x, int y);
+extern void activateEntities(char *targetName);
+extern Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
 
 extern App app;
 extern Entity *self;

@@ -64,7 +64,7 @@ static void doControls(void)
 		
 		if (level.routeIndex == 0)
 		{
-			candiates = getEntitiesAt(x, y, &n);
+			candiates = getEntitiesAt(x, y, &n, NULL);
 			
 			if (n == 1)
 			{
@@ -74,10 +74,7 @@ static void doControls(void)
 			{
 				for (i = 0 ; i < n ; i++)
 				{
-					if (isGuy(candiates[i]))
-					{
-						handleEntityClick(candiates[i]);
-					}
+					handleEntityClick(candiates[i]);
 				}
 			}
 		}
@@ -88,7 +85,12 @@ static void doControls(void)
 				lastRouteNode.x = x;
 				lastRouteNode.y = y;
 				
-				addRouteNode();
+				if (addRouteNode())
+				{
+					level.route[level.routeIndex].x = lastRouteNode.x;
+					level.route[level.routeIndex].y = lastRouteNode.y;
+					level.routeIndex++;
+				}
 				
 				cancelLastNode();
 			}
@@ -120,7 +122,10 @@ static void handleEntityClick(Entity *e)
 			{
 				lastRouteNode.x = e->x;
 				lastRouteNode.y = e->y;
-				addRouteNode();
+				
+				level.route[level.routeIndex].x = lastRouteNode.x;
+				level.route[level.routeIndex].y = lastRouteNode.y;
+				level.routeIndex++;
 			}
 			else
 			{
@@ -147,25 +152,24 @@ static int addRouteNode(void)
 		return 0;
 	}
 	
-	if (level.routeIndex > 1)
+	/* too far away from last node */
+	if (fabs(level.route[level.routeIndex - 1].x - lastRouteNode.x) > 1 || fabs(level.route[level.routeIndex - 1].y - lastRouteNode.y) > 1)
 	{
-		/* too far away from last node */
-		if (fabs(level.route[level.routeIndex - 1].x - lastRouteNode.x) > 1 || fabs(level.route[level.routeIndex - 1].y - lastRouteNode.y) > 1)
-		{
-			return 0;
-		}
+		return 0;
+	}
 
-		/* don't allow diagonals */
-		if (fabs(level.route[level.routeIndex - 1].x - lastRouteNode.x) == 1 && fabs(level.route[level.routeIndex - 1].y - lastRouteNode.y) == 1)
-		{
-			return 0;
-		}
+	/* don't allow diagonals */
+	if (fabs(level.route[level.routeIndex - 1].x - lastRouteNode.x) == 1 && fabs(level.route[level.routeIndex - 1].y - lastRouteNode.y) == 1)
+	{
+		return 0;
 	}
 	
-	candidates = getEntitiesAt(lastRouteNode.x, lastRouteNode.y, &n);
+	candidates = getEntitiesAt(lastRouteNode.x, lastRouteNode.y, &n, NULL);
 	
 	for (i = 0 ; i < n ; i++)
 	{
+		self = candidates[i];
+		
 		if (level.guy != candidates[i] && candidates[i]->isBlocking())
 		{
 			return 0;
@@ -179,11 +183,8 @@ static int addRouteNode(void)
 			return 0;
 		}
 		
-		if (level.route[i].x == -1)
+		if (level.route[i].x == -1 && level.route[i].y == -1)
 		{
-			level.route[level.routeIndex].x = lastRouteNode.x;
-			level.route[level.routeIndex].y = lastRouteNode.y;
-			level.routeIndex++;
 			return 1;
 		}
 	}

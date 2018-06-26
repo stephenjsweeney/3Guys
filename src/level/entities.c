@@ -20,9 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "entities.h"
 
-static void guyTouchOthers(void);
-static void guyFallDownHoles(void);
-Entity **getEntitiesAt(int x, int y, int *n);
+Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
 
 static Entity *candidates[MAX_CANDIDATES];
 static Entity deadHead;
@@ -83,18 +81,14 @@ void moveEntities(void)
 			self->move();
 		}
 	}
-	
-	guyTouchOthers();
-	
-	guyFallDownHoles();
 }
 
-static void guyTouchOthers(void)
+void guyTouchOthers(void)
 {
 	Entity **candidates;
 	int i, n;
 	
-	candidates = getEntitiesAt(level.guy->x, level.guy->y, &n);
+	candidates = getEntitiesAt(level.guy->x, level.guy->y, &n, level.guy);
 	
 	for (i = 0 ; i < n ; i++)
 	{
@@ -107,18 +101,18 @@ static void guyTouchOthers(void)
 	}
 }
 
-static void guyFallDownHoles(void)
+void guyFallDownHoles(void)
 {
 	int fall, i, n;
 	Entity **candidates;
 	
 	fall = 0;
 	
-	if (level.data[(int)level.guy->x][(int)level.guy->y] == TILE_HOLE)
+	if (level.data[level.guy->x][level.guy->y] == TILE_HOLE)
 	{
 		fall = 1;
 		
-		candidates = getEntitiesAt(level.guy->x, level.guy->y, &n);
+		candidates = getEntitiesAt(level.guy->x, level.guy->y, &n, level.guy);
 		
 		for (i = 0 ; i < n ; i++)
 		{
@@ -173,22 +167,7 @@ void drawEntities(void)
 	}
 }
 
-Entity *getEntityAt(int x, int y)
-{
-	Entity *e;
-	
-	for (e = level.entityHead.next ; e != NULL ; e = e->next)
-	{
-		if (e->x == x && e->y == y)
-		{
-			return e;
-		}
-	}
-	
-	return NULL;
-}
-
-Entity **getEntitiesAt(int x, int y, int *n)
+Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore)
 {
 	Entity *e;
 	
@@ -198,8 +177,17 @@ Entity **getEntitiesAt(int x, int y, int *n)
 	
 	for (e = level.entityHead.next ; e != NULL ; e = e->next)
 	{
-		if (e->x == x && e->y == y)
+		if (e->visible && e->x == x && e->y == y && e != ignore)
 		{
+			/* only one solid thing can occupy a space */
+			if (e->solid)
+			{
+				memset(candidates, 0, sizeof(Entity*) * MAX_CANDIDATES);
+				candidates[0] = e;
+				*n = 0;
+				return candidates;
+			}
+			
 			candidates[*n] = e;
 			
 			*n = *n + 1;
@@ -213,6 +201,25 @@ Entity **getEntitiesAt(int x, int y, int *n)
 	}
 	
 	return candidates;
+}
+
+void activateEntities(char *targetName)
+{
+	Entity *e, *oldSelf;
+	
+	for (e = level.entityHead.next ; e != NULL ; e = e->next)
+	{
+		if (strcmp(e->name, targetName) == 0 && e->activate != NULL)
+		{
+			oldSelf = self;
+			
+			self = e;
+			
+			self->activate();
+			
+			self = oldSelf;
+		}
+	}
 }
 
 void destroyEntities(void)

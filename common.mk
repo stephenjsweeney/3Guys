@@ -1,4 +1,4 @@
-VERSION = 0.1
+VERSION = 0.2
 REVISION = 0
 LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
@@ -27,12 +27,12 @@ _OBJS += glRectangle.o glRectangleBatch.o guy.o
 _OBJS += i18n.o io.o init.o input.o item.o
 _OBJS += key.o
 _OBJS += level.o levelLoader.o lookup.o
-_OBJS += main.o maths.o
-_OBJS += player.o pushBlock.o
+_OBJS += main.o maths.o movingPlatform.o
+_OBJS += player.o pressurePlate.o pushBlock.o
 _OBJS += sound.o spikeTrap.o sprites.o star.o strings.o
 _OBJS += test.o text.o textures.o title.o tools.o
 _OBJS += util.o
-_OBJS += wipe.o
+_OBJS += wall.o wipe.o
 
 OBJS = $(patsubst %,$(OUT)/%,$(_OBJS))
 

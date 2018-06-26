@@ -39,7 +39,7 @@ void initPushBlock(Entity *e)
 static void touch(Entity *other)
 {
 	int mx, my, blocked, tile, i, n;
-	Entity **candidates;
+	Entity **candidates, *oldSelf;
 	
 	mx = self->x + level.dx;
 	my = self->y + level.dy;
@@ -54,7 +54,7 @@ static void touch(Entity *other)
 		{
 			blocked = 0;
 			
-			candidates = getEntitiesAt(mx, my, &n);
+			candidates = getEntitiesAt(mx, my, &n, self);
 
 			for (i = 0 ; i < n ; i++)
 			{
@@ -71,25 +71,32 @@ static void touch(Entity *other)
 		self->x = mx;
 		self->y = my;
 		
-		candidates = getEntitiesAt(self->x, self->y, &n);
+		candidates = getEntitiesAt(self->x, self->y, &n, self);
 
+		/* block touch anything in the new square */
 		for (i = 0 ; i < n ; i++)
 		{
-			if (candidates[i] != self)
-			{
-				candidates[i]->touch(self);
-			}
+			oldSelf = self;
+			
+			self = candidates[i];
+			
+			self->touch(oldSelf);
+			
+			self = oldSelf;
 		}
 		
-		candidates = getEntitiesAt(other->x, other->y, &n);
+		candidates = getEntitiesAt(other->x, other->y, &n, other);
 
 		/* pusher touch anything that was revealed by the block */
 		for (i = 0 ; i < n ; i++)
 		{
-			if (candidates[i] != other)
-			{
-				candidates[i]->touch(other);
-			}
+			oldSelf = self;
+			
+			self = candidates[i];
+			
+			self->touch(other);
+			
+			self = oldSelf;
 		}
 	}
 	else

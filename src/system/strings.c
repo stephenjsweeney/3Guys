@@ -33,4 +33,6 @@ void initStrings(void)
 	app.strings[ST_DOOR_DESC] = _("It's a door. It can be opened with a key.");
 	app.strings[ST_PUSH_BLOCK_DESC] = _("A heavy object. Green Guy can push it.");
 	app.strings[ST_TOOLS_DESC] = _("Tools. They can be used to build a bridge.");
+	app.strings[ST_PRESSURE_PLATE_DESC] = _("A pressure plate. I can weigh it down to activate it.");
+	app.strings[ST_PLATFORM_DESC] = _("A moving platform. I can walk on it to move it around.");
 }

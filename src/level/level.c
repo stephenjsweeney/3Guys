@@ -65,6 +65,8 @@ void initLevel(int id)
 	
 	loadLevel(id);
 	
+	doEntities();
+	
 	initGLRectangle(&background.rect, MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE);
 	background.rect.texture = loadTexture("gfx/backgrounds/background2.jpg")->texture;
 	
@@ -174,11 +176,18 @@ static void doLevel(void)
 	
 	if (level.state == LS_INCOMPLETE)
 	{
-		if (level.walkRoute)
+		if (level.walkRoute && --moveTimer <= 0)
 		{
 			moveGuy();
 			
 			moveEntities();
+			
+			level.guy->x += level.dx;
+			level.guy->y += level.dy;
+			
+			guyTouchOthers();
+			
+			guyFallDownHoles();
 			
 			if (level.moves == 0)
 			{
@@ -224,35 +233,27 @@ static void doLevel(void)
 
 static void moveGuy(void)
 {
-	if (--moveTimer < 1)
+	level.dx = level.route[level.routeIndex].x - level.guy->x;
+	level.dy = level.route[level.routeIndex].y - level.guy->y;
+	
+	moveTimer = 4;
+	
+	level.route[level.routeIndex].x = -1;
+	level.route[level.routeIndex].y = -1;
+	
+	level.routeIndex++;
+	
+	playSound(SND_WALK, 0);
+	
+	if (level.routeIndex == MAP_WIDTH * MAP_HEIGHT || level.route[level.routeIndex].x == -1)
 	{
-		if (level.routeIndex == MAP_WIDTH * MAP_HEIGHT || level.route[level.routeIndex].x == -1)
+		level.walkRoute = 0;
+		
+		level.routeIndex = 0;
+		
+		if (level.moves > -1)
 		{
-			level.walkRoute = 0;
-			
-			level.routeIndex = 0;
-			
-			if (level.moves > -1)
-			{
-				level.moves--;
-			}
-		}
-		else
-		{
-			level.dx = level.route[level.routeIndex].x - level.guy->x;
-			level.dy = level.route[level.routeIndex].y - level.guy->y;
-			
-			level.guy->x = level.route[level.routeIndex].x;
-			level.guy->y = level.route[level.routeIndex].y;
-			
-			moveTimer = 4;
-			
-			level.route[level.routeIndex].x = -1;
-			level.route[level.routeIndex].y = -1;
-			
-			level.routeIndex++;
-			
-			playSound(SND_WALK, 0);
+			level.moves--;
 		}
 	}
 }
@@ -408,7 +409,7 @@ static void drawTopBar(void)
 	
 	drawText(LEVEL_RENDER_X, 20, TA_LEFT, app.strings[ST_LEVEL_NUM], level.id);
 	
-	if (level.moves > -1)
+	if (level.moves != -1)
 	{
 		if (level.moves > 0 || level.state == LS_COMPLETE)
 		{

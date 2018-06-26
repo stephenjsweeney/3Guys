@@ -117,14 +117,20 @@ struct EntityDef {
 };
 
 struct Entity {
+	char name[MAX_NAME_LENGTH];
+	char target[MAX_NAME_LENGTH];
 	int type;
-	float x, y;
+	int x, y;
+	int dx, dy;
+	int tx, ty;
 	int visible;
 	int solid;
 	int alive;
 	int spinTimer;
 	float spin;
 	float angle;
+	int weight;
+	int active;
 	Sprite *sprite;
 	Entity *carrying;
 	Entity *owner;

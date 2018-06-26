@@ -40,6 +40,9 @@ extern void initYellowDoor(Entity *e);
 extern void initYellowKey(Entity *e);
 extern void initTools(Entity *e);
 extern void initSpikeTrap(Entity *e);
+extern void initPressurePlate(Entity *e);
+extern void initWall(Entity *e);
+extern void initMovingPlatform(Entity *e);
 extern char *readFile(const char *filename);
 
 extern Level level;
