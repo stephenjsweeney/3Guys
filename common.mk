@@ -20,7 +20,7 @@ vpath %.h $(SEARCHPATH)
 DEPS += defs.h structs.h
 
 _OBJS += atlas.o
-_OBJS += cJSON.o
+_OBJS += cJSON.o crumblingFloor.o
 _OBJS += diamond.o door.o draw.o
 _OBJS += effects.o entities.o
 _OBJS += glRectangle.o glRectangleBatch.o guy.o

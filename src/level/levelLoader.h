@@ -43,6 +43,7 @@ extern void initSpikeTrap(Entity *e);
 extern void initPressurePlate(Entity *e);
 extern void initWall(Entity *e);
 extern void initMovingPlatform(Entity *e);
+extern void initCrumblingFloor(Entity *e);
 extern char *readFile(const char *filename);
 
 extern Level level;
