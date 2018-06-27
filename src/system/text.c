@@ -105,6 +105,8 @@ static void initFont(char *name, char *filename, int size)
 		dest.x += dest.w;
 	}
 	
+	TTF_CloseFont(font);
+	
 	texture = toTexture(surface, 1);
 	
 	for (i = 0 ; i < 128 ; i++)

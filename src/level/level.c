@@ -278,6 +278,8 @@ static void nextLevel(void)
 	
 	destroyLevel();
 	
+	destroyEntities();
+	
 	initLevel(nextLevel);
 }
 
@@ -302,6 +304,8 @@ static void restartLevel(void)
 	restarting = 1;
 	
 	destroyLevel();
+	
+	destroyEntities();
 	
 	initLevel(id);
 }
@@ -501,6 +505,7 @@ int getRandomFloorTile(void)
 void destroyLevel(void)
 {
 	Entity *e;
+	int i;
 	
 	while (level.entityHead.next)
 	{
@@ -508,4 +513,11 @@ void destroyLevel(void)
 		level.entityHead.next = e->next;
 		free(e);
 	}
+	
+	for (i = 0 ; i < level.numTips ; i++)
+	{
+		free(level.tips[i]);
+	}
+	
+	free(level.tips);
 }

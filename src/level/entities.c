@@ -31,6 +31,7 @@ void initEntities(void)
 	memset(&deadHead, 0, sizeof(Entity));
 	deadTail = &deadHead;
 	
+	memset(&level.entityHead, 0, sizeof(Entity));
 	level.entityTail = &level.entityHead;
 }
 
@@ -62,6 +63,7 @@ void doEntities(void)
 			prev->next = self->next;
 			
 			/* move to dead list */
+			self->next = NULL;
 			deadTail->next = self;
 			deadTail = self;
 			

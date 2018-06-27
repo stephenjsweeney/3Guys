@@ -1,0 +1,267 @@
+# PO file for 3 Guys
+# Copyright 2018, Stephen J Sweeney
+# This file is distributed under the GNU GPL 3.0
+# Email: stephenjsweeney@battleforthesolarsystem.com
+# https://github.com/stephenjsweeney/3Guys
+
+msgid ""
+msgstr ""
+"Project-Id-Version: 3 Guys\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-06-26 18:08:42+0100\n"
+"PO-Revision-Date: ???\n"
+"Last-Translator: ???\n"
+"Language-Team: ???\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Click to continue"
+msgstr ""
+
+msgid "Out of moves!"
+msgstr ""
+
+msgid "A diamond. It's very shiny. I'll have it for lunch."
+msgstr ""
+
+msgid "A star. It looks tasty. Will make a nice side for the diamond."
+msgstr ""
+
+msgid "Level %03d / 100"
+msgstr ""
+
+msgid "Moves: %d"
+msgstr ""
+
+msgid "A key. I can use it to open doors."
+msgstr ""
+
+msgid "I've already got a key."
+msgstr ""
+
+msgid "It's a door. It can be opened with a key."
+msgstr ""
+
+msgid "A heavy object. Green Guy can push it."
+msgstr ""
+
+msgid "Tools. They can be used to build a bridge."
+msgstr ""
+
+msgid "A pressure plate. I can weigh it down to activate it."
+msgstr ""
+
+msgid "A moving platform. I can walk on it to move it around."
+msgstr ""
+
+msgid "A crumbling floor. It will break after I walk on it."
+msgstr ""
+
+msgid "TNT. It can be used to destroy walls."
+msgstr ""
+
+msgid "Resume"
+msgstr ""
+
+msgid "Tips"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Restart"
+msgstr ""
+
+msgid "Quit"
+msgstr ""
+
+msgid "Sound"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Gender"
+msgstr ""
+
+msgid "Speed"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Stats"
+msgstr ""
+
+msgid "Rate"
+msgstr ""
+
+msgid "Share"
+msgstr ""
+
+msgid "Credits"
+msgstr ""
+
+msgid "Welcome to Three Guys! Click to see the next tip."
+msgstr ""
+
+msgid "Your goal on each level is to collect the diamond. You must get Red Guy to the diamond to pick it up."
+msgstr ""
+
+msgid "To move Red, draw a path from him to the diamond. He will then pick it up."
+msgstr ""
+
+msgid "Your path can move in 4 directions, but not diagonals. To remove a path step, simply move back over it."
+msgstr ""
+
+msgid "Your path also cannot cross itself, and must be one complete motion. Try it now."
+msgstr ""
+
+msgid "To see options and tips, click the panel at the bottom of the screen or press Escape."
+msgstr ""
+
+msgid "That purple thing is a pushable block. It's rather heavy, but luckily Green has been going to the gym a lot recently, and can move it."
+msgstr ""
+
+msgid "To push the block, draw a path into it. The block will move so along as there is a free space for it to move into."
+msgstr ""
+
+msgid "With careful planning, a block can be moved a considerable distance in a single motion. Try it now."
+msgstr ""
+
+msgid "Note: pushblocks cannot be pulled, so be careful not to move it into a corner, or you'll need to restart the level and try again."
+msgstr ""
+
+msgid "Yellow Guy is here! Yellow Guy can build bridges over gaps, using his tools."
+msgstr ""
+
+msgid "To create a bridge, simply walk over a gap, and Yellow will automatically create it."
+msgstr ""
+
+msgid "The number of tools you have is shown at the bottom of the screen. Be careful not to run out."
+msgstr ""
+
+msgid "Some levels contain traps. In this case, spike traps lie in wait. Tread carefully."
+msgstr ""
+
+msgid "Spike traps can be destroyed by pushing a block over them."
+msgstr ""
+
+msgid "Often, walls and other obstacles will block your path."
+msgstr ""
+
+msgid "Try navigating Red to the diamond, by drawing a path from him to it, avoiding the walls."
+msgstr ""
+
+msgid "A pressure plate. It activates certain objects when it is weighed down. In this case, it will drop the wall between the Guys and the diamond."
+msgstr ""
+
+msgid "To weigh down the pressure plate, simply move one of the Guys on top of it."
+msgstr ""
+
+msgid "Push blocks can also be used to weigh down pressure plates."
+msgstr ""
+
+msgid "Moving platforms move until they hit something solid."
+msgstr ""
+
+msgid "This platform is static right now, and will start moving when Red stands on it. It will move in the direction Red was going."
+msgstr ""
+
+msgid "Red must walk with it to avoid falling off, and keep walking in the same direction until it is safe to get off."
+msgstr ""
+
+msgid "As always, with careful planning, a moving platform can be guided around a level in a single motion."
+msgstr ""
+
+msgid "Beware of holes. If you attempt to move across any gaps, you will fall in."
+msgstr ""
+
+msgid "Draw your paths around the holes to avoid sending Red on his way to oblivion."
+msgstr ""
+
+msgid "If you mess up, you will have to retry."
+msgstr ""
+
+msgid "Crumbling floors will become unstable when you step on them, and collapse when you move off them. A hole will be left behind that could block your path."
+msgstr ""
+
+msgid "Walk up to the diamond. The floor behind will disappear as you leave it. You should take care not to maroon yourself."
+msgstr ""
+
+msgid "Pushblocks can also be used to destroy walls, by placing them on top of the space they occupied, and then allowing them to rise again."
+msgstr ""
+
+msgid "Two Guys! Red and Green. Click on a Guy to change to them. Each Guy controls the same way."
+msgstr ""
+
+msgid "Each Guy has their own unique ability, which you'll learn more about later."
+msgstr ""
+
+msgid "The important thing to know now is that Guys cannot pass one another when walking, and only Red can collect the diamond."
+msgstr ""
+
+msgid "You have some TNT! It can be used to destroy walls, and grant the Guys access to areas that were previously out of reach."
+msgstr ""
+
+msgid "To use TNT, simply click on a wall that you wish to destroy. The amount of TNT you have remaining is displayed below."
+msgstr ""
+
+msgid "Try using the TNT now to get to the diamond."
+msgstr ""
+
+msgid "One last thing: you have a limited number of moves."
+msgstr ""
+
+msgid "You can see the number of moves you have left in the top right of the screen."
+msgstr ""
+
+msgid "When you run out of moves, you fail the level, and must try again."
+msgstr ""
+
+msgid "Try and complete this level in 1 move."
+msgstr ""
+
+msgid "A teleporter! These can be used to transmit Guys (and other objects) to another location."
+msgstr ""
+
+msgid "Walk into the teleporter to bypass the wall and grab the diamond."
+msgstr ""
+
+msgid "Caution: when using teleports, keep in mind that anything at the receiving end might be destroyed by the incoming object ..."
+msgstr ""
+
+msgid "Push blocks can also be put through teleporters."
+msgstr ""
+
+msgid "Laser traps create beams that cross the level until they hit something. Walking a Guy into the beams will blow the Guy up, so be careful!"
+msgstr ""
+
+msgid "Laser traps can be disabled or enabled by using pressure plates. Try it now."
+msgstr ""
+
+msgid "Laser beams can also be blocked by Push Blocks."
+msgstr ""
+
+msgid "Keys can be used to open doors. You can draw a path through a door with or without a key. The door will only open if you have a key, however."
+msgstr ""
+
+msgid "Walking over a key will pick it up. Note: you can only carry one key at a time, and cannot drop it once you have it. The only way to dispose of a key is to use it."
+msgstr ""
+
+msgid "Oh no, a fire pit trap! These cannot be walked over, but can be extinguished by pushing a pushblock into them, creating a walkable floor space."
+msgstr ""
+
+msgid "The down side is that the pushblock will be destroyed in the process. Try it now."
+msgstr ""
+
+msgid "Fire pit traps may also be invisible until a Guy steps on them, or a pushblock is pushed over them."
+msgstr ""
+
+msgid "The red area can only be walked on by the Red Guy. Yellow areas by Yellow, and green areas by Green."
+msgstr ""
+
+msgid "Plan carefully, so that you don't get stuck."
+msgstr ""
+

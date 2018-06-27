@@ -65,19 +65,19 @@ function extractJSON($filename)
 	{
 		foreach ($json as $widget)
 		{
-			if (array_key_exists("text", $widget))
+			if (array_key_exists("label", $widget))
 			{
-				addString($widget->{"text"}, $filename);
+				addString($widget->{"label"}, $filename);
 			}
 		}
 	}
-	else if (strpos($filename, "maps") !== false)
+	else if (strpos($filename, "levels") !== false)
 	{
-		$meta = $json->{"meta"}->{"tips"};
+		$meta = $json->{"meta"};
 		
 		if (array_key_exists("tips", $meta))
 		{
-			foreach ($json->{"tips"} as $tip)
+			foreach ($meta->{"tips"} as $tip)
 			{
 				addString($tip);
 			}
@@ -110,7 +110,7 @@ recurseDir("../src");
 
 recurseDir("../data/widgets");
 
-recurseDir("../data/maps");
+recurseDir("../data/levels");
 
 $potHeader = file_get_contents("../tools/potHeader.txt");
 

@@ -24,6 +24,7 @@ static void loadMeta(cJSON *metaJSON);
 static void loadMapData(cJSON *mapJSON);
 static void loadEntities(cJSON *entitiesJSON);
 static void addEntityDef(char *type, void (*initFunc)(Entity *));
+static int entComparator(const void *a, const void *b);
 static Entity *createEntity(const char *type);
 
 static EntityDef entityDefHead;
@@ -132,10 +133,47 @@ static void loadMapData(cJSON *mapJSON)
 	}
 }
 
+static Entity *createEntity(const char *type)
+{
+	Entity *e;
+	EntityDef *def;
+	
+	for (def = entityDefHead.next ; def != NULL ; def = def->next)
+	{
+		if (strcmp(def->type, type) == 0)
+		{
+			e = malloc(sizeof(Entity));
+			memset(e, 0, sizeof(Entity));
+			
+			e->alive = 1;
+			
+			def->initFunc(e);
+			
+			return e;
+		}
+	}
+	
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "No such entity def '%s'", type);
+	exit(1);
+	
+	return NULL;
+}
+
 static void loadEntities(cJSON *entitiesJSON)
 {
 	cJSON *entityJSON;
-	Entity *e;
+	Entity *e, **candidates;
+	int i, n;
+	
+	for (entityJSON = entitiesJSON->child ; entityJSON != NULL ; entityJSON = entityJSON->next)
+	{
+		n++;
+	}
+	
+	candidates = malloc(sizeof(Entity*) * n);
+	memset(candidates, 0, sizeof(Entity*) * n);
+	
+	i = 0;
 	
 	for (entityJSON = entitiesJSON->child ; entityJSON != NULL ; entityJSON = entityJSON->next)
 	{
@@ -153,35 +191,19 @@ static void loadEntities(cJSON *entitiesJSON)
 		{
 			STRNCPY(e->target, cJSON_GetObjectItem(entityJSON, "target")->valuestring, MAX_NAME_LENGTH);
 		}
+		
+		candidates[i++] = e;
 	}
-}
-
-static Entity *createEntity(const char *type)
-{
-	Entity *e;
-	EntityDef *def;
 	
-	for (def = entityDefHead.next ; def != NULL ; def = def->next)
+	qsort(candidates, n, sizeof(Entity*), entComparator);
+	
+	for (i = 0 ; i < n ; i++)
 	{
-		if (strcmp(def->type, type) == 0)
-		{
-			e = malloc(sizeof(Entity));
-			memset(e, 0, sizeof(Entity));
-			level.entityTail->next = e;
-			level.entityTail = e;
-			
-			e->alive = 1;
-			
-			def->initFunc(e);
-			
-			return e;
-		}
+		level.entityTail->next = candidates[i];
+		level.entityTail = candidates[i];
 	}
 	
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "No such entity def '%s'", type);
-	exit(1);
-	
-	return NULL;
+	free(candidates);
 }
 
 void initEntityDefs(void)
@@ -223,4 +245,12 @@ static void addEntityDef(char *type, void (*initFunc)(Entity *))
 	
 	entityDefTail->next = def;
 	entityDefTail = def;
+}
+
+static int entComparator(const void *a, const void *b)
+{
+	Entity *e1 = *((Entity**)a);
+	Entity *e2 = *((Entity**)b);
+
+	return e1->type - e2->type;
 }

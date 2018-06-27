@@ -53,6 +53,8 @@ int main(int argc, char *argv[])
 	dev.showFPS = 1;
 	*/
 	
+	remainder = 0;
+	
 	frames = 0;
 	
 	nextSecond = SDL_GetTicks() + 1000;
