@@ -146,25 +146,31 @@ void guyFallDownHoles(void)
 
 void drawEntities(int backgroundPlane)
 {
-	Entity *e;
 	int x, y;
 	
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	
-	for (e = level.entityHead.next ; e != NULL ; e = e->next)
+	for (self = level.entityHead.next ; self != NULL ; self = self->next)
 	{
-		if (e->visible && e->backgroundPlane == backgroundPlane)
+		if (self->visible && self->backgroundPlane == backgroundPlane)
 		{
-			x = LEVEL_RENDER_X + e->x * TILE_SIZE;
-			y = LEVEL_RENDER_Y + e->y * TILE_SIZE;
-			
-			x += TILE_SIZE / 2;
-			y += TILE_SIZE / 2;
-		
-			glRectangleBatch.rotate = 1;
-			glRectangleBatch.angle = e->angle;
-			drawGLRectangleBatch(getCurrentFrame(e->sprite), x, y, 1);
-			glRectangleBatch.rotate = 0;
+			if (self->draw)
+			{
+				self->draw();
+			}
+			else
+			{
+				x = LEVEL_RENDER_X + self->x * TILE_SIZE;
+				y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
+
+				x += TILE_SIZE / 2;
+				y += TILE_SIZE / 2;
+
+				glRectangleBatch.rotate = 1;
+				glRectangleBatch.angle = self->angle;
+				drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
+				glRectangleBatch.rotate = 0;
+			}
 		}
 	}
 }

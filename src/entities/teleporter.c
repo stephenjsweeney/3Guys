@@ -72,7 +72,7 @@ static void touch(Entity *other)
 			{
 				if (candidates[i]->visible)
 				{
-					candidates[i]->die();
+					candidates[i]->alive = 0;
 				}
 			}
 			else if (candidates[i]->touch)

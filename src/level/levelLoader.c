@@ -201,7 +201,6 @@ static void loadEntities(cJSON *entitiesJSON)
 		if (cJSON_GetObjectItem(entityJSON, "active") != NULL)
 		{
 			e->active = cJSON_GetObjectItem(entityJSON, "active")->valueint;
-			exit(1);
 		}
 		
 		candidates[i++] = e;
@@ -244,6 +243,8 @@ void initEntityDefs(void)
 	addEntityDef("CrumblingFloor", initCrumblingFloor);
 	addEntityDef("TNT", initTNT);
 	addEntityDef("Teleporter", initTeleporter);
+	addEntityDef("HorizontalLaserTrap", initHorizontalLaserTrap);
+	addEntityDef("VerticalLaserTrap", initVerticalLaserTrap);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))

@@ -39,4 +39,6 @@ void initStrings(void)
 	app.strings[ST_TNT_DESC] = _("TNT. It can be used to destroy walls.");
 	app.strings[ST_TELEPORTER_DESC] = _("A teleporter. I can use it to traverse the Nth dimension.");
 	app.strings[ST_TELEPORTER_OFF_DESC] = _("A teleporter. It's not working right now.");
+	app.strings[ST_LASER_TRAP_DESC] = _("A laser trap. The beams look like they'd hurt.");
+	app.strings[ST_LASER_TRAP_OFF_DESC] = _("A laser trap. Luckily, it's switched off.");
 }

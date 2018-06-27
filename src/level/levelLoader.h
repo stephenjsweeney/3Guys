@@ -46,6 +46,8 @@ extern void initWall(Entity *e);
 extern void initYellowDoor(Entity *e);
 extern void initYellowGuy(Entity *e);
 extern void initYellowKey(Entity *e);
+extern void initHorizontalLaserTrap(Entity *e);
+extern void initVerticalLaserTrap(Entity *e);
 extern char *readFile(const char *filename);
 
 extern Level level;

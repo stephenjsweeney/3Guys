@@ -139,6 +139,7 @@ struct Entity {
 	void (*touch)(Entity *other);
 	void (*activate)(void);
 	void (*tick)(void);
+	void (*draw)(void);
 	void (*describe)(void);
 	int (*isBlocking)(void);
 	void (*die)(void);
