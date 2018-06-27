@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern Atlas *getImageFromAtlas(char *filename, int required);
-extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern double randF(void);
+extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 
 extern Level level;

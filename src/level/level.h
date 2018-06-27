@@ -29,6 +29,7 @@ enum
 
 extern void animateSprites(void);
 extern void clearRoute(void);
+extern void destroyEntities(void);
 extern void doEffects(void);
 extern void doEntities(void);
 extern void doPlayer(void);
@@ -58,7 +59,6 @@ extern double randF(void);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void setTextWidth(int width);
 extern void useFont(char *name);
-extern void destroyEntities(void);
 
 extern App app;
 extern GLRectangleBatch glRectangleBatch;
