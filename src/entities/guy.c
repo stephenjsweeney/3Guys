@@ -29,6 +29,8 @@ static void initGuy(Entity *e)
 	e->touch = touch;
 	e->die = die;
 	e->isBlocking = blocking;
+	
+	e->solid = 1;
 }
 
 void initRedGuy(Entity *e)

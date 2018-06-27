@@ -32,6 +32,8 @@ void initNormalDoor(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
+	
+	e->solid = 1;
 }
 
 void initYellowDoor(Entity *e)

@@ -43,7 +43,7 @@ void initTeleporter(Entity *e)
 
 static void touch(Entity *other)
 {
-	Entity **candidates;
+	Entity **candidates, *oldSelf;
 	int i, n;
 	
 	if (self->active)
@@ -60,10 +60,14 @@ static void touch(Entity *other)
 
 		addTeleportStars(self->tx, self->ty, 35);
 		
-		candidates = getEntitiesAt(other->x, other->y, &n, self);
+		candidates = getEntitiesAt(other->x, other->y, &n, other);
 
 		for (i = 0 ; i < n ; i++)
 		{
+			oldSelf = self;
+			
+			self = candidates[i];
+			
 			if (candidates[i]->solid)
 			{
 				if (candidates[i]->visible)
@@ -71,10 +75,12 @@ static void touch(Entity *other)
 					candidates[i]->die();
 				}
 			}
-			else
+			else if (candidates[i]->touch)
 			{
 				candidates[i]->touch(other);
 			}
+			
+			self = oldSelf;
 		}
 	}
 }
