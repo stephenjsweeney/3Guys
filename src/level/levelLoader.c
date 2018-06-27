@@ -192,6 +192,18 @@ static void loadEntities(cJSON *entitiesJSON)
 			STRNCPY(e->target, cJSON_GetObjectItem(entityJSON, "target")->valuestring, MAX_NAME_LENGTH);
 		}
 		
+		if (cJSON_GetObjectItem(entityJSON, "tx") != NULL)
+		{
+			e->tx = cJSON_GetObjectItem(entityJSON, "tx")->valueint;
+			e->ty = cJSON_GetObjectItem(entityJSON, "ty")->valueint;
+		}
+		
+		if (cJSON_GetObjectItem(entityJSON, "active") != NULL)
+		{
+			e->active = cJSON_GetObjectItem(entityJSON, "active")->valueint;
+			exit(1);
+		}
+		
 		candidates[i++] = e;
 	}
 	
@@ -231,6 +243,7 @@ void initEntityDefs(void)
 	addEntityDef("MovingPlatform", initMovingPlatform);
 	addEntityDef("CrumblingFloor", initCrumblingFloor);
 	addEntityDef("TNT", initTNT);
+	addEntityDef("Teleporter", initTeleporter);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))

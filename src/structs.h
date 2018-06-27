@@ -199,6 +199,7 @@ struct Effect {
 	float dx;
 	float dy;
 	int life;
+	Atlas *atlas;
 	Effect *next;
 };
 

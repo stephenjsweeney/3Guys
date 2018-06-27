@@ -37,4 +37,6 @@ void initStrings(void)
 	app.strings[ST_PLATFORM_DESC] = _("A moving platform. I can walk on it to move it around.");
 	app.strings[ST_CRUMBLING_FLOOR_DESC] = _("A crumbling floor. It will break after I walk on it.");
 	app.strings[ST_TNT_DESC] = _("TNT. It can be used to destroy walls.");
+	app.strings[ST_TELEPORTER_DESC] = _("A teleporter. I can use it to traverse the Nth dimension.");
+	app.strings[ST_TELEPORTER_OFF_DESC] = _("A teleporter. It's not working right now.");
 }

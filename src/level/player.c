@@ -158,7 +158,9 @@ static void handleEntityClick(Entity *e)
 		default:
 			if (level.routeIndex == 0 && e->describe != NULL)
 			{
-				e->describe();
+				self = e;
+				
+				self->describe();
 			}
 			break;
 	}

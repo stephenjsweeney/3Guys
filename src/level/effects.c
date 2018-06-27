@@ -21,12 +21,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "effects.h"
 
 static Atlas *explosionSphere;
+static Atlas *teleportStar;
 
 void initEffects(void)
 {
 	level.effectTail = &level.effectHead;
 	
 	explosionSphere = getImageFromAtlas("gfx/sprites/explosionSphere.png", 1);
+	teleportStar = getImageFromAtlas("gfx/sprites/teleportStar.png", 1);
 }
 
 void doEffects(void)
@@ -64,7 +66,7 @@ void drawEffects(void)
 	{
 		setGLRectangleBatchColor(e->r, e->g, e->b, 1);
 		
-		drawGLRectangleBatch(&explosionSphere->rect, e->x, e->y, 1);
+		drawGLRectangleBatch(&e->atlas->rect, e->x, e->y, 1);
 	}
 }
 
@@ -94,6 +96,7 @@ void addExplosionEffect(int mx, int my, float r, float g, float b)
 		e->g = g;
 		e->b = b;
 		e->life = FPS / 3;
+		e->atlas = explosionSphere;
 		
 		switch (i)
 		{
@@ -120,5 +123,43 @@ void addExplosionEffect(int mx, int my, float r, float g, float b)
 			default:
 				break;
 		}
+	}
+}
+
+void addTeleportStars(int mx, int my, int amount)
+{
+	Effect *e;
+	int i, x, y;
+	
+	x = LEVEL_RENDER_X;
+	x += mx * TILE_SIZE;
+	x += TILE_SIZE / 2;
+	
+	y = LEVEL_RENDER_Y;
+	y += my * TILE_SIZE;
+	y += TILE_SIZE / 2;
+	
+	for (i = 0 ; i < amount ; i++)
+	{
+		e = malloc(sizeof(Effect));
+		memset(e, 0, sizeof(Effect));
+		level.effectTail->next = e;
+		level.effectTail = e;
+		
+		e->x = x;
+		e->y = y;
+		e->life = FPS / 2 + (rand() % FPS / 2);
+		e->atlas = teleportStar;
+		
+		e->r = 1.0f;
+		e->g = 1.0f;
+		e->b = 1.0f;
+
+		e->r -= (randF() * 0.5);
+		e->g -= (randF() * 0.5);
+		e->b -= (randF() * 0.5);
+		
+		e->dx = (float) ((randF() - randF()) * 4);
+		e->dy = (float) ((randF() - randF()) * 4);
 	}
 }
