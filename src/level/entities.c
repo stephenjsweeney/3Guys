@@ -134,7 +134,7 @@ void guyFallDownHoles(void)
 
 				level.tools--;
 
-				/*game.saveData.stats[Stat.TOOLS_USED.ordinal()]++;*/
+				game.stats[STAT_TOOLS_USED]++;
 			}
 			else
 			{

@@ -129,6 +129,8 @@ static void handleMapClick(int x, int y)
 		if (level.tnt != -1)
 		{
 			level.tnt--;
+			
+			game.stats[STAT_TNT_USED]++;
 		}
 	}
 }

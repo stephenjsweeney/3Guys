@@ -46,5 +46,6 @@ App app;
 Colors colors;
 Dev dev;
 Entity *self;
+Game game;
 GLRectangleBatch glRectangleBatch;
 Level level;

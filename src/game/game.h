@@ -18,41 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "diamond.h"
+#include "../common.h" 
+#include "../json/cJSON.h"
 
-static void touch(Entity *other);
-static void describe(void);
-static int blocking(void);
+extern char *buildFormattedString(const char *format, ...);
+extern char *getLookupName(const char *prefix, long num);
+extern int writeFile(const char *filename, const char *data);
 
-void initDiamond(Entity *e)
-{
-	e->type = ET_DIAMOND;
-	e->sprite = getSprite("Diamond");
-	e->touch = touch;
-	e->describe = describe;
-	e->isBlocking = blocking;
-}
-
-static void touch(Entity *other)
-{
-	if (other->type == ET_RED_GUY)
-	{
-		self->alive = 0;
-		
-		completeLevel();
-
-		playSound(SND_DIAMOND, 1);
-
-		game.stats[STAT_DIAMONDS]++;
-	}
-}
-
-static void describe(void)
-{
-	level.message = app.strings[ST_DIAMOND_DESC];
-}
-
-static int blocking(void)
-{
-	return 0;
-}
+extern App app;
+extern Game game;

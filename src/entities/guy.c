@@ -108,6 +108,8 @@ static void die(void)
 	playSound(SND_FAIL, -1);
 	
 	failLevel();
+	
+	game.stats[STAT_LOSSES]++;
 }
 
 int isGuy(Entity *e)

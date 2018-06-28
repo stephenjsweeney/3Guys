@@ -31,6 +31,8 @@ void initStar(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
+	
+	game.starsAvailable[level.id] = 1;
 }
 
 static void touch(Entity *other)
@@ -41,9 +43,9 @@ static void touch(Entity *other)
 
 		playSound(SND_STAR, -1);
 
-		/*
-		game.stats[STAT_DIAMONDS]++;
-		*/
+		game.stats[STAT_STARS]++;
+		
+		game.starsFound[level.id] = 1;
 	}
 }
 

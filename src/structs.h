@@ -105,10 +105,18 @@ struct Font {
 typedef struct {
 	void (*logic)(void);
 	void (*draw)(void);
+	void (*postOptions)(void);
 	void (*handleClick)(int x, int y, int btn);
 	void (*handleDrag)(int x, int y, int dx, int dy, int cx, int cy);
 	void (*handleMouseUp)(int x, int y, int btn);
 } Delegate;
+
+typedef struct {
+	int levelsCompleted;
+	int starsAvailable[MAX_LEVELS];
+	int starsFound[MAX_LEVELS];
+	int stats[STAT_MAX];
+} Game;
 
 struct EntityDef {
 	char type[MAX_NAME_LENGTH];

@@ -77,6 +77,8 @@ int main(int argc, char *argv[])
 		
 		frames++;
 		
+		game.stats[STAT_TIME_PLAYED]++;
+		
 		if (SDL_GetTicks() >= nextSecond)
 		{
 			dev.fps = frames;

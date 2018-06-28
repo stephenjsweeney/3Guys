@@ -74,6 +74,8 @@ static void touch(Entity *other)
 			self->alive = 0;
 			
 			playSound(SND_OPEN, -1);
+			
+			game.stats[STAT_KEYS_USED]++;
 		}
 		else
 		{

@@ -29,4 +29,5 @@ extern Sprite *getSprite(char *name);
 extern void playSound(int snd, int ch);
 
 extern Entity *self;
+extern Game game;
 extern Level level;

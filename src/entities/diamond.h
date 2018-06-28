@@ -26,4 +26,5 @@ extern void playSound(int snd, int ch);
 
 extern App app;
 extern Entity *self;
+extern Game game;
 extern Level level;

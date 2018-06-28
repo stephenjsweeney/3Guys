@@ -60,6 +60,8 @@ static int tickTimer;
 
 void initLevel(int id)
 {
+	game.stats[STAT_LEVELS_STARTED]++;
+	
 	memset(&level, 0, sizeof(Level));
 	
 	initTiles();
@@ -126,6 +128,8 @@ void initLevel(int id)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
+	
+	saveGame();
 }
 
 static void initTiles(void)
@@ -277,6 +281,8 @@ static void moveGuy(void)
 	
 	level.routeIndex++;
 	
+	game.stats[STAT_SQUARES]++;
+	
 	playSound(SND_WALK, 0);
 	
 	if (level.routeIndex == MAP_WIDTH * MAP_HEIGHT || level.route[level.routeIndex].x == -1)
@@ -289,6 +295,8 @@ static void moveGuy(void)
 		{
 			level.moves--;
 		}
+		
+		game.stats[STAT_MOVES]++;
 	}
 }
 
@@ -299,12 +307,16 @@ void completeLevel(void)
 		level.state = LS_COMPLETE;
 		level.finishTimer = FPS * 1.5;
 		clearRoute();
+		
+		game.stats[STAT_LEVELS_FINISHED]++;
 	}
 }
 
 static void nextLevel(void)
 {
 	int nextLevel;
+	
+	game.levelsCompleted = MAX(level.id, game.levelsCompleted);
 	
 	initWipe(WIPE_OUT);
 	
@@ -435,7 +447,7 @@ static void drawRoute(void)
 			drawGLRectangleBatch(&routeLink->rect, x, y, 0);
 		}
 		
-		if (i < MAP_WIDTH * MAP_HEIGHT && level.route[i + 1].x != -1)
+		if (i < (MAP_WIDTH * MAP_HEIGHT) - 1 && level.route[i + 1].x != -1)
 		{
 			glRectangleBatch.angle = getAngle(level.route[i + 1].x, level.route[i + 1].y, level.route[i].x, level.route[i].y);
 			drawGLRectangleBatch(&routeLink->rect, x, y, 0);
@@ -443,6 +455,14 @@ static void drawRoute(void)
 
 		glRectangleBatch.rotate = 0;
 	}
+	
+	x = LEVEL_RENDER_X + level.route[i - 1].x * TILE_SIZE;
+	y = LEVEL_RENDER_Y + level.route[i - 1].y * TILE_SIZE;
+	
+	x += TILE_SIZE / 2;
+	y += TILE_SIZE / 2;
+	
+	drawGLRectangleBatch(&routeBlob->rect, x, y, 1);
 }
 
 static void drawTopBar(void)

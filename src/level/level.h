@@ -59,6 +59,7 @@ extern Texture *loadTexture(const char *filename);
 extern void moveEntities(void);
 extern void playSound(int snd, int ch);
 extern double randF(void);
+extern void saveGame(void);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void setTextWidth(int width);
 extern void showWidgetGroup(const char *name);
@@ -66,4 +67,5 @@ extern void useFont(char *name);
 
 extern App app;
 extern GLRectangleBatch glRectangleBatch;
+extern Game game;
 extern Level level;

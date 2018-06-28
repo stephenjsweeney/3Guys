@@ -28,4 +28,5 @@ extern void stepBack(void);
 
 extern App app;
 extern Entity *self;
+extern Game game;
 extern Level level;

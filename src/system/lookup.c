@@ -33,6 +33,18 @@ void initLookups(void)
 	addLookup("WT_BUTTON", WT_BUTTON);
 	addLookup("WT_SLIDER", WT_SLIDER);
 	addLookup("WT_SPINNER", WT_SPINNER);
+	
+	addLookup("STAT_MOVES", STAT_MOVES);
+	addLookup("STAT_SQUARES", STAT_SQUARES);
+	addLookup("STAT_DIAMONDS", STAT_DIAMONDS);
+	addLookup("STAT_STARS", STAT_STARS);
+	addLookup("STAT_LEVELS_STARTED", STAT_LEVELS_STARTED);
+	addLookup("STAT_LEVELS_FINISHED", STAT_LEVELS_FINISHED);
+	addLookup("STAT_LOSSES", STAT_LOSSES);
+	addLookup("STAT_KEYS_USED", STAT_KEYS_USED);
+	addLookup("STAT_TOOLS_USED", STAT_TOOLS_USED);
+	addLookup("STAT_TNT_USED", STAT_TNT_USED);
+	addLookup("STAT_TIME_PLAYED", STAT_TIME_PLAYED);
 }
 
 static void addLookup(const char *name, long value)

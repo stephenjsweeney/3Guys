@@ -28,4 +28,5 @@ extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 
 extern Entity *self;
 extern GLRectangleBatch glRectangleBatch;
+extern Game game;
 extern Level level;
