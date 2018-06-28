@@ -33,6 +33,7 @@ extern void initAtlas(void);
 extern void initEntityDefs(void);
 extern void initFonts(void);
 extern void initGLRectangleBatch(void);
+extern void initGame(void);
 extern void initGraphics(void);
 extern void initLookups(void);
 extern void initSounds(void);

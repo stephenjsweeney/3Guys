@@ -20,18 +20,54 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "game.h"
 
+void loadGame(void);
+
 void initGame(void)
 {
 	memset(&game, 0, sizeof(Game));
+	
+	loadGame();
 }
 
 void loadGame(void)
 {
+	cJSON *root, *node;
+	char *text, *filename;
+	
+	filename = buildFormattedString("%s/%s", app.saveDir, SAVE_FILENAME);
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+
+	text = readFile(filename);
+	root = cJSON_Parse(text);
+	
+	game.levelsCompleted = cJSON_GetObjectItem(root, "levelsCompleted")->valueint;
+	
+	for (node = cJSON_GetObjectItem(root, "starsFound")->child ; node != NULL ; node = node->next)
+	{
+		game.starsFound[node->valueint] = 1;
+	}
+	
+	for (node = cJSON_GetObjectItem(root, "starsAvailable")->child ; node != NULL ; node = node->next)
+	{
+		game.starsAvailable[node->valueint] = 1;
+	}
+	
+	for (node = cJSON_GetObjectItem(root, "stats")->child ; node != NULL ; node = node->next)
+	{
+		game.stats[lookup(node->string)] = node->valueint;
+	}
+	
+	cJSON_Delete(root);
+	
+	free(text);
+	
+	free(filename);
 }
 
 void saveGame(void)
 {
-	char *out, *path;
+	char *out, *filename;
 	cJSON *root, *starsFound, *starsAvailable, *stats;
 	int i;
 
@@ -76,11 +112,13 @@ void saveGame(void)
 	
 	out = cJSON_Print(root);
 	
-	path = buildFormattedString("%s/%s", app.saveDir, SAVE_FILENAME);
-
-	writeFile(path, out);
+	printf("%s\n", out);
 	
-	free(path);
+	filename = buildFormattedString("%s/%s", app.saveDir, SAVE_FILENAME);
+
+	writeFile(filename, out);
+	
+	free(filename);
 
 	cJSON_Delete(root);
 	free(out);

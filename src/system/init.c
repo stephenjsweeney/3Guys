@@ -127,7 +127,8 @@ void initGameSystem(void)
 		initWidgets,
 		initEntityDefs,
 		initSprites,
-		initSounds
+		initSounds,
+		initGame
 	};
 
 	numInitFuns = sizeof(initFuncs) / sizeof(void*);

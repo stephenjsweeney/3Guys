@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern char *buildFormattedString(const char *format, ...);
 extern char *getLookupName(const char *prefix, long num);
+extern long lookup(const char *name);
+extern char *readFile(const char *filename);
 extern int writeFile(const char *filename, const char *data);
 
 extern App app;

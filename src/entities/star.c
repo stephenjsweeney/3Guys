@@ -33,6 +33,11 @@ void initStar(Entity *e)
 	e->isBlocking = blocking;
 	
 	game.starsAvailable[level.id] = 1;
+	
+	if (game.starsFound[level.id])
+	{
+		e->alive = 0;
+	}
 }
 
 static void touch(Entity *other)
