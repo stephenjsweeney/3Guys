@@ -41,6 +41,7 @@ void initFonts(void)
 	initFont("cardigan18", "fonts/cardigan titling rg.ttf", 18);
 	initFont("cardigan24", "fonts/cardigan titling rg.ttf", 24);
 	initFont("cardigan32", "fonts/cardigan titling rg.ttf", 32);
+	initFont("cardigan40", "fonts/cardigan titling rg.ttf", 40);
 	
 	useFont("cardigan18");
 }

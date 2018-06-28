@@ -435,24 +435,31 @@ static void drawTopBar(void)
 
 static void drawBottomBar(void)
 {
-	useFont("cardigan32");
-	
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	
 	drawGLRectangleBatch(&level.guy->sprite->frames[0]->rect, LEVEL_RENDER_X + 15, 1180, 0);
 	
 	if (level.message == NULL)
 	{
-		drawGLRectangleBatch(&tools->rect, LEVEL_RENDER_X + 200, 1180, 0);
+		useFont("cardigan40");
 		
-		drawGLRectangleBatch(&tnt->rect, LEVEL_RENDER_X + 400, 1180, 0);
+		drawGLRectangleBatch(&tools->rect, LEVEL_RENDER_X + 175, 1187, 0);
 		
-		drawText(LEVEL_RENDER_X + 300, 1175, TA_LEFT, "%d", level.tools);
+		drawGLRectangleBatch(&tnt->rect, LEVEL_RENDER_X + 375, 1187, 0);
 		
-		drawText(LEVEL_RENDER_X + 500, 1175, TA_LEFT, "%d", level.tnt);
+		if (level.guy->carrying)
+		{
+			drawGLRectangleBatch(&level.guy->carrying->sprite->frames[0]->rect, LEVEL_RENDER_X + 575, 1200, 0);
+		}
+		
+		drawText(LEVEL_RENDER_X + 265, 1185, TA_LEFT, "%d", level.tools);
+		
+		drawText(LEVEL_RENDER_X + 465, 1185, TA_LEFT, "%d", level.tnt);
 	}
 	else
 	{
+		useFont("cardigan32");
+		
 		setTextWidth(700);
 		drawText(LEVEL_RENDER_X + 100, 1175, TA_LEFT, level.message);
 		setTextWidth(0);
