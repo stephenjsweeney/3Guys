@@ -119,7 +119,6 @@ void initGameSystem(void)
 {
 	int i, numInitFuns;
 	void (*initFuncs[]) (void) = {
-		initLookups,
 		initStrings,
 		initAtlas,
 		initFonts,

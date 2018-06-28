@@ -165,6 +165,8 @@ static void loadEntities(cJSON *entitiesJSON)
 	Entity *e, **candidates;
 	int i, n;
 	
+	n = 0;
+	
 	for (entityJSON = entitiesJSON->child ; entityJSON != NULL ; entityJSON = entityJSON->next)
 	{
 		n++;

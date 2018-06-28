@@ -51,12 +51,11 @@ static void addLookup(const char *name, long value)
 {
 	Lookup *lookup = malloc(sizeof(Lookup));
 	memset(lookup, 0, sizeof(Lookup));
+	tail->next = lookup;
+	tail = lookup;
 
 	STRNCPY(lookup->name, name, MAX_NAME_LENGTH);
 	lookup->value = value;
-
-	tail->next = lookup;
-	tail = lookup;
 }
 
 long lookup(const char *name)
@@ -121,16 +120,4 @@ const char *getFlagValues(const char *prefix, long flags)
 	}
 
 	return flagStr;
-}
-
-void destroyLookups(void)
-{
-	Lookup *l;
-
-	while (head.next)
-	{
-		l = head.next;
-		head.next = l->next;
-		free(l);
-	}
 }
