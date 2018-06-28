@@ -20,3 +20,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 #include "../json/cJSON.h"
+
+extern void calcTextDimensions(char *text, int *w, int *h);
+extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+extern void drawText(int x, int y, int align, const char *format, ...);
+extern char **getFileList(const char *dir, int *count);
+extern long lookup(const char *name);
+extern char *readFile(const char *filename);
+extern void setGLRectangleBatchColor(float r, float g, float b, float a);
+
+extern App app;

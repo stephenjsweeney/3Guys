@@ -119,10 +119,12 @@ void initGameSystem(void)
 {
 	int i, numInitFuns;
 	void (*initFuncs[]) (void) = {
+		initLookups,
 		initStrings,
 		initAtlas,
 		initFonts,
 		initGraphics,
+		initWidgets,
 		initEntityDefs,
 		initSprites,
 		initSounds

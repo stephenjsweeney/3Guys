@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void initFont(char *name, char *filename, int size);
 static void drawWord(char *word, int *x, int *y, int startX);
 static void applyWordWrap(char *word, int *x, int *y, int startX);
-static int calcTotalWidth(char *text);
+void calcTextDimensions(char *text, int *w, int *h);
 void useFont(char *name);
 
 static SDL_Color white = {255, 255, 255, 255};
@@ -42,6 +42,7 @@ void initFonts(void)
 	initFont("cardigan24", "fonts/cardigan titling rg.ttf", 24);
 	initFont("cardigan32", "fonts/cardigan titling rg.ttf", 32);
 	initFont("cardigan40", "fonts/cardigan titling rg.ttf", 40);
+	initFont("cardigan48", "fonts/cardigan titling rg.ttf", 48);
 	
 	useFont("cardigan18");
 }
@@ -123,7 +124,7 @@ static void initFont(char *name, char *filename, int size)
 
 void drawText(int x, int y, int align, const char *format, ...)
 {
-	int i, startX, n, totalWidth;
+	int i, startX, n, w, h;
 	char word[128];
 	va_list args;
 
@@ -139,15 +140,15 @@ void drawText(int x, int y, int align, const char *format, ...)
 	
 	n = 0;
 	
-	totalWidth = calcTotalWidth(drawTextBuffer);
+	calcTextDimensions(drawTextBuffer, &w, &h);
 	
 	if (align == TA_RIGHT)
 	{
-		x -= totalWidth;
+		x -= w;
 	}
 	else if (align == TA_CENTER)
 	{
-		x -= (totalWidth / 2);
+		x -= (w / 2);
 	}
 	
 	for (i = 0 ; i < strlen(drawTextBuffer) ; i++)
@@ -223,20 +224,20 @@ void useFont(char *name)
 	}
 }
 
-static int calcTotalWidth(char *text)
+void calcTextDimensions(char *text, int *w, int *h)
 {
-	int w, i, c;
+	int i, c;
 	
-	w = 0;
+	*w = 0;
+	*h = 0;
 	
 	for (i = 0 ; i < strlen(text) ; i++)
 	{
 		c = text[i];
 		
-		w += activeFont->glyphs[c].w;
+		*w += activeFont->glyphs[c].w;
+		*h = MAX(activeFont->glyphs[c].h, *h);
 	}
-	
-	return w;
 }
 
 void setTextWidth(int width)

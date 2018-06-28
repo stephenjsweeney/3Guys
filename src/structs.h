@@ -254,6 +254,7 @@ struct Widget {
 	int visible;
 	int disabled;
 	void (*action)(void);
+	Widget *next;
 };
 
 struct Atlas {

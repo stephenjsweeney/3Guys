@@ -105,8 +105,7 @@ enum
 {
 	WT_BUTTON,
 	WT_SLIDER,
-	WT_SPINNER,
-	WT_INPUT
+	WT_SPINNER
 };
 
 enum

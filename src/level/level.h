@@ -33,6 +33,7 @@ extern void destroyEntities(void);
 extern void doEffects(void);
 extern void doEntities(void);
 extern void doPlayer(void);
+extern void doWidgets(void);
 extern int doWipe(void);
 extern void drawBackground(GLRectangle *rect, float x, float y, float r, float g, float b);
 extern void drawEffects(void);
@@ -41,9 +42,11 @@ extern void drawFilledRect(int x, int y, int w, int h, float r, float g, float b
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawRect(int x, int y, int w, int h, float r, float g, float b, float a);
 extern void drawText(int x, int y, int align, const char *format, ...);
+extern void drawWidgets(void);
 extern void drawWipe(void);
 extern float getAngle(int x1, int y1, int x2, int y2);
 extern Atlas *getImageFromAtlas(char *filename, int required);
+extern Widget *getWidget(const char *name, const char *group);
 extern void guyFallDownHoles(void);
 extern void guyTouchOthers(void);
 extern void initEffects(void);
@@ -58,6 +61,7 @@ extern void playSound(int snd, int ch);
 extern double randF(void);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void setTextWidth(int width);
+extern void showWidgetGroup(const char *name);
 extern void useFont(char *name);
 
 extern App app;

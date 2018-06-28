@@ -34,8 +34,15 @@ int getRandomFloorTile(void);
 void destroyLevel(void);
 static void doLevel(void);
 static void doTips(void);
+static void doPause(void);
 static void drawTips(void);
+static void drawPause(void);
 void failLevel(void);
+static void resume(void);
+static void tips(void);
+static void options(void);
+static void restart(void);
+static void quit(void);
 
 static Atlas *tiles[MAX_TILES];
 static Atlas *routeBlob;
@@ -106,6 +113,17 @@ void initLevel(int id)
 	
 	restarting = 0;
 	
+	getWidget("resume", "level")->action = resume;
+	getWidget("tips", "level")->action = tips;
+	getWidget("options", "level")->action = options;
+	getWidget("restart", "level")->action = restart;
+	getWidget("quit", "level")->action = quit;
+	
+	if (level.tips == NULL)
+	{
+		getWidget("tips", "level")->disabled = 1;
+	}
+	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 }
@@ -144,6 +162,10 @@ static void logic(void)
 				doTips();
 				break;
 				
+			case SHOW_PAUSE:
+				doPause();
+				break;
+				
 			default:
 				doLevel();
 				break;
@@ -166,10 +188,15 @@ static void doTips(void)
 	}
 }
 
+static void doPause(void)
+{
+	doWidgets();
+}
+
 static void doLevel(void)
 {
 	doPlayer();
-		
+	
 	doEntities();
 	
 	doEffects();
@@ -228,6 +255,13 @@ static void doLevel(void)
 					break;
 			}
 		}
+	}
+	
+	if (app.keyboard[SDL_SCANCODE_ESCAPE])
+	{
+		show = SHOW_PAUSE;
+		showWidgetGroup("level");
+		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 	}
 }
 
@@ -333,6 +367,10 @@ static void draw(void)
 	if (show == SHOW_TIPS)
 	{
 		drawTips();
+	}
+	else if (show == SHOW_PAUSE)
+	{
+		drawPause();
 	}
 	
 	drawWipe();
@@ -499,6 +537,29 @@ static void drawTips(void)
 	drawText(x + w - 10, y + h - 34, TA_RIGHT, "%d / %d", currentTip + 1, level.numTips);
 }
 
+static void drawPause(void)
+{
+	int x, y, w, h;
+	
+	w = 500;
+	h = 700;
+	
+	x = (SCREEN_WIDTH - w) / 2;
+	y = (SCREEN_HEIGHT - h) / 2;
+	
+	drawFilledRect(x, y, w, h, 0, 0, 0, 0.75f);
+	
+	drawRect(x, y, w, h, 1.0f, 1.0f, 1.0f, 1.0f);
+	
+	useFont("cardigan48");
+	
+	setGLRectangleBatchColor(1.0, 1.0, 0.0, 1.0);
+	
+	drawText(x + (w / 2), y + 35, TA_CENTER, "Pause");
+	
+	drawWidgets();
+}
+
 void addFloor(int x, int y)
 {
 	level.data[x][y] = getRandomFloorTile();
@@ -507,6 +568,29 @@ void addFloor(int x, int y)
 int getRandomFloorTile(void)
 {
 	return TILE_FLOOR + rand() % 3;
+}
+
+static void resume(void)
+{
+	show = SHOW_LEVEL;
+}
+
+static void tips(void)
+{
+	show = SHOW_TIPS;
+}
+
+static void options(void)
+{
+}
+
+static void restart(void)
+{
+	restartLevel();
+}
+
+static void quit(void)
+{
 }
  
 void destroyLevel(void)

@@ -33,7 +33,7 @@ _OBJS += player.o pressurePlate.o pushBlock.o
 _OBJS += sound.o spikeTrap.o sprites.o star.o strings.o
 _OBJS += teleporter.o test.o text.o textures.o title.o tnt.o tools.o
 _OBJS += util.o
-_OBJS += wall.o wipe.o
+_OBJS += wall.o widgets.o wipe.o
 
 OBJS = $(patsubst %,$(OUT)/%,$(_OBJS))
 

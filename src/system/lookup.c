@@ -30,7 +30,9 @@ void initLookups(void)
 	memset(&head, 0, sizeof(Lookup));
 	tail = &head;
 	
-	addLookup("", 0);
+	addLookup("WT_BUTTON", WT_BUTTON);
+	addLookup("WT_SLIDER", WT_SLIDER);
+	addLookup("WT_SPINNER", WT_SPINNER);
 }
 
 static void addLookup(const char *name, long value)
