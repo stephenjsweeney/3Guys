@@ -20,17 +20,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "guy.h"
 
-static void touch(Entity *other);
 static void die(void);
 static int blocking(void);
+static void draw(void);
+static Atlas *bow;
+static Atlas *eyelashes;
 
 static void initGuy(Entity *e)
 {
-	e->touch = touch;
 	e->die = die;
 	e->isBlocking = blocking;
+	e->draw = draw;
 	
 	e->solid = 1;
+
+	bow = getImageFromAtlas("gfx/sprites/bow.png", 1);
+	eyelashes = getImageFromAtlas("gfx/sprites/eyelashes.png", 1);
 }
 
 void initRedGuy(Entity *e)
@@ -56,9 +61,23 @@ void initYellowGuy(Entity *e)
 	initGuy(e);
 }
 
-static void touch(Entity *other)
+static void draw(void)
 {
+	int x, y;
+	
+	x = LEVEL_RENDER_X + self->x * TILE_SIZE;
+	y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
 
+	x += TILE_SIZE / 2;
+	y += TILE_SIZE / 2;
+	
+	drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
+
+	if (self->female)
+	{
+		drawGLRectangleBatch(&eyelashes->rect, x, y, 1);
+		drawGLRectangleBatch(&bow->rect, x - 25, y - 30, 1);
+	}
 }
 
 static int blocking(void)

@@ -132,6 +132,7 @@ struct Entity {
 	int weight;
 	int active;
 	int backgroundPlane;
+	int female;
 	Sprite *sprite;
 	Entity *carrying;
 	Entity *owner;

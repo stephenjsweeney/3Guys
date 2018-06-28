@@ -41,4 +41,5 @@ void initStrings(void)
 	app.strings[ST_TELEPORTER_OFF_DESC] = _("A teleporter. It's not working right now.");
 	app.strings[ST_LASER_TRAP_DESC] = _("A laser trap. The beams look like they'd hurt.");
 	app.strings[ST_LASER_TRAP_OFF_DESC] = _("A laser trap. Luckily, it's switched off.");
+	app.strings[ST_FIRE_PIT_DESC] = _("A fire pit trap. Falling in would hurt quite a lot.");
 }

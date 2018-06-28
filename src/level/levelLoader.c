@@ -245,6 +245,7 @@ void initEntityDefs(void)
 	addEntityDef("Teleporter", initTeleporter);
 	addEntityDef("HorizontalLaserTrap", initHorizontalLaserTrap);
 	addEntityDef("VerticalLaserTrap", initVerticalLaserTrap);
+	addEntityDef("FirePitTrap", initFirePitTrap);
 }
 
 static void addEntityDef(char *type, void (*initFunc)(Entity *))

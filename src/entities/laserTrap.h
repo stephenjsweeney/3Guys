@@ -21,16 +21,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern void addExplosionEffect(int mx, int my, float r, float g, float b);
-extern void clearRoute(void);
+extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
+extern GLRectangle *getCurrentFrame(Sprite *s);
 extern Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
+extern Atlas *getImageFromAtlas(char *filename, int required);
 extern Sprite *getSprite(char *name);
 extern int isGuy(Entity *e);
 extern void playSound(int snd, int ch);
-extern void stepBack(void);
-extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
-extern GLRectangle *getCurrentFrame(Sprite *s);
 
-extern Entity *self;
-extern Level level;
-extern GLRectangleBatch glRectangleBatch;
 extern App app;
+extern Entity *self;
+extern GLRectangleBatch glRectangleBatch;
+extern Level level;

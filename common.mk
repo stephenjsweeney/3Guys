@@ -23,6 +23,7 @@ _OBJS += atlas.o
 _OBJS += cJSON.o crumblingFloor.o
 _OBJS += diamond.o door.o draw.o
 _OBJS += effects.o entities.o
+_OBJS += firePitTrap.o
 _OBJS += glRectangle.o glRectangleBatch.o guy.o
 _OBJS += i18n.o io.o init.o input.o item.o
 _OBJS += key.o

@@ -76,13 +76,16 @@ static void touch(Entity *other)
 		/* block touch anything in the new square */
 		for (i = 0 ; i < n ; i++)
 		{
-			oldSelf = self;
-			
-			self = candidates[i];
-			
-			self->touch(oldSelf);
-			
-			self = oldSelf;
+			if (candidates[i]->touch)
+			{
+				oldSelf = self;
+				
+				self = candidates[i];
+				
+				self->touch(oldSelf);
+				
+				self = oldSelf;
+			}
 		}
 		
 		candidates = getEntitiesAt(other->x, other->y, &n, other);
@@ -90,13 +93,16 @@ static void touch(Entity *other)
 		/* pusher touch anything that was revealed by the block */
 		for (i = 0 ; i < n ; i++)
 		{
-			oldSelf = self;
-			
-			self = candidates[i];
-			
-			self->touch(other);
-			
-			self = oldSelf;
+			if (candidates[i]->touch)
+			{
+				oldSelf = self;
+				
+				self = candidates[i];
+				
+				self->touch(other);
+				
+				self = oldSelf;
+			}
 		}
 	}
 	else

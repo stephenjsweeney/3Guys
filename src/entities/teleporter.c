@@ -24,8 +24,9 @@ static void touch(Entity *other);
 static int blocking(void);
 static void activate(void);
 static void describe(void);
+static void draw(void);
 
-static Sprite *inactiveTeleporter;
+static Atlas *inactiveTeleporter;
 
 void initTeleporter(Entity *e)
 {
@@ -35,10 +36,11 @@ void initTeleporter(Entity *e)
 	e->isBlocking = blocking;
 	e->describe = describe;
 	e->activate = activate;
+	e->draw = draw;
 	
 	e->active = 1;
 	
-	inactiveTeleporter = getSprite("InactiveTeleporter");
+	inactiveTeleporter = getImageFromAtlas("gfx/sprites/inactiveTeleporter.png", 1);
 }
 
 static void touch(Entity *other)
@@ -82,6 +84,26 @@ static void touch(Entity *other)
 			
 			self = oldSelf;
 		}
+	}
+}
+
+static void draw(void)
+{
+	int x, y;
+	
+	x = LEVEL_RENDER_X + self->x * TILE_SIZE;
+	y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
+
+	x += TILE_SIZE / 2;
+	y += TILE_SIZE / 2;
+	
+	if (self->active)
+	{
+		drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
+	}
+	else
+	{
+		drawGLRectangleBatch(&inactiveTeleporter->rect, x, y, 1);
 	}
 }
 

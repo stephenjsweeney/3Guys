@@ -29,6 +29,7 @@ static void draw(void);
 static void initLaserTrap(Entity *e);
 
 static Sprite *laserBeam;
+static Atlas *inactive;
 
 void initHorizontalLaserTrap(Entity *e)
 {
@@ -55,6 +56,8 @@ static void initLaserTrap(Entity *e)
 	e->sprite = getSprite("LaserTrap");
 	
 	laserBeam = getSprite("LaserBeam");
+	
+	inactive = getImageFromAtlas("gfx/sprites/laserTrap.png", 1);
 	
 	e->solid = 1;
 }
@@ -147,15 +150,25 @@ static void draw(void)
 			
 			hit = (ex == self->tx && ey == self->ty);
 		}
+		
+		x = LEVEL_RENDER_X + self->x * TILE_SIZE;
+		y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
+
+		glRectangleBatch.rotate = 1;
+		glRectangleBatch.angle = self->angle;
+		drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 0);
+		glRectangleBatch.rotate = 0;
 	}
-	
-	x = LEVEL_RENDER_X + self->x * TILE_SIZE;
-	y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
-	
-	glRectangleBatch.rotate = 1;
-	glRectangleBatch.angle = self->angle;
-	drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 0);
-	glRectangleBatch.rotate = 0;
+	else
+	{
+		x = LEVEL_RENDER_X + self->x * TILE_SIZE;
+		y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
+
+		glRectangleBatch.rotate = 1;
+		glRectangleBatch.angle = self->angle;
+		drawGLRectangleBatch(&inactive->rect, x, y, 0);
+		glRectangleBatch.rotate = 0;
+	}
 }
 
 static void activate(void)
