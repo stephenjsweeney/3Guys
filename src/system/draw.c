@@ -133,24 +133,24 @@ void drawFilledRect(int x, int y, int w, int h, float r, float g, float b, float
 	drawGLRectangleBatch(&whiteSquare->rect, x, y, 0);
 }
 
-void drawBackground(GLRectangle *rect, float x, float y, float r, float g, float b)
+void drawBackground(Background *background)
 {
-	glTranslatef(LEVEL_RENDER_X, LEVEL_RENDER_Y, 0);
-
+	glTranslatef(background->x, background->y, 0);
+	
 	glMatrixMode(GL_TEXTURE);
 
 	glPushMatrix();
 	{
-		setGLRectangleBatchColor(r, g, b, 1.0);
-		glTranslatef(x, y, 0);
-		drawGLRectangleBatch(rect, 0, 0, 0);
+		setGLRectangleBatchColor(background->r, background->g, background->b, 1.0);
+		glTranslatef(background->tx, background->ty, 0);
+		drawGLRectangleBatch(&background->rect, 0, 0, 0);
 		flushGLRectangleBatch();
 	}
 	glPopMatrix();
 
 	glMatrixMode(GL_MODELVIEW);
-
-	glTranslatef(-LEVEL_RENDER_X, -LEVEL_RENDER_Y, 0);
+	
+	glTranslatef(-background->x, -background->y, 0);
 }
 
 static void initColor(SDL_Color *c, int r, int g, int b)

@@ -35,7 +35,7 @@ extern void doEntities(void);
 extern void doPlayer(void);
 extern void doWidgets(void);
 extern int doWipe(void);
-extern void drawBackground(GLRectangle *rect, float x, float y, float r, float g, float b);
+extern void drawBackground(Background *background);
 extern void drawEffects(void);
 extern void drawEntities(int backgroundPlane);
 extern void drawFilledRect(int x, int y, int w, int h, float r, float g, float b, float a);

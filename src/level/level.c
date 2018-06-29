@@ -78,6 +78,8 @@ void initLevel(int id)
 	
 	initGLRectangle(&background.rect, MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE);
 	background.rect.texture = loadTexture("gfx/backgrounds/background2.jpg")->texture;
+	background.x = LEVEL_RENDER_X;
+	background.y = LEVEL_RENDER_Y;
 	
 	routeBlob = getImageFromAtlas("gfx/sprites/routeBlob.png", 1);
 	routeLink = getImageFromAtlas("gfx/sprites/routeLink.png", 1);
@@ -151,8 +153,8 @@ static void logic(void)
 	
 	wiping = doWipe();
 	
-	background.x += background.dx;
-	background.y += background.dy;
+	background.tx += background.dx;
+	background.ty += background.dy;
 	
 	tickTimer++;
 	
@@ -358,7 +360,7 @@ static void restartLevel(void)
 
 static void draw(void)
 {
-	drawBackground(&background.rect, background.x, background.y, background.r, background.g, background.b);
+	drawBackground(&background);
 	
 	drawEntities(1);
 	

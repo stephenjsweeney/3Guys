@@ -31,6 +31,8 @@ void initTitle(void)
 	app.delegate.draw = &draw;
 	
 	red = getImageFromAtlas("gfx/sprites/red1.png", 1);
+	
+	initLevelSelect();
 }
 
 static void logic(void)

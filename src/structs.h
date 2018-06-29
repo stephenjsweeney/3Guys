@@ -280,15 +280,28 @@ struct Credit {
 };
 
 typedef struct {
+	int x;
+	int y;
 	float r;
 	float g;
 	float b;
 	float dx;
 	float dy;
-	float x;
-	float y;
+	float tx;
+	float ty;
 	GLRectangle rect;
 } Background;
+
+typedef struct
+{
+	int x;
+	int y;
+	float r, g, b;
+	int levelNum;
+	int available;
+	int hasStar;
+	int hasFoundStar;
+} LevelRect;
 
 /* ===== i18n stuff ==== */
 

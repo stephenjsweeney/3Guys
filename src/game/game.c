@@ -112,8 +112,6 @@ void saveGame(void)
 	
 	out = cJSON_Print(root);
 	
-	printf("%s\n", out);
-	
 	filename = buildFormattedString("%s/%s", app.saveDir, SAVE_FILENAME);
 
 	writeFile(filename, out);
