@@ -24,11 +24,13 @@ static void initFont(char *name, char *filename, int size);
 static void drawWord(char *word, int *x, int *y, int startX);
 static void applyWordWrap(char *word, int *x, int *y, int startX);
 void calcTextDimensions(char *text, int *w, int *h);
+void drawText(int x, int y, int align, const char *format, ...);
 void useFont(char *name);
 
 static SDL_Color white = {255, 255, 255, 255};
 static int textWidth = 0;
 static char drawTextBuffer[1024];
+static char shadowTextBuffer[1024];
 static Font fontHead;
 static Font *fontTail;
 static Font *activeFont;
@@ -120,6 +122,26 @@ static void initFont(char *name, char *filename, int size)
 	
 	fontTail->next = f;
 	fontTail = f;
+}
+
+void drawShadowText(int x, int y, int align, const char *format, ...)
+{
+	va_list args;
+	float color[4];
+	
+	memset(&shadowTextBuffer, '\0', sizeof(drawTextBuffer));
+
+	va_start(args, format);
+	vsprintf(shadowTextBuffer, format, args);
+	va_end(args);
+	
+	memcpy(color, glRectangleBatch.color, sizeof(float) * 4);
+	
+	setGLRectangleBatchColor(0, 0, 0, 1);
+	drawText(x + 4, y + 4, align, shadowTextBuffer);
+	
+	setGLRectangleBatchColor(color[0], color[1], color[2], color[3]);
+	drawText(x, y, align, shadowTextBuffer);
 }
 
 void drawText(int x, int y, int align, const char *format, ...)

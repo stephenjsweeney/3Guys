@@ -22,17 +22,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void logic(void);
 static void draw(void);
-static void initLevelRects(void);
+static void initLevelRects(int n);
+static void doLevelSelect(void);
+static void prev(void);
+static void next(void);
 
 static Atlas *levelSelectRect;
 static Atlas *padlock;
 static Atlas *levelStarMissing;
 static Atlas *levelStarFound;
 static Background background;
-static LevelRect levelRect[MAX_LEVELS];
-static const int MIN_Y = 60;
-static int MAX_Y;
-static int y;
+static LevelRect levelRect[MAX_LEVEL_PER_PAGE];
+static int page;
 
 void initLevelSelect(void)
 {
@@ -45,35 +46,40 @@ void initLevelSelect(void)
 	levelStarMissing = getImageFromAtlas("gfx/levelSelect/levelStarMissing.png", 1);
 	levelStarFound = getImageFromAtlas("gfx/levelSelect/levelStarFound.png", 1);
 	
-	y = MIN_Y;
+	page = 0;
 	
-	initLevelRects();
+	initLevelRects(page);
+	
+	showWidgetGroup("levelSelect");
+	
+	getWidget("prev", "levelSelect")->action = prev;
+	getWidget("prev", "levelSelect")->disabled = 1;
+	getWidget("next", "levelSelect")->action = next;
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 }
 
-static void initLevelRects(void)
+static void initLevelRects(int page)
 {
-	int i, x, y;
+	int i, x, y, n;
 	LevelRect *l;
 	
-	y = MIN_Y + 120;
 	x = 75;
+	y = 260;
 	
-	for (i = 0 ; i < MAX_LEVELS ; i++)
+	for (i = 0 ; i < MAX_LEVEL_PER_PAGE ; i++)
 	{
+		n = i + (MAX_LEVEL_PER_PAGE * page);
+		
 		l = &levelRect[i];
 		
 		l->x = x;
 		l->y = y;
-		l->r = 0.5f + (float) ((randF() * 50) / 100);
-		l->g = 0.5f + (float) ((randF() * 50) / 100);
-		l->b = 0.5f + (float) ((randF() * 50) / 100);
-		l->levelNum = i + 1;
-		l->available = (i <= game.levelsCompleted);
-		l->hasStar = game.starsAvailable[i];
-		l->hasFoundStar = game.starsFound[i];
+		l->levelNum = n + 1;
+		l->available = (n <= game.levelsCompleted);
+		l->hasStar = game.starsAvailable[n];
+		l->hasFoundStar = game.starsFound[n];
 		
 		x += 225;
 
@@ -82,15 +88,42 @@ static void initLevelRects(void)
 			x = 75;
 			y += 225;
 		}
-
-		MAX_Y = -y;
 	}
-	
-	MAX_Y += SCREEN_HEIGHT / 2;
 }
 
 static void logic(void)
 {
+	doLevelSelect();
+	
+	doWidgets();
+}
+
+static void doLevelSelect(void)
+{
+	int i;
+	LevelRect *l;
+	
+	if (app.mouse.button[SDL_BUTTON_LEFT])
+	{
+		for (i = 0 ; i < MAX_LEVEL_PER_PAGE ; i++)
+		{
+			l = &levelRect[i];
+			
+			if (collision(app.mouse.x / app.scaleX, app.mouse.y / app.scaleY, 1, 1, l->x, l->y, levelSelectRect->rect.w, levelSelectRect->rect.h))
+			{
+				if (l->available)
+				{
+					initLevel(l->levelNum);
+				}
+				else
+				{
+					playSound(SND_DENIED, 0);
+				}
+				
+				app.mouse.button[SDL_BUTTON_LEFT] = 0;
+			}
+		}
+	}
 }
 
 static void draw(void)
@@ -100,49 +133,88 @@ static void draw(void)
 	
 	drawBackground(&background);
 	
-	for (i = 0 ; i < MAX_LEVELS ; i++)
+	for (i = 0 ; i < MAX_LEVEL_PER_PAGE ; i++)
 	{
 		l = &levelRect[i];
 		
-		if (l->available)
+		if (l->levelNum <= MAX_LEVELS)
 		{
-			setGLRectangleBatchColor(l->r, l->g, l->b, 1);
-		}
-		else
-		{
+			if (l->available)
+			{
+				if (l->levelNum <= game.levelsCompleted)
+				{
+					setGLRectangleBatchColor(0.5, 1.0, 0.5, 1);
+				}
+				else
+				{
+					setGLRectangleBatchColor(1.0, 1.0, 0.5, 1);
+				}
+			}
+			else
+			{
+				setGLRectangleBatchColor(1, 1, 1, 1);
+			}
+
+			drawGLRectangleBatch(&levelSelectRect->rect, l->x, l->y, 0);
+			
 			setGLRectangleBatchColor(1, 1, 1, 1);
-		}
+			
+			if (!l->available)
+			{
+				drawGLRectangleBatch(&padlock->rect, l->x + 80, l->y + 80, 0);
+			}
 
-		drawGLRectangleBatch(&levelSelectRect->rect, l->x, l->y + y, 0);
-		
-		setGLRectangleBatchColor(1, 1, 1, 1);
-		
-		if (!l->available)
-		{
-			drawGLRectangleBatch(&padlock->rect, l->x + 80, l->y + y + 80, 0);
-		}
-
-		if (l->hasFoundStar)
-		{
-			drawGLRectangleBatch(&levelStarFound->rect, l->x + levelSelectRect->rect.w / 2, (int) (y + l->y + levelSelectRect->rect.h + 32), 1);
-		}
-		else if (l->hasStar)
-		{
-			drawGLRectangleBatch(&levelStarMissing->rect, l->x + levelSelectRect->rect.w / 2, (int) (y + l->y + levelSelectRect->rect.h + 32), 1);
+			if (l->hasFoundStar)
+			{
+				drawGLRectangleBatch(&levelStarFound->rect, l->x + levelSelectRect->rect.w / 2, (int) (l->y + levelSelectRect->rect.h + 32), 1);
+			}
+			else if (l->hasStar)
+			{
+				drawGLRectangleBatch(&levelStarMissing->rect, l->x + levelSelectRect->rect.w / 2, (int) (l->y + levelSelectRect->rect.h + 32), 1);
+			}
 		}
 	}
 	
 	useFont("cardigan48");
 	
-	for (i = 0 ; i < MAX_LEVELS ; i++)
+	for (i = 0 ; i < MAX_LEVEL_PER_PAGE ; i++)
 	{
 		l = &levelRect[i];
 		
-		drawText(l->x + 58, l->y + y + 28, TA_CENTER, "%d", i + 1);
+		if (l->levelNum <= MAX_LEVELS)
+		{
+			drawShadowText(l->x + 58, l->y + 28, TA_CENTER, "%d", l->levelNum);
+		}
 	}
 	
-	drawText(SCREEN_WIDTH / 2, (int) y, TA_CENTER, "Level Select");
+	drawShadowText(SCREEN_WIDTH / 2, (int) 80, TA_CENTER, "Level Select");
 	
 	useFont("cardigan40");
-	drawText(SCREEN_WIDTH / 2, (int) y + 70, TA_CENTER, "%d / %d", game.levelsCompleted, MAX_LEVELS);
+	drawShadowText(SCREEN_WIDTH / 2, (int) 150, TA_CENTER, "%d / %d", game.levelsCompleted, MAX_LEVELS);
+	
+	drawWidgets();
+}
+
+static void prev(void)
+{
+	page--;
+	
+	initLevelRects(page);
+	
+	getWidget("prev", "levelSelect")->disabled = page == 0;
+	getWidget("next", "levelSelect")->disabled = 0;
+	
+	playSound(SND_BUTTON, 0);
+}
+
+static void next(void)
+{
+	page++;
+	
+	initLevelRects(page);
+	
+	getWidget("prev", "levelSelect")->disabled = 0;
+	getWidget("next", "levelSelect")->disabled = page >= (MAX_LEVELS / MAX_LEVEL_PER_PAGE);
+	
+	playSound(SND_BUTTON, 0);
 }

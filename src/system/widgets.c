@@ -89,7 +89,10 @@ void drawWidgets(void)
 			{
 				case WT_BUTTON:
 					calcTextDimensions(w->label, &w->w, &w->h);
-					w->x = (SCREEN_WIDTH - w->w) / 2;
+					if (w->centered)
+					{
+						w->x = (SCREEN_WIDTH - w->w) / 2;
+					}
 					drawText(w->x, w->y, TA_LEFT, w->label);
 					break;
 					
@@ -189,4 +192,9 @@ static void loadWidget(cJSON *root)
 	
 	w->x = cJSON_GetObjectItem(root, "x")->valueint;
 	w->y = cJSON_GetObjectItem(root, "y")->valueint;
+	
+	if (w->x == -1)
+	{
+		w->centered = 1;
+	}
 }

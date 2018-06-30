@@ -33,3 +33,6 @@ extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void setGLRectangleSize(GLRectangle *rect, int w, int h);
 extern void setGLRectangleTextureCoords(GLRectangle *rect, float x1, float y1, float x2, float y2);
 extern uint32_t toTexture(SDL_Surface *surface, int destroySurface);
+extern void setGLRectangleBatchColor(float r, float g, float b, float a);
+
+extern GLRectangleBatch glRectangleBatch;

@@ -261,6 +261,7 @@ struct Widget {
 	int maxValue;
 	int visible;
 	int disabled;
+	int centered;
 	void (*action)(void);
 	Widget *next;
 };
@@ -296,7 +297,6 @@ typedef struct
 {
 	int x;
 	int y;
-	float r, g, b;
 	int levelNum;
 	int available;
 	int hasStar;
