@@ -1,4 +1,4 @@
-VERSION = 0.3
+VERSION = 0.4
 REVISION = 0
 LOCALE_MO = $(patsubst %.po,%.mo,$(wildcard locale/*.po))
 
@@ -29,6 +29,7 @@ _OBJS += i18n.o io.o init.o input.o item.o
 _OBJS += key.o
 _OBJS += laserTrap.o level.o levelLoader.o levelSelect.o lookup.o
 _OBJS += main.o maths.o movingPlatform.o
+_OBJS += options.o
 _OBJS += player.o pressurePlate.o pushBlock.o
 _OBJS += sound.o spikeTrap.o sprites.o star.o strings.o
 _OBJS += teleporter.o test.o text.o textures.o title.o tnt.o tools.o

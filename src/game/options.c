@@ -18,32 +18,55 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "title.h"
+#include "options.h"
 
 static void logic(void);
 static void draw(void);
+static void sex(void);
+static void speed(void);
+static void back(void);
 
-static Atlas *red;
+static Background background;
 
-void initTitle(void)
+void initOptions(void)
 {
-	app.delegate.logic = &logic;
-	app.delegate.draw = &draw;
+	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
+	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
+	background.r = background.g = background.b = 1.0;
 	
-	red = getImageFromAtlas("gfx/sprites/red1.png", 1);
+	showWidgetGroup("options");
 	
-	initLevelSelect();
+	getWidget("sex", "options")->action = sex;
+	getWidget("speed", "options")->action = speed;
+	getWidget("back", "options")->action = back;
 	
-	initOptions();
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
 }
 
 static void logic(void)
 {
+	doWidgets();
 }
 
 static void draw(void)
 {
-	drawText(5, 5, TA_LEFT, "Hello, World");
+	drawBackground(&background);
 	
-	drawGLRectangleBatch(&red->rect, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1);
+	useFont("cardigan48");
+	
+	drawWidgets();
+}
+
+static void sex(void)
+{
+}
+
+static void speed(void)
+{
+}
+
+static void back(void)
+{
+	app.delegate.postOptions();
 }

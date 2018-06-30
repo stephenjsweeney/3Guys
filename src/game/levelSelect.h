@@ -29,7 +29,6 @@ extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawShadowText(int x, int y, int align, const char *format, ...);
 extern void drawWidgets(void);
 extern Atlas *getImageFromAtlas(char *filename, int required);
-extern Atlas *getImageFromAtlas(char *filename, int required);
 extern Widget *getWidget(const char *name, const char *group);
 extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initLevel(int id);

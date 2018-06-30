@@ -263,7 +263,10 @@ struct Widget {
 	int disabled;
 	int centered;
 	void (*action)(void);
+	char **options;
+	int numOptions;
 	Atlas *atlas;
+	Widget *parent;
 	Widget *next;
 };
 

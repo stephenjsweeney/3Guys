@@ -185,6 +185,10 @@ function cleanHeader($headerFile)
 		}
 		while ($wasBlank);
 		
+		$defines = array_unique($defines);
+		$functions = array_unique($functions);
+		$structs = array_unique($structs);
+		
 		$header = updateExterns($header, $defines, $functions, $structs);
 		
 		if ($UPDATE_FILES)

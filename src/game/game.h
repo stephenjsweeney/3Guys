@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../json/cJSON.h"
 
 extern char *buildFormattedString(const char *format, ...);
+extern int fileExists(const char *filename);
 extern char *getLookupName(const char *prefix, long num);
 extern long lookup(const char *name);
 extern char *readFile(const char *filename);

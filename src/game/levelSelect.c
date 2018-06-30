@@ -26,6 +26,7 @@ static void initLevelRects(int n);
 static void doLevelSelect(void);
 static void prev(void);
 static void next(void);
+static void countStars(void);
 
 static Atlas *levelSelectRect;
 static Atlas *padlock;
@@ -34,6 +35,8 @@ static Atlas *levelStarFound;
 static Background background;
 static LevelRect levelRect[MAX_LEVEL_PER_PAGE];
 static int page;
+static int starsFound;
+static int starsAvailable;
 
 void initLevelSelect(void)
 {
@@ -55,6 +58,8 @@ void initLevelSelect(void)
 	getWidget("prev", "levelSelect")->action = prev;
 	getWidget("prev", "levelSelect")->disabled = 1;
 	getWidget("next", "levelSelect")->action = next;
+	
+	countStars();
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
@@ -87,6 +92,26 @@ static void initLevelRects(int page)
 		{
 			x = 75;
 			y += 225;
+		}
+	}
+}
+
+static void countStars(void)
+{
+	int i;
+	
+	starsFound = starsAvailable = 0;
+	
+	for (i = 0 ; i < MAX_LEVELS ; i++)
+	{
+		if (game.starsAvailable[i] != 0)
+		{
+			starsAvailable++;
+		}
+		
+		if (game.starsFound[i] != 0)
+		{
+			starsFound++;
 		}
 	}
 }
@@ -187,10 +212,11 @@ static void draw(void)
 		}
 	}
 	
-	drawShadowText(SCREEN_WIDTH / 2, (int) 80, TA_CENTER, "Level Select");
+	drawShadowText(SCREEN_WIDTH / 2, 40, TA_CENTER, "Level Select");
 	
-	useFont("cardigan40");
-	drawShadowText(SCREEN_WIDTH / 2, (int) 150, TA_CENTER, "%d / %d", game.levelsCompleted, MAX_LEVELS);
+	useFont("cardigan32");
+	drawShadowText(50, 150, TA_LEFT, "Levels: %d / %d", game.levelsCompleted, MAX_LEVELS);
+	drawShadowText(SCREEN_WIDTH - 50, 150, TA_RIGHT, "Stars: %d / %d", starsFound, starsAvailable);
 	
 	drawWidgets();
 }

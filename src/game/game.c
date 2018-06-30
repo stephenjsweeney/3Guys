@@ -36,31 +36,34 @@ void loadGame(void)
 	
 	filename = buildFormattedString("%s/%s", app.saveDir, SAVE_FILENAME);
 
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+	if (fileExists(filename))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
 
-	text = readFile(filename);
-	root = cJSON_Parse(text);
-	
-	game.levelsCompleted = cJSON_GetObjectItem(root, "levelsCompleted")->valueint;
-	
-	for (node = cJSON_GetObjectItem(root, "starsFound")->child ; node != NULL ; node = node->next)
-	{
-		game.starsFound[node->valueint] = 1;
+		text = readFile(filename);
+		root = cJSON_Parse(text);
+		
+		game.levelsCompleted = cJSON_GetObjectItem(root, "levelsCompleted")->valueint;
+		
+		for (node = cJSON_GetObjectItem(root, "starsFound")->child ; node != NULL ; node = node->next)
+		{
+			game.starsFound[node->valueint] = 1;
+		}
+		
+		for (node = cJSON_GetObjectItem(root, "starsAvailable")->child ; node != NULL ; node = node->next)
+		{
+			game.starsAvailable[node->valueint] = 1;
+		}
+		
+		for (node = cJSON_GetObjectItem(root, "stats")->child ; node != NULL ; node = node->next)
+		{
+			game.stats[lookup(node->string)] = node->valueint;
+		}
+		
+		cJSON_Delete(root);
+		
+		free(text);
 	}
-	
-	for (node = cJSON_GetObjectItem(root, "starsAvailable")->child ; node != NULL ; node = node->next)
-	{
-		game.starsAvailable[node->valueint] = 1;
-	}
-	
-	for (node = cJSON_GetObjectItem(root, "stats")->child ; node != NULL ; node = node->next)
-	{
-		game.stats[lookup(node->string)] = node->valueint;
-	}
-	
-	cJSON_Delete(root);
-	
-	free(text);
 	
 	free(filename);
 }
@@ -119,5 +122,6 @@ void saveGame(void)
 	free(filename);
 
 	cJSON_Delete(root);
+	
 	free(out);
 }

@@ -24,5 +24,6 @@ extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawText(int x, int y, int align, const char *format, ...);
 extern Atlas *getImageFromAtlas(char *filename, int required);
 extern void initLevelSelect(void);
+extern void initOptions(void);
 
 extern App app;
