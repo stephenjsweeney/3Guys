@@ -22,24 +22,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_LEVEL_PER_PAGE		12
 
+extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+extern void doWidgets(void);
+extern void drawBackground(Background *background);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawShadowText(int x, int y, int align, const char *format, ...);
-extern Atlas *getImageFromAtlas(char *filename, int required);
-extern void drawBackground(Background *background);
-extern Atlas *getImageFromAtlas(char *filename, int required);
-extern Texture *loadTexture(const char *filename);
-extern void initGLRectangle(GLRectangle *rect, int width, int height);
-extern void setGLRectangleBatchColor(float r, float g, float b, float a);
-extern double randF(void);
-extern void useFont(char *name);
 extern void drawWidgets(void);
-extern void showWidgetGroup(const char *name);
-extern void doWidgets(void);
+extern Atlas *getImageFromAtlas(char *filename, int required);
+extern Atlas *getImageFromAtlas(char *filename, int required);
 extern Widget *getWidget(const char *name, const char *group);
-extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initLevel(int id);
+extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
+extern void setGLRectangleBatchColor(float r, float g, float b, float a);
+extern void showWidgetGroup(const char *name);
+extern void useFont(char *name);
 
 extern App app;
 extern Game game;
-extern GLRectangleBatch glRectangleBatch;

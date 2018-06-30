@@ -96,6 +96,10 @@ void drawWidgets(void)
 					drawText(w->x, w->y, TA_LEFT, w->label);
 					break;
 					
+				case WT_IMAGE:
+					drawGLRectangleBatch(&w->atlas->rect, w->x, w->y, 0);
+					break;
+					
 				case WT_SLIDER:
 					break;
 					
@@ -188,7 +192,6 @@ static void loadWidget(cJSON *root)
 	w->type = lookup(cJSON_GetObjectItem(root, "type")->valuestring);
 	STRNCPY(w->name, cJSON_GetObjectItem(root, "name")->valuestring, MAX_NAME_LENGTH);
 	STRNCPY(w->group, cJSON_GetObjectItem(root, "group")->valuestring, MAX_NAME_LENGTH);
-	STRNCPY(w->label, cJSON_GetObjectItem(root, "label")->valuestring, MAX_NAME_LENGTH);
 	
 	w->x = cJSON_GetObjectItem(root, "x")->valueint;
 	w->y = cJSON_GetObjectItem(root, "y")->valueint;
@@ -196,5 +199,18 @@ static void loadWidget(cJSON *root)
 	if (w->x == -1)
 	{
 		w->centered = 1;
+	}
+	
+	switch (w->type)
+	{
+		case WT_BUTTON:
+			STRNCPY(w->label, cJSON_GetObjectItem(root, "label")->valuestring, MAX_NAME_LENGTH);
+			break;
+			
+		case WT_IMAGE:
+			w->atlas = getImageFromAtlas(cJSON_GetObjectItem(root, "image")->valuestring, 1);
+			w->w = w->atlas->rect.w;
+			w->h = w->atlas->rect.h;
+			break;
 	}
 }

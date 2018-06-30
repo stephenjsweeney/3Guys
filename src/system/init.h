@@ -35,7 +35,6 @@ extern void initFonts(void);
 extern void initGLRectangleBatch(void);
 extern void initGame(void);
 extern void initGraphics(void);
-extern void initLookups(void);
 extern void initSounds(void);
 extern void initSprites(void);
 extern void initStrings(void);

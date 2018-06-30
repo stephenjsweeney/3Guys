@@ -263,6 +263,7 @@ struct Widget {
 	int disabled;
 	int centered;
 	void (*action)(void);
+	Atlas *atlas;
 	Widget *next;
 };
 

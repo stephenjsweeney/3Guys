@@ -106,6 +106,7 @@ enum
 enum
 {
 	WT_BUTTON,
+	WT_IMAGE,
 	WT_SLIDER,
 	WT_SPINNER
 };

@@ -31,6 +31,7 @@ void initLookups(void)
 	tail = &head;
 	
 	addLookup("WT_BUTTON", WT_BUTTON);
+	addLookup("WT_IMAGE", WT_IMAGE);
 	addLookup("WT_SLIDER", WT_SLIDER);
 	addLookup("WT_SPINNER", WT_SPINNER);
 	
