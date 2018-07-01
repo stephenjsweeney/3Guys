@@ -22,32 +22,94 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void logic(void);
 static void draw(void);
+static void initBouncers(void);
 
-static Atlas *red;
+static Background background;
+static Atlas *logo;
+static Atlas *bouncerTypes[MAX_BOUNCER_TYPES];
+static Bouncer bouncers[MAX_BOUNCERS];
 
 void initTitle(void)
 {
+	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
+	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
+	background.r = background.g = background.b = 1.0;
+	
+	logo = getImageFromAtlas("gfx/main/logo.png", 1);
+	
+	initBouncers();
+	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
-	
-	red = getImageFromAtlas("gfx/sprites/red1.png", 1);
 	
 	loadMusic("music/MSTR_-_MSTR_-_Choro_bavario_Loop.ogg");
 	
 	playMusic(1);
+}
+
+static void initBouncers(void)
+{
+	int i;
 	
-	initLevelSelect();
+	bouncerTypes[0] = getImageFromAtlas("gfx/sprites/yellow1.png", 1);
+	bouncerTypes[1] = getImageFromAtlas("gfx/sprites/green1.png", 1);
+	bouncerTypes[2] = getImageFromAtlas("gfx/sprites/diamond1.png", 1);
+	bouncerTypes[3] = getImageFromAtlas("gfx/sprites/star1.png", 1);
+	bouncerTypes[4] = getImageFromAtlas("gfx/sprites/tools.png", 1);
+	bouncerTypes[5] = getImageFromAtlas("gfx/sprites/tnt.png", 1);
+	bouncerTypes[6] = getImageFromAtlas("gfx/sprites/normalKey.png", 1);
+	bouncerTypes[7] = getImageFromAtlas("gfx/sprites/red1.png", 1);
 	
-	initOptions();
+	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+	{
+		bouncers[i].x = rand() % SCREEN_WIDTH - 96;
+		bouncers[i].y = SCREEN_HEIGHT;
+		bouncers[i].y += rand() % 100;
+		bouncers[i].dy = (float) -(4 + rand() % 8);
+		bouncers[i].image = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
+	}
 }
 
 static void logic(void)
 {
+	int i;
+	
+	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+	{
+		bouncers[i].y += bouncers[i].dy;
+		bouncers[i].dy += 0.2;
+
+		if (bouncers[i].y >= SCREEN_HEIGHT + 100)
+		{
+			bouncers[i].x = rand() % SCREEN_WIDTH - 96;
+			bouncers[i].dy = -(4 + rand() % 16);
+			bouncers[i].image = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
+		}
+	}
+	
+	doWidgets();
 }
 
 static void draw(void)
 {
-	drawText(5, 5, TA_LEFT, "Hello, World");
+	int i;
 	
-	drawGLRectangleBatch(&red->rect, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1);
+	drawBackground(&background);
+	
+	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+	{
+		drawGLRectangleBatch(&bouncers[i].image->rect, bouncers[i].x, bouncers[i].y, 0);
+	}
+	
+	drawGLRectangleBatch(&logo->rect, SCREEN_WIDTH / 2, 200, 1);
+	
+	useFont("cardigan48");
+	
+	drawWidgets();
+	
+	useFont("cardigan18");
+	
+	drawShadowText(10, SCREEN_HEIGHT - 25, TA_LEFT, "Copyright Parallel Realities, 2016-2018");
+	
+	drawShadowText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 25, TA_RIGHT, "Version %.1f.%d", VERSION, REVISION);
 }

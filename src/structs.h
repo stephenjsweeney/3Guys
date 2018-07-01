@@ -296,8 +296,7 @@ typedef struct {
 	GLRectangle rect;
 } Background;
 
-typedef struct
-{
+typedef struct {
 	int x;
 	int y;
 	int levelNum;
@@ -305,6 +304,13 @@ typedef struct
 	int hasStar;
 	int hasFoundStar;
 } LevelRect;
+
+typedef struct {
+	float x;
+	float y;
+	float dy;
+	Atlas *image;
+} Bouncer;
 
 /* ===== i18n stuff ==== */
 

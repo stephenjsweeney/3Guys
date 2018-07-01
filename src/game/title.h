@@ -20,12 +20,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
-extern void drawText(int x, int y, int align, const char *format, ...);
-extern Atlas *getImageFromAtlas(char *filename, int required);
-extern void initLevelSelect(void);
-extern void initOptions(void);
+#define MAX_BOUNCER_TYPES	8
+#define MAX_BOUNCERS		5
+
+extern void doWidgets(void);
+extern void drawBackground(Background *background);
+extern void drawWidgets(void);
+extern void initGLRectangle(GLRectangle *rect, int width, int height);
+extern Texture *loadTexture(const char *filename);
+extern void showWidgetGroup(const char *name);
+extern void useFont(char *name);
+extern Widget *getWidget(const char *name, const char *group);
+extern float limit(float i, float a, float b);
+extern void playSound(int snd, int ch);
 extern void loadMusic(const char *filename);
 extern void playMusic(int loop);
+extern Atlas *getImageFromAtlas(char *filename, int required);
+extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
+extern void drawShadowText(int x, int y, int align, const char *format, ...);
 
 extern App app;
