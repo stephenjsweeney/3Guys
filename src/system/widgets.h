@@ -31,6 +31,9 @@ extern long lookup(const char *name);
 extern char *readFile(const char *filename);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern float wrap(float value, float low, float high);
+extern float limit(float i, float a, float b);
+extern void drawRect(int x, int y, int w, int h, float r, float g, float b, float a);
+extern void drawFilledRect(int x, int y, int w, int h, float r, float g, float b, float a);
 
 extern App app;
 extern GLRectangleBatch glRectangleBatch;

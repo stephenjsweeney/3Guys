@@ -32,6 +32,10 @@ void initTitle(void)
 	
 	red = getImageFromAtlas("gfx/sprites/red1.png", 1);
 	
+	loadMusic("music/MSTR_-_MSTR_-_Choro_bavario_Loop.ogg");
+	
+	playMusic(1);
+	
 	initLevelSelect();
 	
 	initOptions();

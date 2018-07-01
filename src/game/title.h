@@ -25,5 +25,7 @@ extern void drawText(int x, int y, int align, const char *format, ...);
 extern Atlas *getImageFromAtlas(char *filename, int required);
 extern void initLevelSelect(void);
 extern void initOptions(void);
+extern void loadMusic(const char *filename);
+extern void playMusic(int loop);
 
 extern App app;

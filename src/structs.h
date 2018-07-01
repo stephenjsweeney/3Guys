@@ -256,9 +256,8 @@ struct Widget {
 	int y;
 	int w;
 	int h;
-	int value;
-	int minValue;
-	int maxValue;
+	float value;
+	float maxValue;
 	int visible;
 	int disabled;
 	int centered;

@@ -23,20 +23,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static Widget widgetHead;
 static Widget *widgetTail;
 static Widget *selectedWidget;
+static Atlas *plus;
+static Atlas *minus;
 static Atlas *arrow;
+static Atlas *whiteSquare;
 
 static void loadWidgets(void);
 static void loadWidgetSet(char *filename);
 static void loadWidget(cJSON *root);
 static void createOptions(Widget *w, cJSON *options);
 static void createSpinnerControls(Widget *parent);
+static void createSliderControls(Widget *parent);
 
 void initWidgets(void)
 {
 	memset(&widgetHead, 0, sizeof(Widget));
 	widgetTail = &widgetHead;
 	
+	plus = getImageFromAtlas("gfx/main/plus.png", 1);
+	minus = getImageFromAtlas("gfx/main/minus.png", 1);
 	arrow = getImageFromAtlas("gfx/main/arrow.png", 1);
+	whiteSquare = getImageFromAtlas("gfx/main/whiteSquare.png", 1);
 	
 	loadWidgets();
 }
@@ -69,12 +76,24 @@ void doWidgets(void)
 						w->action();
 						break;
 						
+					case WT_SLIDER_MINUS:
+						w->parent->value--;
+						w->parent->action();
+						break;
+						
+					case WT_SLIDER_PLUS:
+						w->parent->value++;
+						w->parent->action();
+						break;
+						
 					case WT_SPINNER_LEFT:
 						w->parent->value = wrap(w->parent->value + 1, 0, w->parent->numOptions - 1);
+						w->parent->action();
 						break;
 						
 					case WT_SPINNER_RIGHT:
 						w->parent->value = wrap(w->parent->value - 1, 0, w->parent->numOptions - 1);
+						w->parent->action();
 						break;
 				}
 				
@@ -120,14 +139,26 @@ void drawWidgets(void)
 					break;
 					
 				case WT_SLIDER:
+					drawFilledRect(w->x + 260, w->y + 10, 300, 40, 0, 0, 0, 0.75f);
+					drawRect(w->x + 260, w->y + 10, 300, 40, 1.0f, 1.0f, 1.0f, 1.0f);
+					drawFilledRect(w->x + 262, w->y + 12, 296 * (w->value / w->maxValue), 36, 1, 1, 1, 1.0f);
+					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 					drawText(w->x, w->y, TA_LEFT, w->label);
+					break;
+					
+				case WT_SLIDER_MINUS:
+					drawGLRectangleBatch(&minus->rect, w->x, w->y, 0);
+					break;
+					
+				case WT_SLIDER_PLUS:
+					drawGLRectangleBatch(&plus->rect, w->x, w->y, 0);
 					break;
 					
 				case WT_SPINNER:
 					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 					calcTextDimensions(w->label, &w->w, &w->h);
 					drawText(w->x, w->y, TA_LEFT, w->label);
-					drawText(w->x + 400, w->y, TA_CENTER, w->options[w->value]);
+					drawText(w->x + 400, w->y, TA_CENTER, w->options[(int)w->value]);
 					break;
 					
 				case WT_SPINNER_LEFT:
@@ -227,7 +258,6 @@ static void loadWidget(cJSON *root)
 	w->type = lookup(cJSON_GetObjectItem(root, "type")->valuestring);
 	STRNCPY(w->name, cJSON_GetObjectItem(root, "name")->valuestring, MAX_NAME_LENGTH);
 	STRNCPY(w->group, cJSON_GetObjectItem(root, "group")->valuestring, MAX_NAME_LENGTH);
-	
 	w->x = cJSON_GetObjectItem(root, "x")->valueint;
 	w->y = cJSON_GetObjectItem(root, "y")->valueint;
 	
@@ -250,8 +280,8 @@ static void loadWidget(cJSON *root)
 			
 		case WT_SLIDER:
 			STRNCPY(w->label, cJSON_GetObjectItem(root, "label")->valuestring, MAX_NAME_LENGTH);
-			w->minValue = cJSON_GetObjectItem(root, "min")->valueint;
-			w->maxValue = cJSON_GetObjectItem(root, "max")->valueint;
+			w->maxValue = cJSON_GetObjectItem(root, "maxValue")->valueint;
+			createSliderControls(w);
 			break;
 			
 		case WT_SPINNER:
@@ -299,7 +329,7 @@ static void createSpinnerControls(Widget *parent)
 	widgetTail->next = w;
 	widgetTail = w;
 	w->type = WT_SPINNER_LEFT;
-	snprintf(w->name, MAX_NAME_LENGTH, "_%s", parent->name);
+	snprintf(w->name, MAX_NAME_LENGTH, "%sL", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = parent->x + 200;
@@ -312,7 +342,38 @@ static void createSpinnerControls(Widget *parent)
 	widgetTail->next = w;
 	widgetTail = w;
 	w->type = WT_SPINNER_RIGHT;
-	snprintf(w->name, MAX_NAME_LENGTH, "_%s", parent->name);
+	snprintf(w->name, MAX_NAME_LENGTH, "%sR", parent->name);
+	strcpy(w->group, parent->group);
+	w->parent = parent;
+	w->x = SCREEN_WIDTH - 75;
+	w->y = parent->y + 14;
+	w->w = arrow->rect.w;
+	w->h = arrow->rect.h;
+}
+
+static void createSliderControls(Widget *parent)
+{
+	Widget *w;
+	
+	w = malloc(sizeof(Widget));
+	memset(w, 0, sizeof(Widget));
+	widgetTail->next = w;
+	widgetTail = w;
+	w->type = WT_SLIDER_MINUS;
+	snprintf(w->name, MAX_NAME_LENGTH, "%s-", parent->name);
+	strcpy(w->group, parent->group);
+	w->parent = parent;
+	w->x = parent->x + 200;
+	w->y = parent->y + 14;
+	w->w = arrow->rect.w;
+	w->h = arrow->rect.h;
+	
+	w = malloc(sizeof(Widget));
+	memset(w, 0, sizeof(Widget));
+	widgetTail->next = w;
+	widgetTail = w;
+	w->type = WT_SLIDER_PLUS;
+	snprintf(w->name, MAX_NAME_LENGTH, "%s+", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = SCREEN_WIDTH - 75;

@@ -22,11 +22,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void logic(void);
 static void draw(void);
+static void sound(void);
+static void music(void);
 static void sex(void);
 static void speed(void);
 static void back(void);
 
 static Background background;
+static Widget *soundWidget;
+static Widget *musicWidget;
+static Widget *sexWidget;
+static Widget *speedWidget;
+static Widget *backWidget;
 
 void initOptions(void)
 {
@@ -36,9 +43,22 @@ void initOptions(void)
 	
 	showWidgetGroup("options");
 	
-	getWidget("sex", "options")->action = sex;
-	getWidget("speed", "options")->action = speed;
-	getWidget("back", "options")->action = back;
+	soundWidget = getWidget("sound", "options");
+	soundWidget->action = sound;
+	soundWidget->value = app.config.soundVolume / 12.8;
+	
+	musicWidget = getWidget("music", "options");
+	musicWidget->action = music;
+	musicWidget->value = app.config.musicVolume / 12.8;
+	
+	sexWidget = getWidget("sex", "options");
+	sexWidget->action = sex;
+	
+	speedWidget = getWidget("speed", "options");
+	speedWidget->action = speed;
+	
+	backWidget = getWidget("back", "options");
+	backWidget->action = back;
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
@@ -58,12 +78,36 @@ static void draw(void)
 	drawWidgets();
 }
 
+static void sound(void)
+{
+	soundWidget->value = limit(soundWidget->value, 0, 10);
+	
+	app.config.soundVolume = soundWidget->value;
+	
+	Mix_Volume(-1, app.config.soundVolume * 12.8);
+	
+	playSound(SND_BUTTON, 0);
+}
+
+static void music(void)
+{
+	musicWidget->value = limit(musicWidget->value, 0, 10);
+	
+	app.config.musicVolume = musicWidget->value;
+	
+	Mix_VolumeMusic(app.config.musicVolume * 12.8);
+	
+	playSound(SND_BUTTON, 0);
+}
+
 static void sex(void)
 {
+	playSound(SND_BUTTON, 0);
 }
 
 static void speed(void)
 {
+	playSound(SND_BUTTON, 0);
 }
 
 static void back(void)
