@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void logic(void);
 static void draw(void);
+static void setScreenResOption(Widget *w);
+static void res(void);
 static void sound(void);
 static void music(void);
 static void sex(void);
@@ -29,6 +31,7 @@ static void speed(void);
 static void back(void);
 
 static Background background;
+static Widget *resWidget;
 static Widget *soundWidget;
 static Widget *musicWidget;
 static Widget *sexWidget;
@@ -42,6 +45,10 @@ void initOptions(void)
 	background.r = background.g = background.b = 1.0;
 	
 	showWidgetGroup("options");
+	
+	resWidget = getWidget("resolution", "options");
+	resWidget->action = res;
+	setScreenResOption(resWidget);
 	
 	soundWidget = getWidget("sound", "options");
 	soundWidget->action = sound;
@@ -84,6 +91,11 @@ static void draw(void)
 	drawWipe();
 }
 
+static void res(void)
+{
+	sscanf(resWidget->options[(int)resWidget->value], "%dx%d", &app.config.winWidth, &app.config.winHeight);
+}
+
 static void sound(void)
 {
 	soundWidget->value = limit(soundWidget->value, 0, 10);
@@ -121,4 +133,21 @@ static void back(void)
 	saveConfig();
 	
 	app.delegate.postOptions();
+}
+
+static void setScreenResOption(Widget *w)
+{
+	char res[12];
+	int i;
+	
+	sprintf(res, "%dx%d", app.config.winWidth, app.config.winHeight);
+	
+	for (i = 0 ; i < w->numOptions ; i++)
+	{
+		if (strcmp(w->options[i], res) == 0)
+		{
+			w->value = i;
+			return;
+		}
+	}
 }

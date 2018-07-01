@@ -87,12 +87,12 @@ void doWidgets(void)
 						break;
 						
 					case WT_SPINNER_LEFT:
-						w->parent->value = wrap(w->parent->value + 1, 0, w->parent->numOptions - 1);
+						w->parent->value = wrap(w->parent->value - 1, 0, w->parent->numOptions - 1);
 						w->parent->action();
 						break;
 						
 					case WT_SPINNER_RIGHT:
-						w->parent->value = wrap(w->parent->value - 1, 0, w->parent->numOptions - 1);
+						w->parent->value = wrap(w->parent->value + 1, 0, w->parent->numOptions - 1);
 						w->parent->action();
 						break;
 				}

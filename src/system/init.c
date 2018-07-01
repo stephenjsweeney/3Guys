@@ -231,8 +231,8 @@ void saveConfig(void)
 	root = cJSON_CreateObject();
 	cJSON_AddNumberToObject(root, "winWidth", app.config.winWidth);
 	cJSON_AddNumberToObject(root, "winHeight", app.config.winHeight);
-	cJSON_AddNumberToObject(root, "musicVolume", app.config.musicVolume);
-	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume);
+	cJSON_AddNumberToObject(root, "musicVolume", app.config.musicVolume / 12.8);
+	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume / 12.8);
 	cJSON_AddNumberToObject(root, "sex", app.config.sex);
 	cJSON_AddNumberToObject(root, "speed", app.config.speed);
 
