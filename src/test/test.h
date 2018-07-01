@@ -23,4 +23,3 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern void initLevel(int id);
 extern void loadMusic(const char *filename);
 extern void playMusic(int loop);
-extern void initOptions(void);

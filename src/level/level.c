@@ -43,6 +43,7 @@ static void tips(void);
 static void options(void);
 static void restart(void);
 static void quit(void);
+static void postOptions(void);
 
 static Atlas *tiles[MAX_TILES];
 static Atlas *routeBlob;
@@ -57,6 +58,7 @@ static Background background;
 static int show;
 static int currentTip;
 static int tickTimer;
+static int isPlayingMusic = 0;
 
 void initLevel(int id)
 {
@@ -128,8 +130,16 @@ void initLevel(int id)
 		getWidget("tips", "level")->disabled = 1;
 	}
 	
+	if (!isPlayingMusic)
+	{
+		loadMusic("music/periwinkle.mp3");
+		playMusic(1);
+		isPlayingMusic = 1;
+	}
+	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
+	app.delegate.postOptions = postOptions;
 	
 	saveGame();
 }
@@ -604,6 +614,7 @@ static void tips(void)
 
 static void options(void)
 {
+	initOptions();
 }
 
 static void restart(void)
@@ -613,6 +624,19 @@ static void restart(void)
 
 static void quit(void)
 {
+	initTitle();
+	
+	isPlayingMusic = 0;
+}
+
+static void postOptions(void)
+{
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
+	
+	initWipe(WIPE_FADE);
+	
+	showWidgetGroup("level");
 }
  
 void destroyLevel(void)

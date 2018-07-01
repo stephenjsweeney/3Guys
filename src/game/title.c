@@ -22,12 +22,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void logic(void);
 static void draw(void);
+static void postOptions(void);
 static void initBouncers(void);
+static void play(void);
+static void options(void);
+static void stats(void);
+static void credits(void);
+static void quit(void);
 
 static Background background;
 static Atlas *logo;
 static Atlas *bouncerTypes[MAX_BOUNCER_TYPES];
 static Bouncer bouncers[MAX_BOUNCERS];
+static int isPlayingMusic = 0;
 
 void initTitle(void)
 {
@@ -39,12 +46,26 @@ void initTitle(void)
 	
 	initBouncers();
 	
+	initWipe(WIPE_FADE);
+	
+	showWidgetGroup("title");
+	
+	getWidget("play", "title")->action = play;
+	getWidget("options", "title")->action = options;
+	getWidget("stats", "title")->action = stats;
+	getWidget("credits", "title")->action = credits;
+	getWidget("quit", "title")->action = quit;
+	
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
+	app.delegate.postOptions = &postOptions;
 	
-	loadMusic("music/MSTR_-_MSTR_-_Choro_bavario_Loop.ogg");
-	
-	playMusic(1);
+	if (!isPlayingMusic)
+	{
+		loadMusic("music/MSTR_-_MSTR_-_Choro_bavario_Loop.ogg");	
+		playMusic(0);
+		isPlayingMusic = 1;
+	}
 }
 
 static void initBouncers(void)
@@ -73,6 +94,8 @@ static void initBouncers(void)
 static void logic(void)
 {
 	int i;
+	
+	doWipe();
 	
 	for (i = 0 ; i < MAX_BOUNCERS ; i++)
 	{
@@ -109,7 +132,44 @@ static void draw(void)
 	
 	useFont("cardigan18");
 	
+	setGLRectangleBatchColor(1.0f, 1.0f, 1.0f, 1.0f);
+	
 	drawShadowText(10, SCREEN_HEIGHT - 25, TA_LEFT, "Copyright Parallel Realities, 2016-2018");
 	
 	drawShadowText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 25, TA_RIGHT, "Version %.1f.%d", VERSION, REVISION);
+	
+	drawWipe();
+}
+
+static void postOptions(void)
+{
+	app.delegate.logic = logic;
+	app.delegate.draw = draw;
+	
+	showWidgetGroup("title");
+	
+	initWipe(WIPE_FADE);
+}
+
+static void play(void)
+{
+	initLevelSelect();
+}
+
+static void options(void)
+{
+	initOptions();
+}
+
+static void stats(void)
+{
+}
+
+static void credits(void)
+{
+}
+
+static void quit(void)
+{
+	exit(1);
 }

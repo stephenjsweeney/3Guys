@@ -62,11 +62,15 @@ void initOptions(void)
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
+	
+	initWipe(WIPE_FADE);
 }
 
 static void logic(void)
 {
 	doWidgets();
+	
+	doWipe();
 }
 
 static void draw(void)
@@ -76,6 +80,8 @@ static void draw(void)
 	useFont("cardigan48");
 	
 	drawWidgets();
+	
+	drawWipe();
 }
 
 static void sound(void)

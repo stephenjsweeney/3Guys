@@ -23,7 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern void calcTextDimensions(char *text, int *w, int *h);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+extern void drawFilledRect(int x, int y, int w, int h, float r, float g, float b, float a);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
+extern void drawRect(int x, int y, int w, int h, float r, float g, float b, float a);
 extern void drawText(int x, int y, int align, const char *format, ...);
 extern char **getFileList(const char *dir, int *count);
 extern Atlas *getImageFromAtlas(char *filename, int required);
@@ -31,9 +33,6 @@ extern long lookup(const char *name);
 extern char *readFile(const char *filename);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern float wrap(float value, float low, float high);
-extern float limit(float i, float a, float b);
-extern void drawRect(int x, int y, int w, int h, float r, float g, float b, float a);
-extern void drawFilledRect(int x, int y, int w, int h, float r, float g, float b, float a);
 
 extern App app;
 extern GLRectangleBatch glRectangleBatch;

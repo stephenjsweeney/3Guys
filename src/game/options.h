@@ -22,14 +22,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "SDL2/SDL_mixer.h"
 
 extern void doWidgets(void);
+extern void doWipe(void);
 extern void drawBackground(Background *background);
 extern void drawWidgets(void);
+extern void drawWipe(void);
+extern Widget *getWidget(const char *name, const char *group);
 extern void initGLRectangle(GLRectangle *rect, int width, int height);
+extern void initWipe(int type);
+extern float limit(float i, float a, float b);
 extern Texture *loadTexture(const char *filename);
+extern void playSound(int snd, int ch);
 extern void showWidgetGroup(const char *name);
 extern void useFont(char *name);
-extern Widget *getWidget(const char *name, const char *group);
-extern float limit(float i, float a, float b);
-extern void playSound(int snd, int ch);
 
 extern App app;

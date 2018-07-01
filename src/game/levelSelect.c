@@ -26,6 +26,7 @@ static void initLevelRects(int n);
 static void doLevelSelect(void);
 static void prev(void);
 static void next(void);
+static void back(void);
 static void countStars(void);
 
 static Atlas *levelSelectRect;
@@ -53,11 +54,15 @@ void initLevelSelect(void)
 	
 	initLevelRects(page);
 	
+	initWipe(WIPE_FADE);
+	
 	showWidgetGroup("levelSelect");
 	
 	getWidget("prev", "levelSelect")->action = prev;
-	getWidget("prev", "levelSelect")->disabled = 1;
 	getWidget("next", "levelSelect")->action = next;
+	getWidget("back", "levelSelect")->action = back;
+	
+	getWidget("prev", "levelSelect")->disabled = 1;
 	
 	countStars();
 	
@@ -118,6 +123,8 @@ static void countStars(void)
 
 static void logic(void)
 {
+	doWipe();
+	
 	doLevelSelect();
 	
 	doWidgets();
@@ -219,6 +226,8 @@ static void draw(void)
 	drawShadowText(SCREEN_WIDTH - 50, 150, TA_RIGHT, "Stars: %d / %d", starsFound, starsAvailable);
 	
 	drawWidgets();
+	
+	drawWipe();
 }
 
 static void prev(void)
@@ -243,4 +252,9 @@ static void next(void)
 	getWidget("next", "levelSelect")->disabled = page >= (MAX_LEVELS / MAX_LEVEL_PER_PAGE);
 	
 	playSound(SND_BUTTON, 0);
+}
+
+static void back(void)
+{
+	initTitle();
 }
