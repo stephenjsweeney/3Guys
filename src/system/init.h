@@ -28,10 +28,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "locale.h"
 
+extern char *buildFormattedString(const char *format, ...);
 extern void createSaveFolder(void);
+extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
+extern int fileExists(const char *filename);
 extern void initAtlas(void);
 extern void initEntityDefs(void);
 extern void initFonts(void);
+extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initGLRectangleBatch(void);
 extern void initGame(void);
 extern void initGraphics(void);
@@ -41,6 +45,10 @@ extern void initStrings(void);
 extern void initWidgets(void);
 extern void prepareScene(void);
 extern void presentScene(void);
+extern char *readFile(const char *filename);
+extern void setGLRectangleBatchColor(float r, float g, float b, float a);
+extern void setGLRectangleSize(GLRectangle *rect, int w, int h);
 extern void setLanguage(char *applicationName, char *languageCode);
+extern int writeFile(const char *filename, const char *data);
 
 extern App app;

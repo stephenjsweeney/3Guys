@@ -118,5 +118,7 @@ static void speed(void)
 
 static void back(void)
 {
+	saveConfig();
+	
 	app.delegate.postOptions();
 }

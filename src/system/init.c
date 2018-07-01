@@ -20,7 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "init.h"
 
-static void showLoadingStep(float step, float maxSteps);
+static void loadConfig(void);
+static void loadConfigFile(char *filename);
+void saveConfig(void);
+static void showLoadingStep(float step, float maxSteps, GLRectangle *whiteSquare);
 
 void init18N(int argc, char *argv[])
 {
@@ -50,17 +53,10 @@ void init18N(int argc, char *argv[])
 
 void initSDL(void)
 {
-	int windowFlags;
-	
 	/* done in src/plat/ */
 	createSaveFolder();
 	
-	windowFlags = 0;
-	
-	if (app.config.fullscreen)
-	{
-		windowFlags |= SDL_WINDOW_FULLSCREEN;
-	}
+	loadConfig();
 
 	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK) < 0)
 	{
@@ -76,14 +72,8 @@ void initSDL(void)
 
     Mix_AllocateChannels(MAX_SND_CHANNELS);
 	
-	app.config.soundVolume = 128;
-	app.config.musicVolume = 128;
-
 	Mix_Volume(-1, app.config.soundVolume);
 	Mix_VolumeMusic(app.config.musicVolume);
-	
-	app.config.winWidth = 540;
-	app.config.winHeight = 960;
 	
 	app.window = SDL_CreateWindow("3Guys", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, app.config.winWidth, app.config.winHeight, SDL_WINDOW_OPENGL);
 	
@@ -118,6 +108,7 @@ void initOpenGL(void)
 void initGameSystem(void)
 {
 	int i, numInitFuns;
+	GLRectangle whiteSquare;
 	void (*initFuncs[]) (void) = {
 		initStrings,
 		initAtlas,
@@ -131,10 +122,12 @@ void initGameSystem(void)
 	};
 
 	numInitFuns = sizeof(initFuncs) / sizeof(void*);
+	
+	initGLRectangle(&whiteSquare, 32, 32);
 
 	for (i = 0 ; i < numInitFuns ; i++)
 	{
-		showLoadingStep(i + 1, numInitFuns);
+		showLoadingStep(i + 1, numInitFuns, &whiteSquare);
 
 		initFuncs[i]();
 	}
@@ -143,9 +136,8 @@ void initGameSystem(void)
 /*
  * Just in case the initial loading takes a while on the target machine. The rest of the loading a pretty quick by comparison.
  */
-static void showLoadingStep(float step, float maxSteps)
+static void showLoadingStep(float step, float maxSteps, GLRectangle *whiteSquare)
 {
-	/*
 	SDL_Rect r;
 
 	prepareScene();
@@ -155,22 +147,104 @@ static void showLoadingStep(float step, float maxSteps)
 	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
 	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
 
-	SDL_SetRenderDrawColor(app.renderer, 128, 128, 128, 255);
-	SDL_RenderDrawRect(app.renderer, &r);
+	setGLRectangleSize(whiteSquare, r.w, r.h);
+	setGLRectangleBatchColor(0.5f, 0.5f, 0.5f, 1);
+	drawGLRectangleBatch(whiteSquare, r.x, r.y, 0);
+	
+	r.x++;
+	r.y++;
+	r.w -= 2;
+	r.h -= 2;
+
+	setGLRectangleSize(whiteSquare, r.w, r.h);
+	setGLRectangleBatchColor(0, 0, 0, 1);
+	drawGLRectangleBatch(whiteSquare, r.x, r.y, 0);
 
 	r.w *= (step / maxSteps);
-	r.x += 2;
-	r.y += 2;
-	r.w -= 4;
-	r.h -= 4;
+	r.x++;
+	r.y++;
+	r.w -= 2;
+	r.h -= 2;
 
-	SDL_SetRenderDrawColor(app.renderer, 128, 196, 255, 255);
-	SDL_RenderFillRect(app.renderer, &r);
+	setGLRectangleSize(whiteSquare, r.w, r.h);
+	setGLRectangleBatchColor(0.5f, 0.75f, 1.0f, 1);
+	drawGLRectangleBatch(whiteSquare, r.x, r.y, 0);
 
 	presentScene();
 
 	SDL_Delay(1);
-	*/
+}
+
+static void loadConfig(void)
+{
+	char *filename;
+	
+	/* load default config first */
+	loadConfigFile("data/app/"CONFIG_FILENAME);
+	
+	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);
+
+	if (fileExists(filename))
+	{
+		loadConfigFile(filename);
+	}
+	
+	free(filename);
+	
+	/* so that the player doesn't get confused if this is a new game */
+	saveConfig();
+}
+
+static void loadConfigFile(char *filename)
+{
+	cJSON *root;
+	char *text;
+
+	text = readFile(filename);
+
+	root = cJSON_Parse(text);
+
+	app.config.winWidth = cJSON_GetObjectItem(root, "winWidth")->valueint;
+	app.config.winHeight = cJSON_GetObjectItem(root, "winHeight")->valueint;
+	app.config.musicVolume = cJSON_GetObjectItem(root, "musicVolume")->valueint;
+	app.config.soundVolume = cJSON_GetObjectItem(root, "soundVolume")->valueint;
+	app.config.sex = cJSON_GetObjectItem(root, "sex")->valueint;
+	app.config.speed = cJSON_GetObjectItem(root, "speed")->valueint;
+	
+	/* volumes are 0 - 10 */
+	app.config.soundVolume *= 12.8;
+	app.config.musicVolume *= 12.8;
+
+	cJSON_Delete(root);
+	free(text);
+}
+
+void saveConfig(void)
+{
+	char *out, *filename;
+	cJSON *root;
+
+	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);
+
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Saving config ...");
+
+	root = cJSON_CreateObject();
+	cJSON_AddNumberToObject(root, "winWidth", app.config.winWidth);
+	cJSON_AddNumberToObject(root, "winHeight", app.config.winHeight);
+	cJSON_AddNumberToObject(root, "musicVolume", app.config.musicVolume);
+	cJSON_AddNumberToObject(root, "soundVolume", app.config.soundVolume);
+	cJSON_AddNumberToObject(root, "sex", app.config.sex);
+	cJSON_AddNumberToObject(root, "speed", app.config.speed);
+
+	out = cJSON_Print(root);
+
+	if (!writeFile(filename, out))
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to save config");
+	}
+
+	cJSON_Delete(root);
+	free(out);
 }
 
 void cleanup(void)

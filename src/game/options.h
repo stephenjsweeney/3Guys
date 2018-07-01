@@ -32,6 +32,7 @@ extern void initWipe(int type);
 extern float limit(float i, float a, float b);
 extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
+extern void saveConfig(void);
 extern void showWidgetGroup(const char *name);
 extern void useFont(char *name);
 

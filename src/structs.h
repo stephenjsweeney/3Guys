@@ -182,6 +182,8 @@ typedef struct {
 	int fullscreen;
 	int soundVolume;
 	int musicVolume;
+	int sex;
+	int speed;
 } Config;
 
 typedef struct {
