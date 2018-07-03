@@ -107,9 +107,12 @@ static void doControls(void)
 		{
 			level.walkRoute = 1;
 			
-			level.routeIndex = 0;
+			/* ignore 0, as it's the guy himself */
+			level.route[0].x = -1;
+			level.route[0].y = -1;
+			level.routeIndex = 1;
 		}
-		else
+		else if (level.routeIndex > 0)
 		{
 			clearRoute();
 		}
@@ -266,4 +269,8 @@ void clearRoute(void)
 	}
 	
 	level.routeIndex = 0;
+	
+	level.dx = level.dy = 0;
+	
+	level.walkRoute = 0;
 }

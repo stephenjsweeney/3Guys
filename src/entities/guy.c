@@ -36,6 +36,8 @@ static void initGuy(Entity *e)
 
 	bow = getImageFromAtlas("gfx/sprites/bow.png", 1);
 	eyelashes = getImageFromAtlas("gfx/sprites/eyelashes.png", 1);
+	
+	e->sprite->currentTime = rand() % FPS;
 }
 
 void initRedGuy(Entity *e)

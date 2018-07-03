@@ -230,6 +230,18 @@ void activateEntities(char *targetName)
 	}
 }
 
+void updateStar(void)
+{
+	Entity *e;
+	
+	for (e = deadHead.next ; e != NULL ; e = e->next)
+	{
+		game.starsFound[level.id] = 1;
+		
+		game.stats[STAT_STARS]++;
+	}
+}
+
 void destroyEntities(void)
 {
 	Entity *e;

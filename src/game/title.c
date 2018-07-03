@@ -126,17 +126,13 @@ static void draw(void)
 	
 	drawGLRectangleBatch(&logo->rect, SCREEN_WIDTH / 2, 200, 1);
 	
-	useFont("cardigan48");
-	
 	drawWidgets();
-	
-	useFont("cardigan18");
 	
 	setGLRectangleBatchColor(1.0f, 1.0f, 1.0f, 1.0f);
 	
-	drawShadowText(10, SCREEN_HEIGHT - 25, TA_LEFT, "Copyright Parallel Realities, 2016-2018");
+	drawShadowText(10, SCREEN_HEIGHT - 25, TA_LEFT, 18, "Copyright Parallel Realities, 2016-2018");
 	
-	drawShadowText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 25, TA_RIGHT, "Version %.1f.%d", VERSION, REVISION);
+	drawShadowText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 25, TA_RIGHT, 18, "Version %.1f.%d", VERSION, REVISION);
 	
 	drawWipe();
 }

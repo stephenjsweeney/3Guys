@@ -54,7 +54,7 @@ static void touch(Entity *other)
 
 		other->x = self->tx;
 		other->y = self->ty;
-
+		
 		if (other == level.guy)
 		{
 			clearRoute();

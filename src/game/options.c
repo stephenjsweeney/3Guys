@@ -84,8 +84,6 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
-	useFont("cardigan48");
-	
 	drawWidgets();
 	
 	drawWipe();

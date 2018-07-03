@@ -283,6 +283,9 @@ static void doLevel(void)
 
 static void moveGuy(void)
 {
+	Entity **candidates;
+	int n, blocked;
+	
 	level.dx = level.route[level.routeIndex].x - level.guy->x;
 	level.dy = level.route[level.routeIndex].y - level.guy->y;
 	
@@ -297,7 +300,23 @@ static void moveGuy(void)
 	
 	playSound(SND_WALK, 0);
 	
-	if (level.routeIndex == MAP_WIDTH * MAP_HEIGHT || level.route[level.routeIndex].x == -1)
+	candidates = getEntitiesAt(level.guy->x + level.dx, level.guy->y + level.dy, &n, level.guy);
+	
+	blocked = 0;
+	
+	if (n == 1)
+	{
+		self = candidates[0];
+		
+		blocked = self->isBlocking();
+		
+		if (blocked)
+		{
+			level.dx = level.dy = 0;
+		}
+	}
+	
+	if (blocked || level.routeIndex == MAP_WIDTH * MAP_HEIGHT || level.route[level.routeIndex].x == -1)
 	{
 		level.walkRoute = 0;
 		
@@ -321,6 +340,8 @@ void completeLevel(void)
 		clearRoute();
 		
 		game.stats[STAT_LEVELS_FINISHED]++;
+		
+		updateStar();
 	}
 }
 
@@ -479,17 +500,15 @@ static void drawRoute(void)
 
 static void drawTopBar(void)
 {
-	useFont("cardigan32");
-	
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	
-	drawText(LEVEL_RENDER_X, 20, TA_LEFT, app.strings[ST_LEVEL_NUM], level.id);
+	drawText(LEVEL_RENDER_X, 20, TA_LEFT, 32, app.strings[ST_LEVEL_NUM], level.id);
 	
 	if (level.moves != -1)
 	{
 		if (level.moves > 0 || level.state == LS_COMPLETE)
 		{
-			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, app.strings[ST_NUM_MOVES], level.moves);
+			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, 32, app.strings[ST_NUM_MOVES], level.moves);
 		}
 		else
 		{
@@ -498,7 +517,7 @@ static void drawTopBar(void)
 				setGLRectangleBatchColor(1.0, 0.0, 0.0, 1.0);
 			}
 			
-			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, app.strings[ST_OUT_OF_MOVES]);
+			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, 32, app.strings[ST_OUT_OF_MOVES]);
 		}
 	}
 }
@@ -511,27 +530,35 @@ static void drawBottomBar(void)
 	
 	if (level.message == NULL)
 	{
-		useFont("cardigan40");
+		if (level.tools > 0)
+		{
+			drawGLRectangleBatch(&tools->rect, LEVEL_RENDER_X + 175, 1187, 0);
+		}
 		
-		drawGLRectangleBatch(&tools->rect, LEVEL_RENDER_X + 175, 1187, 0);
-		
-		drawGLRectangleBatch(&tnt->rect, LEVEL_RENDER_X + 375, 1187, 0);
+		if (level.tnt > 0)
+		{
+			drawGLRectangleBatch(&tnt->rect, LEVEL_RENDER_X + 375, 1187, 0);
+		}
 		
 		if (level.guy->carrying)
 		{
 			drawGLRectangleBatch(&level.guy->carrying->sprite->frames[0]->rect, LEVEL_RENDER_X + 575, 1200, 0);
 		}
 		
-		drawText(LEVEL_RENDER_X + 265, 1185, TA_LEFT, "%d", level.tools);
+		if (level.tools > 0)
+		{
+			drawText(LEVEL_RENDER_X + 265, 1185, TA_LEFT, 40, "%d", level.tools);
+		}
 		
-		drawText(LEVEL_RENDER_X + 465, 1185, TA_LEFT, "%d", level.tnt);
+		if (level.tnt > 0)
+		{
+			drawText(LEVEL_RENDER_X + 465, 1185, TA_LEFT, 40, "%d", level.tnt);
+		}
 	}
 	else
 	{
-		useFont("cardigan32");
-		
 		setTextWidth(700);
-		drawText(LEVEL_RENDER_X + 100, 1175, TA_LEFT, level.message);
+		drawText(LEVEL_RENDER_X + 100, 1175, TA_LEFT, 32, level.message);
 		setTextWidth(0);
 	}
 	
@@ -554,19 +581,15 @@ static void drawTips(void)
 	
 	setTextWidth(600);
 	
-	useFont("cardigan32");
-	
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	
-	drawText(x + 10, y + 10, TA_LEFT, level.tips[currentTip]);
-	
-	useFont("cardigan24");
+	drawText(x + 10, y + 10, TA_LEFT, 32, level.tips[currentTip]);
 	
 	setTextWidth(0);
 	
-	drawText(x + 10, y + h - 34, TA_LEFT, app.strings[ST_CLICK_TO_CONTINUE]);
+	drawText(x + 10, y + h - 34, TA_LEFT, 24, app.strings[ST_CLICK_TO_CONTINUE]);
 	
-	drawText(x + w - 10, y + h - 34, TA_RIGHT, "%d / %d", currentTip + 1, level.numTips);
+	drawText(x + w - 10, y + h - 34, TA_RIGHT, 24, "%d / %d", currentTip + 1, level.numTips);
 }
 
 static void drawPause(void)
@@ -583,11 +606,9 @@ static void drawPause(void)
 	
 	drawRect(x, y, w, h, 1.0f, 1.0f, 1.0f, 1.0f);
 	
-	useFont("cardigan48");
-	
 	setGLRectangleBatchColor(1.0, 1.0, 0.0, 1.0);
 	
-	drawText(x + (w / 2), y + 35, TA_CENTER, "Pause");
+	drawText(x + (w / 2), y + 35, TA_CENTER, 48, "Pause");
 	
 	drawWidgets();
 }

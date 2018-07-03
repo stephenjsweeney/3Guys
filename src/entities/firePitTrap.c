@@ -79,6 +79,8 @@ static void touch(Entity *other)
 		{
 			addFloor(self->x, self->y);
 			
+			other->alive = 0;
+			
 			self->alive = 0;
 		}
 	}

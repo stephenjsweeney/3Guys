@@ -124,6 +124,11 @@ static void handleCommandLine(int argc, char *argv[])
 		{
 			levelNum = atoi(argv[++i]);
 		}
+		
+		if (strcmp(argv[i], "-debug") == 0)
+		{
+			dev.debug = dev.showFPS = 1;
+		}
 	}
 	
 	if (levelNum > 0)

@@ -71,13 +71,11 @@ void presentScene(void)
 {
 	if (dev.debug)
 	{
-		useFont("cardigan18");
-		
-		drawText(5, SCREEN_HEIGHT - 25, TA_LEFT, "DEBUG MODE");
+		drawText(5, 0, TA_LEFT, 18, "DEBUG MODE");
 		
 		if (dev.showFPS)
 		{
-			drawText(SCREEN_WIDTH - 5, SCREEN_HEIGHT - 25, TA_RIGHT, "FPS: %d", dev.fps);
+			drawText(SCREEN_WIDTH - 5, 0, TA_RIGHT, 18, "FPS: %d", dev.fps);
 		}
 	}
 	

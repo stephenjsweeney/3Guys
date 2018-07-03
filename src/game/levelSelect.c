@@ -88,8 +88,8 @@ static void initLevelRects(int page)
 		l->y = y;
 		l->levelNum = n + 1;
 		l->available = (n <= game.levelsCompleted);
-		l->hasStar = game.starsAvailable[n];
-		l->hasFoundStar = game.starsFound[n];
+		l->hasStar = game.starsAvailable[n + 1];
+		l->hasFoundStar = game.starsFound[n + 1];
 		
 		x += 225;
 
@@ -207,23 +207,20 @@ static void draw(void)
 		}
 	}
 	
-	useFont("cardigan48");
-	
 	for (i = 0 ; i < MAX_LEVEL_PER_PAGE ; i++)
 	{
 		l = &levelRect[i];
 		
 		if (l->levelNum <= MAX_LEVELS)
 		{
-			drawShadowText(l->x + 58, l->y + 28, TA_CENTER, "%d", l->levelNum);
+			drawShadowText(l->x + 58, l->y + 28, TA_CENTER, 48, "%d", l->levelNum);
 		}
 	}
 	
-	drawShadowText(SCREEN_WIDTH / 2, 40, TA_CENTER, "Level Select");
+	drawShadowText(SCREEN_WIDTH / 2, 40, TA_CENTER, 48, "Level Select");
 	
-	useFont("cardigan32");
-	drawShadowText(50, 150, TA_LEFT, "Levels: %d / %d", game.levelsCompleted, MAX_LEVELS);
-	drawShadowText(SCREEN_WIDTH - 50, 150, TA_RIGHT, "Stars: %d / %d", starsFound, starsAvailable);
+	drawShadowText(50, 150, TA_LEFT, 32, "Levels: %d / %d", game.levelsCompleted, MAX_LEVELS);
+	drawShadowText(SCREEN_WIDTH - 50, 150, TA_RIGHT, 32, "Stars: %d / %d", starsFound, starsAvailable);
 	
 	drawWidgets();
 	

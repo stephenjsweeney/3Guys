@@ -27,7 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-#define FONT_TEXTURE_SIZE	512
+#define FONT_SIZE			120
+#define FONT_TEXTURE_SIZE	1024
 
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);

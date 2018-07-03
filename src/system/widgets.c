@@ -126,12 +126,12 @@ void drawWidgets(void)
 			switch (w->type)
 			{
 				case WT_BUTTON:
-					calcTextDimensions(w->label, &w->w, &w->h);
+					calcTextDimensions(w->label, FONT_SIZE, &w->w, &w->h);
 					if (w->centered)
 					{
 						w->x = (SCREEN_WIDTH - w->w) / 2;
 					}
-					drawText(w->x, w->y, TA_LEFT, w->label);
+					drawText(w->x, w->y, TA_LEFT, FONT_SIZE, w->label);
 					break;
 					
 				case WT_IMAGE:
@@ -143,7 +143,7 @@ void drawWidgets(void)
 					drawRect(w->x + 260, w->y + 10, 300, 40, 1.0f, 1.0f, 1.0f, 1.0f);
 					drawFilledRect(w->x + 262, w->y + 12, 296 * (w->value / w->maxValue), 36, 1, 1, 1, 1.0f);
 					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-					drawText(w->x, w->y, TA_LEFT, w->label);
+					drawText(w->x, w->y, TA_LEFT, FONT_SIZE, w->label);
 					break;
 					
 				case WT_SLIDER_MINUS:
@@ -156,9 +156,9 @@ void drawWidgets(void)
 					
 				case WT_SPINNER:
 					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-					calcTextDimensions(w->label, &w->w, &w->h);
-					drawText(w->x, w->y, TA_LEFT, w->label);
-					drawText(w->x + 400, w->y, TA_CENTER, w->options[(int)w->value]);
+					calcTextDimensions(w->label, FONT_SIZE, &w->w, &w->h);
+					drawText(w->x, w->y, TA_LEFT, FONT_SIZE, w->label);
+					drawText(w->x + 400, w->y, TA_CENTER, FONT_SIZE, w->options[(int)w->value]);
 					break;
 					
 				case WT_SPINNER_LEFT:

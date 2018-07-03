@@ -27,7 +27,7 @@ extern void doWidgets(void);
 extern void doWipe(void);
 extern void drawBackground(Background *background);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
-extern void drawShadowText(int x, int y, int align, const char *format, ...);
+extern void drawShadowText(int x, int y, int align, int size, const char *format, ...);
 extern void drawWidgets(void);
 extern void drawWipe(void);
 extern Atlas *getImageFromAtlas(char *filename, int required);
@@ -40,7 +40,6 @@ extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void showWidgetGroup(const char *name);
-extern void useFont(char *name);
 
 extern App app;
 extern Game game;

@@ -47,10 +47,6 @@ static void touch(Entity *other)
 		self->alive = 0;
 
 		playSound(SND_STAR, -1);
-
-		game.stats[STAT_STARS]++;
-		
-		game.starsFound[level.id] = 1;
 	}
 }
 

@@ -23,12 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <SDL2/SDL_opengl.h>
 
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
-extern void drawText(int x, int y, int align, const char *format, ...);
+extern void drawText(int x, int y, int align, int size, const char *format, ...);
 extern void flushGLRectangleBatch(void);
 extern Atlas *getImageFromAtlas(char *filename, int required);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void setGLRectangleSize(GLRectangle *rect, int w, int h);
-extern void useFont(char *name);
 
 extern App app;
 extern Colors colors;
