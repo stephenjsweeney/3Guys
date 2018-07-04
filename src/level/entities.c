@@ -236,9 +236,12 @@ void updateStar(void)
 	
 	for (e = deadHead.next ; e != NULL ; e = e->next)
 	{
-		game.starsFound[level.id] = 1;
-		
-		game.stats[STAT_STARS]++;
+		if (e->type == ET_STAR && game.starsFound[level.id] == 0)
+		{
+			game.starsFound[level.id] = 1;
+			
+			game.stats[STAT_STARS]++;
+		}
 	}
 }
 
