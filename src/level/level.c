@@ -230,8 +230,6 @@ static void doLevel(void)
 			
 			guyTouchOthers();
 			
-			guyFallDownHoles();
-			
 			if (level.moves == 0)
 			{
 				failLevel();

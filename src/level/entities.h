@@ -20,10 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void addFloor(int x, int y);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern GLRectangle *getCurrentFrame(Sprite *s);
-extern void playSound(int snd, int ch);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 
 extern Entity *self;

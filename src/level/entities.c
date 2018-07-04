@@ -103,47 +103,6 @@ void guyTouchOthers(void)
 	}
 }
 
-void guyFallDownHoles(void)
-{
-	int fall, i, n;
-	Entity **candidates;
-	
-	fall = 0;
-	
-	if (level.data[level.guy->x][level.guy->y] == TILE_HOLE)
-	{
-		fall = 1;
-		
-		candidates = getEntitiesAt(level.guy->x, level.guy->y, &n, level.guy);
-		
-		for (i = 0 ; i < n ; i++)
-		{
-			if (candidates[i]->type == ET_MOVING_PLATFORM)
-			{
-				fall = 0;
-			}
-		}
-		
-		if (fall)
-		{
-			if (level.guy->type == ET_YELLOW_GUY && level.tools != 0)
-			{
-				playSound(SND_BRIDGE, -1);
-				
-				addFloor(level.guy->x, level.guy->y);
-
-				level.tools--;
-
-				game.stats[STAT_TOOLS_USED]++;
-			}
-			else
-			{
-				level.guy->alive = 0;
-			}
-		}
-	}
-}
-
 void drawEntities(int backgroundPlane)
 {
 	int x, y;

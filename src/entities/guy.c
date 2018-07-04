@@ -23,11 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void die(void);
 static int blocking(void);
 static void draw(void);
+static void tick(void);
 static Atlas *bow;
 static Atlas *eyelashes;
 
 static void initGuy(Entity *e)
 {
+	e->tick = tick;
 	e->die = die;
 	e->isBlocking = blocking;
 	e->draw = draw;
@@ -63,6 +65,47 @@ void initYellowGuy(Entity *e)
 	e->type = ET_YELLOW_GUY;
 	e->sprite = getSprite("YellowGuy");
 	initGuy(e);
+}
+
+static void tick(void)
+{
+	int tile, fall, i, n;
+	Entity **candidates;
+	
+	tile = level.data[(int)self->x][(int)self->y];
+
+	if (tile == TILE_HOLE)
+	{
+		fall = 1;
+
+		candidates = getEntitiesAt(self->x, self->y, &n, self);
+
+		for (i = 0 ; i < n ; i++)
+		{
+			if (candidates[i]->type == ET_MOVING_PLATFORM)
+			{
+				fall = 0;
+			}
+		}
+
+		if (fall)
+		{
+			if (self == level.guy && self->type == ET_YELLOW_GUY && level.tools != 0)
+			{
+				playSound(SND_BRIDGE, -1);
+				
+				addFloor(self->x, self->y);
+
+				level.tools--;
+
+				game.stats[STAT_TOOLS_USED]++;
+			}
+			else
+			{
+				self->alive = 0;
+			}
+		}
+	}
 }
 
 static void draw(void)
