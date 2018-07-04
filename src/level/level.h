@@ -55,7 +55,7 @@ extern void initEntities(void);
 extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initOptions(void);
 extern void initPlayer(void);
-extern void initTitle(void);
+extern void initLevelSelect(void);
 extern void initWipe(int type);
 extern void loadLevel(int n);
 extern void loadMusic(const char *filename);

@@ -645,7 +645,7 @@ static void restart(void)
 
 static void quit(void)
 {
-	initTitle();
+	initLevelSelect();
 	
 	isPlayingMusic = 0;
 }
