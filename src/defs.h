@@ -217,3 +217,9 @@ enum
 	STAT_TIME_PLAYED,
 	STAT_MAX
 };
+
+enum {
+	SEX_MALE,
+	SEX_FEMALE,
+	SEX_RANDOM
+};

@@ -38,6 +38,8 @@ static void initGuy(Entity *e)
 	eyelashes = getImageFromAtlas("gfx/sprites/eyelashes.png", 1);
 	
 	e->sprite->currentTime = rand() % FPS;
+	
+	e->female = app.config.sex == SEX_FEMALE || (app.config.sex == SEX_RANDOM && rand() % 2 == 0);
 }
 
 void initRedGuy(Entity *e)

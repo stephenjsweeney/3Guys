@@ -60,9 +60,11 @@ void initOptions(void)
 	
 	sexWidget = getWidget("sex", "options");
 	sexWidget->action = sex;
+	sexWidget->value = app.config.sex;
 	
 	speedWidget = getWidget("speed", "options");
 	speedWidget->action = speed;
+	speedWidget->value = app.config.speed;
 	
 	backWidget = getWidget("back", "options");
 	backWidget->action = back;
@@ -119,11 +121,15 @@ static void music(void)
 static void sex(void)
 {
 	playSound(SND_BUTTON, 0);
+	
+	app.config.sex = sexWidget->value;
 }
 
 static void speed(void)
 {
 	playSound(SND_BUTTON, 0);
+	
+	app.config.speed = speedWidget->value;
 }
 
 static void back(void)

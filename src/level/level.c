@@ -289,7 +289,7 @@ static void moveGuy(void)
 	level.dx = level.route[level.routeIndex].x - level.guy->x;
 	level.dy = level.route[level.routeIndex].y - level.guy->y;
 	
-	moveTimer = 4;
+	moveTimer = 10 - (app.config.speed * 2);
 	
 	level.route[level.routeIndex].x = -1;
 	level.route[level.routeIndex].y = -1;
