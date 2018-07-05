@@ -141,6 +141,8 @@ void initLevel(int id)
 	app.delegate.draw = draw;
 	app.delegate.postOptions = postOptions;
 	
+	/*level.moves = 100;*/
+	
 	saveGame();
 }
 
@@ -230,7 +232,7 @@ static void doLevel(void)
 			
 			guyTouchOthers();
 			
-			if (level.moves == 0)
+			if (level.moves == 0 && level.state != LS_COMPLETE)
 			{
 				failLevel();
 			}
@@ -311,6 +313,8 @@ static void moveGuy(void)
 		if (blocked)
 		{
 			level.dx = level.dy = 0;
+			
+			clearRoute();
 		}
 	}
 	
