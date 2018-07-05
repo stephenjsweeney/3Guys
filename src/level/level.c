@@ -362,7 +362,7 @@ static void nextLevel(void)
 
 void failLevel(void)
 {
-	if (level.state == LS_INCOMPLETE)
+	if (level.state != LS_FAILED)
 	{
 		level.state = LS_FAILED;
 		level.finishTimer = FPS * 2;
