@@ -82,6 +82,9 @@ static void touch(Entity *other)
 			stepBack();
 			
 			clearRoute();
+			
+			/* for continuous movement */
+			level.moves--;
 		}
 	}
 }
