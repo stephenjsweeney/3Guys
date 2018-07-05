@@ -20,9 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "entities.h"
 
-Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
+void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
 
-static Entity *candidates[MAX_CANDIDATES];
 static Entity deadHead;
 static Entity *deadTail;
 
@@ -87,16 +86,16 @@ void moveEntities(void)
 
 void guyTouchOthers(void)
 {
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	int i, n;
 	
-	candidates = getEntitiesAt(level.guy->x, level.guy->y, &n, level.guy);
+	getEntitiesAt(level.guy->x, level.guy->y, &n, level.guy, candidates);
 	
 	for (i = 0 ; i < n ; i++)
 	{
 		self = candidates[i];
 		
-		if (self != NULL && self != level.guy && self->touch != NULL)
+		if (self != NULL && self->touch != NULL)
 		{
 			self->touch(level.guy);
 		}
@@ -134,7 +133,7 @@ void drawEntities(int backgroundPlane)
 	}
 }
 
-Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore)
+void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates)
 {
 	Entity *e;
 	
@@ -152,7 +151,7 @@ Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore)
 				memset(candidates, 0, sizeof(Entity*) * MAX_CANDIDATES);
 				candidates[0] = e;
 				*n = 1;
-				return candidates;
+				return;
 			}
 			
 			candidates[*n] = e;
@@ -166,8 +165,6 @@ Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore)
 			}
 		}
 	}
-	
-	return candidates;
 }
 
 void activateEntities(char *targetName)

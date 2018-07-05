@@ -39,12 +39,12 @@ void initFirePitTrap(Entity *e)
 
 static void tick(void)
 {
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	int i, n, guyStanding;
 	
 	guyStanding = 0;
 	
-	candidates = getEntitiesAt(self->x, self->y, &n, self);
+	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
 	for (i = 0 ; i < n ; i++)
 	{

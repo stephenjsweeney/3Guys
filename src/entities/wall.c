@@ -49,12 +49,12 @@ static void touch(Entity *other)
 
 static void activate(void)
 {
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	int i, n;
 	
 	self->solid = self->visible = !self->visible;
 	
-	candidates = getEntitiesAt(self->x, self->y, &n, self);
+	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
 	for (i = 0 ; i < n ; i++)
 	{

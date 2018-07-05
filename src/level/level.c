@@ -281,7 +281,7 @@ static void doLevel(void)
 
 static void moveGuy(void)
 {
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	int n, blocked;
 	
 	level.dx = level.route[level.routeIndex].x - level.guy->x;
@@ -298,7 +298,7 @@ static void moveGuy(void)
 	
 	playSound(SND_WALK, 0);
 	
-	candidates = getEntitiesAt(level.guy->x + level.dx, level.guy->y + level.dy, &n, level.guy);
+	getEntitiesAt(level.guy->x + level.dx, level.guy->y + level.dy, &n, level.guy, candidates);
 	
 	blocked = 0;
 	

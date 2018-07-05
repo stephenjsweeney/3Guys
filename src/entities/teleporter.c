@@ -45,7 +45,7 @@ void initTeleporter(Entity *e)
 
 static void touch(Entity *other)
 {
-	Entity **candidates, *oldSelf;
+	Entity *candidates[MAX_CANDIDATES], *oldSelf;
 	int i, n;
 	
 	if (self->active)
@@ -62,7 +62,7 @@ static void touch(Entity *other)
 
 		addTeleportStars(self->tx, self->ty, 35);
 		
-		candidates = getEntitiesAt(other->x, other->y, &n, other);
+		getEntitiesAt(other->x, other->y, &n, other, candidates);
 
 		for (i = 0 ; i < n ; i++)
 		{
@@ -109,14 +109,14 @@ static void draw(void)
 
 static void activate(void)
 {
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	int n, i;
 	
 	self->active = !self->active;
 
 	if (self->active)
 	{
-		candidates = getEntitiesAt(self->x, self->y, &n, self);
+		getEntitiesAt(self->x, self->y, &n, self, candidates);
 		
 		for (i = 0 ; i < n ; i++)
 		{

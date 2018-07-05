@@ -100,7 +100,7 @@ static int canOpen(Entity *other)
 			return other->carrying->type == ET_YELLOW_KEY;
 			
 		default:
-			return 1;
+			return other->carrying->type == ET_NORMAL_KEY;
 	}
 }
 

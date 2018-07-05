@@ -45,7 +45,7 @@ extern void drawText(int x, int y, int align, int size, const char *format, ...)
 extern void drawWidgets(void);
 extern void drawWipe(void);
 extern float getAngle(int x1, int y1, int x2, int y2);
-extern Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
+extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
 extern Atlas *getImageFromAtlas(char *filename, int required);
 extern Widget *getWidget(const char *name, const char *group);
 extern void guyTouchOthers(void);

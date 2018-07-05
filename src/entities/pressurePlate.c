@@ -35,9 +35,10 @@ void initPressurePlate(Entity *e)
 
 static void tick(void)
 {
+	Entity *candidates[MAX_CANDIDATES];
 	int n;
 	
-	getEntitiesAt(self->x, self->y, &n, self);
+	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
 	if (n != self->weight)
 	{

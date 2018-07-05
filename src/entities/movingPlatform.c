@@ -48,12 +48,12 @@ static void touch(Entity *other)
 
 static void initPlatformDestination(void)
 {
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	int n, i, hit;
 	
 	self->active = self->dx = self->dy = 0;
 	
-	candidates = getEntitiesAt(self->x, self->y, &n, self);
+	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
 	for (i = 0 ; i < n ; i++)
 	{
@@ -83,7 +83,7 @@ static void initPlatformDestination(void)
 			}
 			else
 			{
-				candidates = getEntitiesAt(self->tx, self->ty, &n, self);
+				getEntitiesAt(self->tx, self->ty, &n, self, candidates);
 				
 				for (i = 0 ; i < n ; i++)
 				{

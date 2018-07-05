@@ -24,7 +24,7 @@ extern void addTeleportStars(int x, int y, int amount);
 extern void clearRoute(void);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern GLRectangle *getCurrentFrame(Sprite *s);
-extern Entity **getEntitiesAt(int x, int y, int *n, Entity *ignore);
+extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
 extern Atlas *getImageFromAtlas(char *filename, int required);
 extern Sprite *getSprite(char *name);
 extern void playSound(int snd, int ch);

@@ -70,7 +70,7 @@ void initYellowGuy(Entity *e)
 static void tick(void)
 {
 	int tile, fall, i, n;
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	
 	tile = level.data[(int)self->x][(int)self->y];
 
@@ -78,7 +78,7 @@ static void tick(void)
 	{
 		fall = 1;
 
-		candidates = getEntitiesAt(self->x, self->y, &n, self);
+		getEntitiesAt(self->x, self->y, &n, self, candidates);
 
 		for (i = 0 ; i < n ; i++)
 		{

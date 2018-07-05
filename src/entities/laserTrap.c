@@ -65,7 +65,7 @@ static void initLaserTrap(Entity *e)
 static void tick(void)
 {
 	int i, n, dx, dy, hit;
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	
 	self->tx = self->x;
 	self->ty = self->y;
@@ -91,7 +91,7 @@ static void tick(void)
 			}
 			else
 			{
-				candidates = getEntitiesAt(self->tx, self->ty, &n, self);
+				getEntitiesAt(self->tx, self->ty, &n, self, candidates);
 				
 				for (i = 0 ; i < n ; i++)
 				{

@@ -45,7 +45,7 @@ void doPlayer(void)
 
 static void doControls(void)
 {
-	Entity **candiates;
+	Entity *candidates[MAX_CANDIDATES];
 	float x, y;
 	int n, i;
 	
@@ -65,7 +65,7 @@ static void doControls(void)
 		
 		if (level.routeIndex == 0)
 		{
-			candiates = getEntitiesAt(x, y, &n, NULL);
+			getEntitiesAt(x, y, &n, NULL, candidates);
 			
 			if (n == 0)
 			{
@@ -73,13 +73,13 @@ static void doControls(void)
 			}
 			else if (n == 1)
 			{
-				handleEntityClick(candiates[0]);
+				handleEntityClick(candidates[0]);
 			}
 			else
 			{
 				for (i = 0 ; i < n ; i++)
 				{
-					handleEntityClick(candiates[i]);
+					handleEntityClick(candidates[i]);
 				}
 			}
 		}
@@ -174,7 +174,7 @@ static void handleEntityClick(Entity *e)
 static int addRouteNode(void)
 {
 	int i, n;
-	Entity **candidates;
+	Entity *candidates[MAX_CANDIDATES];
 	
 	if (lastRouteNode.x < 0 || lastRouteNode.x >= MAP_WIDTH || lastRouteNode.y < 0 || lastRouteNode.y >= MAP_HEIGHT || level.data[lastRouteNode.x][lastRouteNode.y] == TILE_WALL || !isWalkableByGuy())
 	{
@@ -193,7 +193,7 @@ static int addRouteNode(void)
 		return 0;
 	}
 	
-	candidates = getEntitiesAt(lastRouteNode.x, lastRouteNode.y, &n, NULL);
+	getEntitiesAt(lastRouteNode.x, lastRouteNode.y, &n, NULL, candidates);
 	
 	for (i = 0 ; i < n ; i++)
 	{
