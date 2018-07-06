@@ -86,6 +86,8 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
+	drawText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Options");
+	
 	drawWidgets();
 	
 	drawWipe();
@@ -94,6 +96,8 @@ static void draw(void)
 static void res(void)
 {
 	sscanf(resWidget->options[(int)resWidget->value], "%dx%d", &app.config.winWidth, &app.config.winHeight);
+	
+	playSound(SND_SELECT, 0);
 }
 
 static void sound(void)
@@ -104,7 +108,7 @@ static void sound(void)
 	
 	Mix_Volume(-1, app.config.soundVolume * 12.8);
 	
-	playSound(SND_BUTTON, 0);
+	playSound(SND_SELECT, 0);
 }
 
 static void music(void)
@@ -115,21 +119,21 @@ static void music(void)
 	
 	Mix_VolumeMusic(app.config.musicVolume * 12.8);
 	
-	playSound(SND_BUTTON, 0);
+	playSound(SND_SELECT, 0);
 }
 
 static void sex(void)
 {
-	playSound(SND_BUTTON, 0);
-	
 	app.config.sex = sexWidget->value;
+	
+	playSound(SND_SELECT, 0);
 }
 
 static void speed(void)
 {
-	playSound(SND_BUTTON, 0);
-	
 	app.config.speed = speedWidget->value;
+	
+	playSound(SND_SELECT, 0);
 }
 
 static void back(void)
@@ -137,6 +141,8 @@ static void back(void)
 	saveConfig();
 	
 	app.delegate.postOptions();
+	
+	playSound(SND_SELECT, 0);
 }
 
 static void setScreenResOption(Widget *w)

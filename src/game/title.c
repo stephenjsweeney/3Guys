@@ -149,20 +149,28 @@ static void postOptions(void)
 
 static void play(void)
 {
+	playSound(SND_BUTTON, 1);
+	
 	initLevelSelect();
 }
 
 static void options(void)
 {
+	playSound(SND_BUTTON, 1);
+	
 	initOptions();
 }
 
 static void stats(void)
 {
+	playSound(SND_BUTTON, 1);
+	
+	initStats();
 }
 
 static void credits(void)
 {
+	playSound(SND_BUTTON, 1);
 }
 
 static void quit(void)

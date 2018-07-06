@@ -34,5 +34,6 @@ extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
 extern void saveConfig(void);
 extern void showWidgetGroup(const char *name);
+extern void drawText(int x, int y, int align, int size, const char *format, ...);
 
 extern App app;

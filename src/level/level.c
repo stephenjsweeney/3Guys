@@ -203,12 +203,22 @@ static void doTips(void)
 		}
 		
 		app.mouse.button[SDL_BUTTON_LEFT] = 0;
+		
+		playSound(SND_SELECT, 0);
 	}
 }
 
 static void doPause(void)
 {
 	doWidgets();
+	
+	if (app.keyboard[SDL_SCANCODE_ESCAPE])
+	{
+		show = SHOW_LEVEL;
+		showWidgetGroup("");
+		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+		playSound(SND_SELECT, 0);
+	}
 }
 
 static void doLevel(void)
@@ -278,6 +288,7 @@ static void doLevel(void)
 		show = SHOW_PAUSE;
 		showWidgetGroup("level");
 		app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
+		playSound(SND_SELECT, 0);
 	}
 }
 
@@ -628,20 +639,28 @@ int getRandomFloorTile(void)
 static void resume(void)
 {
 	show = SHOW_LEVEL;
+	
+	playSound(SND_BUTTON, 0);
 }
 
 static void tips(void)
 {
 	show = SHOW_TIPS;
+	
+	playSound(SND_BUTTON, 0);
 }
 
 static void options(void)
 {
 	initOptions();
+	
+	playSound(SND_BUTTON, 0);
 }
 
 static void restart(void)
 {
+	playSound(SND_BUTTON, 1);
+	
 	restartLevel();
 }
 
@@ -650,6 +669,8 @@ static void quit(void)
 	initLevelSelect();
 	
 	isPlayingMusic = 0;
+	
+	playSound(SND_BUTTON, 0);
 }
 
 static void postOptions(void)

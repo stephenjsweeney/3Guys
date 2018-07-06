@@ -253,5 +253,7 @@ static void next(void)
 
 static void back(void)
 {
+	playSound(SND_SELECT, 1);
+	
 	initTitle();
 }

@@ -41,5 +41,7 @@ extern Texture *loadTexture(const char *filename);
 extern void playMusic(int loop);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void showWidgetGroup(const char *name);
+extern void playSound(int snd, int ch);
+extern void initStats(void);
 
 extern App app;
