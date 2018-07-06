@@ -43,6 +43,8 @@ static void tick(void)
 	if (n != self->weight)
 	{
 		activateEntities(self->target);
+		
+		playSound(SND_PRESSURE_PLATE, 2);
 	}
 	
 	self->weight = n;

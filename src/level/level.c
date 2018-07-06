@@ -204,7 +204,7 @@ static void doTips(void)
 		
 		app.mouse.button[SDL_BUTTON_LEFT] = 0;
 		
-		playSound(SND_SELECT, 0);
+		playSound(SND_HINT, 0);
 	}
 }
 
@@ -378,6 +378,8 @@ static void nextLevel(void)
 	}
 	else
 	{
+		saveGame();
+		
 		initEnding();
 	}
 }

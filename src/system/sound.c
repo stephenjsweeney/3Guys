@@ -100,15 +100,15 @@ static void loadSounds(void)
 	sounds[SND_FADE] = loadSound("sound/fade.ogg");
 	sounds[SND_FAIL] = loadSound("sound/fail.ogg");
 	sounds[SND_HINT] = loadSound("sound/hint.ogg");
-	sounds[SND_KEY] = loadSound("sound/key.ogg");
 	sounds[SND_OPEN] = loadSound("sound/open.ogg");
 	sounds[SND_OPTION] = loadSound("sound/option.ogg");
 	sounds[SND_PICKUP] = loadSound("sound/pickup.ogg");
-	sounds[SND_PRESSUREPLATE] = loadSound("sound/pressurePlate.ogg");
+	sounds[SND_PRESSURE_PLATE] = loadSound("sound/pressurePlate.ogg");
 	sounds[SND_SELECT] = loadSound("sound/select.ogg");
 	sounds[SND_STAR] = loadSound("sound/star.ogg");
 	sounds[SND_TELEPORT] = loadSound("sound/teleport.ogg");
 	sounds[SND_WALK] = loadSound("sound/walk.ogg");
+	sounds[SND_WALL] = loadSound("sound/wall.ogg");
 	sounds[SND_WIPE] = loadSound("sound/wipe.ogg");
 }
 
