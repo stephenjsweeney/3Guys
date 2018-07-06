@@ -30,6 +30,7 @@ typedef struct Credit Credit;
 typedef struct Font Font;
 typedef struct Entity Entity;
 typedef struct EntityDef EntityDef;
+typedef struct RouteNode RouteNode;
 
 typedef struct {
 	int debug;
@@ -215,6 +216,13 @@ struct Effect {
 	Effect *next;
 };
 
+struct RouteNode {
+	int x;
+	int y;
+	RouteNode *prev;
+	RouteNode *next;
+};
+
 typedef struct {
 	int id;
 	int moves;
@@ -222,7 +230,7 @@ typedef struct {
 	int tools;
 	Entity *guy;
 	int data[MAP_WIDTH][MAP_HEIGHT];
-	SDL_Point route[MAP_WIDTH * MAP_HEIGHT];
+	RouteNode routeHead, *routeTail;
 	Entity entityHead, *entityTail;
 	Effect effectHead, *effectTail;
 	int dx;
@@ -231,7 +239,6 @@ typedef struct {
 	char **tips;
 	char *message;
 	int walkRoute;
-	int routeIndex;
 	int finishTimer;
 	int state;
 } Level;

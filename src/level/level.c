@@ -65,6 +65,8 @@ void initLevel(int id)
 	game.stats[STAT_LEVELS_STARTED]++;
 	
 	memset(&level, 0, sizeof(Level));
+
+	level.routeTail = &level.routeHead;
 	
 	initTiles();
 	
@@ -295,17 +297,17 @@ static void doLevel(void)
 static void moveGuy(void)
 {
 	Entity *candidates[MAX_CANDIDATES];
+	RouteNode *node;
 	int n, blocked;
 	
-	level.dx = level.route[level.routeIndex].x - level.guy->x;
-	level.dy = level.route[level.routeIndex].y - level.guy->y;
+	level.dx = level.routeHead.next->x - level.guy->x;
+	level.dy = level.routeHead.next->y - level.guy->y;
 	
 	moveTimer = 10 - (app.config.speed * 2);
 	
-	level.route[level.routeIndex].x = -1;
-	level.route[level.routeIndex].y = -1;
-	
-	level.routeIndex++;
+	node = level.routeHead.next;
+	level.routeHead.next = node->next;
+	free(node);
 	
 	game.stats[STAT_SQUARES]++;
 	
@@ -329,11 +331,9 @@ static void moveGuy(void)
 		}
 	}
 	
-	if (blocked || level.routeIndex == MAP_WIDTH * MAP_HEIGHT || level.route[level.routeIndex].x == -1)
+	if (blocked || level.routeHead.next == NULL)
 	{
 		level.walkRoute = 0;
-		
-		level.routeIndex = 0;
 		
 		if (level.moves > -1)
 		{
@@ -465,59 +465,45 @@ static void drawMap(void)
 
 static void drawRoute(void)
 {
-	int i, x, y, start;
+	RouteNode *n;
+	int x, y;
 	
-	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-	
-	start = (level.walkRoute) ? level.routeIndex : 0;
-	
-	for (i = start ; i < MAP_WIDTH * MAP_HEIGHT ; i++)
+	if (level.routeHead.next != NULL)
 	{
-		x = LEVEL_RENDER_X + level.route[i].x * TILE_SIZE;
-		y = LEVEL_RENDER_Y + level.route[i].y * TILE_SIZE;
+		setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 		
-		if (level.route[i].x == -1)
+		for (n = level.routeHead.next ; n != NULL ; n = n->next)
 		{
-			if (i > start)
+			x = LEVEL_RENDER_X + n->x * TILE_SIZE;
+			y = LEVEL_RENDER_Y + n->y * TILE_SIZE;
+			
+			drawGLRectangleBatch(&highlight->rect, x, y, 0);
+			
+			glRectangleBatch.rotate = 1;
+			
+			if (n != level.routeHead.next)
 			{
-				x = LEVEL_RENDER_X + level.route[i - 1].x * TILE_SIZE;
-				y = LEVEL_RENDER_Y + level.route[i - 1].y * TILE_SIZE;
-				
-				x += TILE_SIZE / 2;
-				y += TILE_SIZE / 2;
-				
-				drawGLRectangleBatch(&routeBlob->rect, x, y, 1);
+				glRectangleBatch.angle = getAngle(n->prev->x, n->prev->y, n->x, n->y);
+				drawGLRectangleBatch(&routeLink->rect, x, y, 0);
 			}
 			
-			return;
-		}
-		
-		drawGLRectangleBatch(&highlight->rect, x, y, 0);
-		
-		glRectangleBatch.rotate = 1;
-		
-		if (i > start)
-		{
-			glRectangleBatch.angle = getAngle(level.route[i - 1].x, level.route[i - 1].y, level.route[i].x, level.route[i].y);
-			drawGLRectangleBatch(&routeLink->rect, x, y, 0);
-		}
-		
-		if (i < (MAP_WIDTH * MAP_HEIGHT) - 1 && level.route[i + 1].x != -1)
-		{
-			glRectangleBatch.angle = getAngle(level.route[i + 1].x, level.route[i + 1].y, level.route[i].x, level.route[i].y);
-			drawGLRectangleBatch(&routeLink->rect, x, y, 0);
-		}
+			if (n->next != NULL)
+			{
+				glRectangleBatch.angle = getAngle(n->next->x, n->next->y, n->x, n->y);
+				drawGLRectangleBatch(&routeLink->rect, x, y, 0);
+			}
 
-		glRectangleBatch.rotate = 0;
+			glRectangleBatch.rotate = 0;
+		}
+		
+		x = LEVEL_RENDER_X + level.routeTail->x * TILE_SIZE;
+		y = LEVEL_RENDER_Y + level.routeTail->y * TILE_SIZE;
+		
+		x += TILE_SIZE / 2;
+		y += TILE_SIZE / 2;
+		
+		drawGLRectangleBatch(&routeBlob->rect, x, y, 1);
 	}
-	
-	x = LEVEL_RENDER_X + level.route[i - 1].x * TILE_SIZE;
-	y = LEVEL_RENDER_Y + level.route[i - 1].y * TILE_SIZE;
-	
-	x += TILE_SIZE / 2;
-	y += TILE_SIZE / 2;
-	
-	drawGLRectangleBatch(&routeBlob->rect, x, y, 1);
 }
 
 static void drawTopBar(void)
@@ -695,6 +681,7 @@ static void postOptions(void)
 void destroyLevel(void)
 {
 	Entity *e;
+	RouteNode *n;
 	int i;
 	
 	while (level.entityHead.next)
@@ -702,6 +689,13 @@ void destroyLevel(void)
 		e = level.entityHead.next;
 		level.entityHead.next = e->next;
 		free(e);
+	}
+
+	while (level.routeHead.next)
+	{
+		n = level.routeHead.next;
+		level.routeHead.next = n->next;
+		free(n);
 	}
 	
 	for (i = 0 ; i < level.numTips ; i++)

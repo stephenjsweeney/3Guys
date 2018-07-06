@@ -244,7 +244,10 @@ void saveConfig(void)
 	}
 
 	cJSON_Delete(root);
+	
 	free(out);
+	
+	free(filename);
 }
 
 void cleanup(void)

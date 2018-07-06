@@ -54,6 +54,7 @@ static void doControls(void)
 	Entity *candidates[MAX_CANDIDATES];
 	float x, y;
 	int n, i;
+	RouteNode *node;
 	
 	if (app.mouse.button[SDL_BUTTON_LEFT])
 	{
@@ -69,7 +70,7 @@ static void doControls(void)
 		y -= LEVEL_RENDER_Y;
 		y /= TILE_SIZE;
 		
-		if (level.routeIndex == 0)
+		if (level.routeHead.next == NULL)
 		{
 			getEntitiesAt(x, y, &n, NULL, candidates);
 			
@@ -96,9 +97,14 @@ static void doControls(void)
 				
 				if (addRouteNode())
 				{
-					level.route[level.routeIndex].x = lastRouteNode.x;
-					level.route[level.routeIndex].y = lastRouteNode.y;
-					level.routeIndex++;
+					node = malloc(sizeof(RouteNode));
+					memset(node, 0, sizeof(RouteNode));
+					node->prev = level.routeTail;
+					level.routeTail->next = node;
+					level.routeTail = node;
+
+					level.routeTail->x = lastRouteNode.x;
+					level.routeTail->y = lastRouteNode.y;
 				}
 				
 				cancelLastNode();
@@ -107,16 +113,16 @@ static void doControls(void)
 	}
 	else
 	{
-		if (level.routeIndex > 1)
+		if (level.routeHead.next != NULL && level.routeHead.next->next != NULL)
 		{
 			level.walkRoute = 1;
 			
 			/* ignore 0, as it's the guy himself */
-			level.route[0].x = -1;
-			level.route[0].y = -1;
-			level.routeIndex = 1;
+			node = level.routeHead.next;
+			level.routeHead.next = node->next;
+			free(node);
 		}
-		else if (level.routeIndex > 0)
+		else
 		{
 			clearRoute();
 		}
@@ -154,6 +160,8 @@ static void handleTNT(int x, int y)
 
 static void handleEntityClick(Entity *e)
 {
+	RouteNode *n;
+
 	switch (e->type)
 	{
 		case ET_RED_GUY:
@@ -163,10 +171,15 @@ static void handleEntityClick(Entity *e)
 			{
 				lastRouteNode.x = e->x;
 				lastRouteNode.y = e->y;
+
+				n = malloc(sizeof(RouteNode));
+				memset(n, 0, sizeof(RouteNode));
+				n->prev = level.routeTail;
+				level.routeTail->next = n;
+				level.routeTail = n;
 				
-				level.route[level.routeIndex].x = lastRouteNode.x;
-				level.route[level.routeIndex].y = lastRouteNode.y;
-				level.routeIndex++;
+				n->x = lastRouteNode.x;
+				n->y = lastRouteNode.y;
 			}
 			else
 			{
@@ -175,7 +188,7 @@ static void handleEntityClick(Entity *e)
 			break;
 			
 		default:
-			if (level.routeIndex == 0 && e->describe != NULL)
+			if (level.routeHead.next == NULL && e->describe != NULL)
 			{
 				self = e;
 				
@@ -189,6 +202,7 @@ static int addRouteNode(void)
 {
 	int i, n;
 	Entity *candidates[MAX_CANDIDATES];
+	RouteNode *node;
 	
 	if (lastRouteNode.x < 0 || lastRouteNode.x >= MAP_WIDTH || lastRouteNode.y < 0 || lastRouteNode.y >= MAP_HEIGHT || level.data[lastRouteNode.x][lastRouteNode.y] == TILE_WALL || !isWalkableByGuy())
 	{
@@ -196,13 +210,13 @@ static int addRouteNode(void)
 	}
 	
 	/* too far away from last node */
-	if (fabs(level.route[level.routeIndex - 1].x - lastRouteNode.x) > 1 || fabs(level.route[level.routeIndex - 1].y - lastRouteNode.y) > 1)
+	if (abs(level.routeTail->x - lastRouteNode.x) > 1 || abs(level.routeTail->y - lastRouteNode.y) > 1)
 	{
 		return 0;
 	}
 
 	/* don't allow diagonals */
-	if (fabs(level.route[level.routeIndex - 1].x - lastRouteNode.x) == 1 && fabs(level.route[level.routeIndex - 1].y - lastRouteNode.y) == 1)
+	if (abs(level.routeTail->x - lastRouteNode.x) == 1 && abs(level.routeTail->y - lastRouteNode.y) == 1)
 	{
 		return 0;
 	}
@@ -219,20 +233,15 @@ static int addRouteNode(void)
 		}
 	}
 	
-	for (i = 0 ; i < MAP_WIDTH * MAP_HEIGHT ; i++)
+	for (node = level.routeHead.next ; node != NULL ; node = node->next)
 	{
-		if (level.route[i].x == lastRouteNode.x && level.route[i].y == lastRouteNode.y)
+		if (node->x == lastRouteNode.x && node->y == lastRouteNode.y)
 		{
 			return 0;
 		}
-		
-		if (level.route[i].x == -1 && level.route[i].y == -1)
-		{
-			return 1;
-		}
 	}
 	
-	return 0;
+	return 1;
 }
 
 static int isWalkableByGuy(void)
@@ -255,14 +264,18 @@ static int isWalkableByGuy(void)
 
 static void cancelLastNode(void)
 {
-	if (level.routeIndex > 1)
+	RouteNode *n;
+
+	if (level.routeHead.next != NULL && level.routeHead.next->next != NULL)
 	{
-		if (level.route[level.routeIndex - 2].x == lastRouteNode.x && level.route[level.routeIndex - 2].y == lastRouteNode.y)
+		n = level.routeTail->prev;
+
+		if (n->x == lastRouteNode.x && n->y == lastRouteNode.y)
 		{
-			level.route[level.routeIndex - 1].x = -1;
-			level.route[level.routeIndex - 1].y = -1;
-			
-			level.routeIndex--;
+			free(level.routeTail);
+
+			n->next = NULL;
+			level.routeTail = n;
 		}
 	}
 }
@@ -275,14 +288,17 @@ void stepBack(void)
 
 void clearRoute(void)
 {
-	int i;
+	RouteNode *n;
 	
-	for (i = 0 ; i < MAP_WIDTH * MAP_HEIGHT ; i++)
+	while (level.routeHead.next)
 	{
-		level.route[i].x = level.route[i].y = -1;
+		n = level.routeHead.next;
+		level.routeHead.next = n->next;
+		free(n);
 	}
-	
-	level.routeIndex = 0;
+
+	memset(&level.routeHead, 0, sizeof(RouteNode));
+	level.routeTail = &level.routeHead;
 	
 	level.dx = level.dy = 0;
 	
