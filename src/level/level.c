@@ -465,8 +465,10 @@ static void drawMap(void)
 
 static void drawRoute(void)
 {
-	RouteNode *n;
+	RouteNode *n, *prev;
 	int x, y;
+	
+	prev = &level.routeHead;
 	
 	if (level.routeHead.next != NULL)
 	{
@@ -483,7 +485,7 @@ static void drawRoute(void)
 			
 			if (n != level.routeHead.next)
 			{
-				glRectangleBatch.angle = getAngle(n->prev->x, n->prev->y, n->x, n->y);
+				glRectangleBatch.angle = getAngle(prev->x, prev->y, n->x, n->y);
 				drawGLRectangleBatch(&routeLink->rect, x, y, 0);
 			}
 			
@@ -494,6 +496,8 @@ static void drawRoute(void)
 			}
 
 			glRectangleBatch.rotate = 0;
+			
+			prev = n;
 		}
 		
 		x = LEVEL_RENDER_X + level.routeTail->x * TILE_SIZE;

@@ -99,7 +99,6 @@ static void doControls(void)
 				{
 					node = malloc(sizeof(RouteNode));
 					memset(node, 0, sizeof(RouteNode));
-					node->prev = level.routeTail;
 					level.routeTail->next = node;
 					level.routeTail = node;
 
@@ -174,7 +173,6 @@ static void handleEntityClick(Entity *e)
 
 				n = malloc(sizeof(RouteNode));
 				memset(n, 0, sizeof(RouteNode));
-				n->prev = level.routeTail;
 				level.routeTail->next = n;
 				level.routeTail = n;
 				
@@ -264,19 +262,21 @@ static int isWalkableByGuy(void)
 
 static void cancelLastNode(void)
 {
-	RouteNode *n;
+	RouteNode *n, *prev;
 
-	if (level.routeHead.next != NULL && level.routeHead.next->next != NULL)
+	prev = &level.routeHead;
+	
+	for (n = level.routeHead.next ; n != NULL ; n = n->next)
 	{
-		n = level.routeTail->prev;
-
-		if (n->x == lastRouteNode.x && n->y == lastRouteNode.y)
+		if (n == level.routeTail && prev->x == lastRouteNode.x && prev->y == lastRouteNode.y)
 		{
 			free(level.routeTail);
-
-			n->next = NULL;
-			level.routeTail = n;
+			prev->next = NULL;
+			level.routeTail = prev;
+			return;
 		}
+		
+		prev = n;
 	}
 }
 

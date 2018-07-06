@@ -219,7 +219,6 @@ struct Effect {
 struct RouteNode {
 	int x;
 	int y;
-	RouteNode *prev;
 	RouteNode *next;
 };
 
