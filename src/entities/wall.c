@@ -24,6 +24,9 @@ static void touch(Entity *other);
 static int blocking(void);
 static void die(void);
 static void activate(void);
+static void draw(void);
+
+static Atlas *wallDown;
 
 void initWall(Entity *e)
 {
@@ -33,13 +36,17 @@ void initWall(Entity *e)
 	e->isBlocking = blocking;
 	e->die = die;
 	e->activate = activate;
+	e->draw = draw;
 	
 	e->solid = 1;
+	e->active = 1;
+	
+	wallDown = getImageFromAtlas("gfx/sprites/wallDown.png", 1);
 }
 
 static void touch(Entity *other)
 {
-	if (self->visible && isGuy(other))
+	if (self->active && isGuy(other))
 	{
 		stepBack();
 
@@ -52,7 +59,7 @@ static void activate(void)
 	Entity *candidates[MAX_CANDIDATES];
 	int i, n;
 	
-	self->solid = self->visible = !self->visible;
+	self->solid = self->active = !self->active;
 	
 	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
@@ -67,6 +74,28 @@ static void activate(void)
 			self->alive = 0;
 		}
 	}
+	
+	playSound(SND_WALL, 2);
+}
+
+static void draw(void)
+{
+	int x, y;
+	
+	x = LEVEL_RENDER_X + self->x * TILE_SIZE;
+	y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
+
+	x += TILE_SIZE / 2;
+	y += TILE_SIZE / 2;
+	
+	if (self->active)
+	{
+		drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
+	}
+	else
+	{
+		drawGLRectangleBatch(&wallDown->rect, x, y, 1);
+	}
 }
 
 static void die(void)
@@ -78,5 +107,5 @@ static void die(void)
 
 static int blocking(void)
 {
-	return self->visible;
+	return self->active;
 }

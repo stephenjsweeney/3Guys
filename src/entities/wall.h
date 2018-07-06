@@ -24,7 +24,10 @@ extern void addExplosionEffect(int mx, int my, float r, float g, float b);
 extern void clearRoute(void);
 extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
 extern Sprite *getSprite(char *name);
+extern Atlas *getImageFromAtlas(char *filename, int required);
 extern int isGuy(Entity *e);
+extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
+extern GLRectangle *getCurrentFrame(Sprite *s);
 extern void playSound(int snd, int ch);
 extern void stepBack(void);
 
