@@ -372,7 +372,14 @@ static void nextLevel(void)
 	
 	destroyEntities();
 	
-	initLevel(nextLevel);
+	if (nextLevel <= MAX_LEVELS)
+	{
+		initLevel(nextLevel);
+	}
+	else
+	{
+		initEnding();
+	}
 }
 
 void failLevel(void)

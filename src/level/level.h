@@ -68,6 +68,7 @@ extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void setTextWidth(int width);
 extern void showWidgetGroup(const char *name);
 extern void updateStar(void);
+extern void initEnding(void);
 
 extern App app;
 extern Entity *self;
