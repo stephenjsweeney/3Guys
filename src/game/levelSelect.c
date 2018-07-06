@@ -50,7 +50,7 @@ void initLevelSelect(void)
 	levelStarMissing = getImageFromAtlas("gfx/levelSelect/levelStarMissing.png", 1);
 	levelStarFound = getImageFromAtlas("gfx/levelSelect/levelStarFound.png", 1);
 	
-	page = 0;
+	page = game.levelsCompleted / MAX_LEVEL_PER_PAGE;
 	
 	initLevelRects(page);
 	
@@ -62,9 +62,10 @@ void initLevelSelect(void)
 	getWidget("next", "levelSelect")->action = next;
 	getWidget("back", "levelSelect")->action = back;
 	
-	getWidget("prev", "levelSelect")->disabled = 1;
-	
 	countStars();
+	
+	getWidget("prev", "levelSelect")->disabled = page == 0;
+	getWidget("next", "levelSelect")->disabled = page >= (MAX_LEVELS / MAX_LEVEL_PER_PAGE);
 	
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
