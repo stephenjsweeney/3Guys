@@ -114,9 +114,10 @@ static void capFrameRate(long *then, float *remainder)
 
 static void handleCommandLine(int argc, char *argv[])
 {
-	int i, levelNum;
+	int i, levelNum, ending;
 
 	levelNum = 0;
+	ending = 0;
 	
 	for (i = 1 ; i < argc ; i++)
 	{
@@ -129,11 +130,20 @@ static void handleCommandLine(int argc, char *argv[])
 		{
 			dev.debug = dev.showFPS = 1;
 		}
+		
+		if (strcmp(argv[i], "-ending") == 0)
+		{
+			ending = 1;
+		}
 	}
 	
 	if (levelNum > 0)
 	{
 		initLevelTest(levelNum);
+	}
+	else if (ending)
+	{
+		initEnding();
 	}
 	else
 	{

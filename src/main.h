@@ -41,6 +41,7 @@ extern void saveScreenshot(char *name);
 extern void initTitle(void);
 extern void createScreenshotFolder(void);
 extern void initLevelTest(int n);
+extern void initEnding(void);
 
 App app;
 Colors colors;

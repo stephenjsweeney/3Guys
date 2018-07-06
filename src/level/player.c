@@ -27,6 +27,7 @@ void clearRoute(void);
 static void cancelLastNode(void);
 static void doControls(void);
 static int isWalkableByGuy(void);
+static void doDebugControls(void);
 
 static SDL_Point lastRouteNode;
 
@@ -40,6 +41,11 @@ void doPlayer(void)
 	if (!level.walkRoute)
 	{
 		doControls();
+	}
+	
+	if (dev.debug)
+	{
+		doDebugControls();
 	}
 }
 
@@ -114,6 +120,16 @@ static void doControls(void)
 		{
 			clearRoute();
 		}
+	}
+}
+
+static void doDebugControls(void)
+{
+	if (app.keyboard[SDL_SCANCODE_1])
+	{
+		completeLevel();
+		
+		app.keyboard[SDL_SCANCODE_1] = 0;
 	}
 }
 

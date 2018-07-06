@@ -24,8 +24,10 @@ extern void addExplosionEffect(int mx, int my, float r, float g, float b);
 extern void addFloor(int x, int y);
 extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
 extern void playSound(int snd, int ch);
+extern void completeLevel(void);
 
 extern App app;
+extern Dev dev;
 extern Entity *self;
 extern Game game;
 extern Level level;
