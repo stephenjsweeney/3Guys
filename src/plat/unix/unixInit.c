@@ -54,8 +54,6 @@ static void mkpath(const char *path)
 	
 	rootPath = 1;
 	
-	printf("%s\n", path);
-	
 	for (i = 0 ; i < strlen(path) ; i++)
 	{
 		if (path[i] == '/')

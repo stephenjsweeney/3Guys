@@ -76,7 +76,15 @@ void initLevel(int id)
 	
 	initEffects();
 	
-	loadLevel(id);
+	/* to handle demo */
+	if (!loadLevel(id))
+	{
+		destroyLevel();
+		
+		initLevelSelect();
+		
+		return;
+	}
 	
 	doEntities();
 	

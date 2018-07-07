@@ -58,7 +58,7 @@ extern void initLevelSelect(void);
 extern void initOptions(void);
 extern void initPlayer(void);
 extern void initWipe(int type);
-extern void loadLevel(int n);
+extern int loadLevel(int n);
 extern void loadMusic(const char *filename);
 extern Texture *loadTexture(const char *filename);
 extern void moveEntities(void);

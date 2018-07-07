@@ -30,7 +30,7 @@ static Entity *createEntity(const char *type);
 static EntityDef entityDefHead;
 static EntityDef *entityDefTail;
 
-void loadLevel(int id)
+int loadLevel(int id)
 {
 	char *text, *filename;
 	cJSON *root;
@@ -41,21 +41,28 @@ void loadLevel(int id)
 	
 	filename = buildFormattedString("data/levels/%d.json", id);
 	
-	text = readFile(filename);
+	if (fileExists(filename))
+	{
+		text = readFile(filename);
 
-	root = cJSON_Parse(text);
+		root = cJSON_Parse(text);
+		
+		loadMeta(cJSON_GetObjectItem(root, "meta"));
+		
+		loadMapData(cJSON_GetObjectItem(root, "map"));
+		
+		loadEntities(cJSON_GetObjectItem(root, "entities"));
+		
+		cJSON_Delete(root);
+		
+		free(text);
+		
+		free(filename);
+		
+		return 1;
+	}
 	
-	loadMeta(cJSON_GetObjectItem(root, "meta"));
-	
-	loadMapData(cJSON_GetObjectItem(root, "map"));
-	
-	loadEntities(cJSON_GetObjectItem(root, "entities"));
-	
-	cJSON_Delete(root);
-	
-	free(text);
-	
-	free(filename);
+	return 0;
 }
 
 static void loadMeta(cJSON *metaJSON)
