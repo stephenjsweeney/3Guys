@@ -88,6 +88,12 @@ static void draw(void)
 	
 	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, app.strings[ST_OPTIONS]);
 	
+	setTextWidth(700);
+	setGLRectangleBatchColor(1.0, 1.0, 0.75, 1.0);
+	drawText(50, 1050, TA_LEFT, 25, app.strings[ST_RESTART_RES]);
+	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
+	setTextWidth(0);
+	
 	drawWidgets();
 	
 	drawWipe();

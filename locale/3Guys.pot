@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3 Guys\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-07 10:53:15+0100\n"
+"POT-Creation-Date: 2018-07-07 11:11:49+0100\n"
 "PO-Revision-Date: ???\n"
 "Last-Translator: ???\n"
 "Language-Team: ???\n"
@@ -134,6 +134,9 @@ msgid "Congratulations"
 msgstr ""
 
 msgid "Thanks to his pals, Red's hunger is finally sated! Unfortunately, he's been away from the office for quite a few hours now, so should probably should get back if he wants to avoid having to work late. Again."
+msgstr ""
+
+msgid "Resolution changes will take effect after the game is restarted."
 msgstr ""
 
 msgid "Back"
