@@ -28,7 +28,7 @@ endif
 
 LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm -lz -lpng -lGL
 
-SHARED_FILES = LICENSE README.md data gfx music sound icons
+SHARED_FILES = LICENSE README.md data gfx music sound icons fonts
 DIST_FILES = $(SHARED_FILES) locale $(PROG)
 SRC_DIST_FILES = $(SHARED_FILES) src makefile* common.mk
 
@@ -44,6 +44,7 @@ install:
 	cp -r gfx $(INST_DATA_DIR)
 	cp -r music $(INST_DATA_DIR)
 	cp -r sound $(INST_DATA_DIR)
+	cp -r fonts $(INST_DATA_DIR)
 	mkdir -p $(INST_ICON_DIR)/16x16/apps
 	mkdir -p $(INST_ICON_DIR)/32x32/apps
 	mkdir -p $(INST_ICON_DIR)/64x64/apps
