@@ -35,7 +35,7 @@ static Atlas *levelStarMissing;
 static Atlas *levelStarFound;
 static Background background;
 static LevelRect levelRect[MAX_LEVEL_PER_PAGE];
-static int page;
+static int page = -1;
 static int starsFound;
 static int starsAvailable;
 
@@ -50,7 +50,10 @@ void initLevelSelect(void)
 	levelStarMissing = getImageFromAtlas("gfx/levelSelect/levelStarMissing.png", 1);
 	levelStarFound = getImageFromAtlas("gfx/levelSelect/levelStarFound.png", 1);
 	
-	page = game.levelsCompleted / MAX_LEVEL_PER_PAGE;
+	if (page == -1)
+	{
+		page = game.levelsCompleted / MAX_LEVEL_PER_PAGE;
+	}
 	
 	initLevelRects(page);
 	
@@ -218,10 +221,10 @@ static void draw(void)
 		}
 	}
 	
-	drawShadowText(SCREEN_WIDTH / 2, 40, TA_CENTER, 48, "Level Select");
+	drawShadowText(SCREEN_WIDTH / 2, 40, TA_CENTER, 48, app.strings[ST_LEVEL_SELECT]);
 	
-	drawShadowText(50, 150, TA_LEFT, 32, "Levels: %d / %d", game.levelsCompleted, MAX_LEVELS);
-	drawShadowText(SCREEN_WIDTH - 50, 150, TA_RIGHT, 32, "Stars: %d / %d", starsFound, starsAvailable);
+	drawShadowText(50, 150, TA_LEFT, 32, app.strings[ST_LEVELS], game.levelsCompleted, MAX_LEVELS);
+	drawShadowText(SCREEN_WIDTH - 50, 150, TA_RIGHT, 32, app.strings[ST_STARS], starsFound, starsAvailable);
 	
 	drawWidgets();
 	

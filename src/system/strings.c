@@ -42,4 +42,13 @@ void initStrings(void)
 	app.strings[ST_LASER_TRAP_DESC] = _("A laser trap. The beams look like they'd hurt.");
 	app.strings[ST_LASER_TRAP_OFF_DESC] = _("A laser trap. Luckily, it's switched off.");
 	app.strings[ST_FIRE_PIT_DESC] = _("A fire pit trap. Falling in would hurt quite a lot.");
+	app.strings[ST_LEVEL_SELECT] = _("Level Select");
+	app.strings[ST_LEVELS] = _("Levels: %d / %d");
+	app.strings[ST_STARS] = _("Stars: %d / %d");
+	app.strings[ST_PAUSE] = _("Pause");
+	app.strings[ST_OPTIONS] = _("Options");
+	app.strings[ST_STATS] = _("Stats");
+	app.strings[ST_CREDITS] = _("Credits");
+	app.strings[ST_CONGRATULATIONS] = _("Congratulations");
+	app.strings[ST_ENDING] = _("Thanks to his pals, Red's hunger is finally sated! Unfortunately, he's been away from the office for quite a few hours now, so should probably should get back if he wants to avoid having to work late. Again.");
 }

@@ -70,7 +70,7 @@ static void draw(void)
 	
 	drawBackground(&background);
 	
-	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Stats");
+	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, app.strings[ST_STATS]);
 	
 	y = 250;
 	

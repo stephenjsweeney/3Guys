@@ -86,7 +86,7 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
-	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Options");
+	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, app.strings[ST_OPTIONS]);
 	
 	drawWidgets();
 	

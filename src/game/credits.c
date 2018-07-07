@@ -55,7 +55,7 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
-	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Credits");
+	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, app.strings[ST_CREDITS]);
 	
 	drawShadowText(SCREEN_WIDTH / 2, 250, TA_CENTER, 45, "Sound Effects");
 	

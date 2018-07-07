@@ -8,13 +8,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3 Guys\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 10:17:04+0100\n"
+"POT-Creation-Date: 2018-07-07 10:53:15+0100\n"
 "PO-Revision-Date: ???\n"
 "Last-Translator: ???\n"
 "Language-Team: ???\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "Moves made"
+msgstr ""
+
+msgid "Squares walked"
+msgstr ""
+
+msgid "Diamonds eaten"
+msgstr ""
+
+msgid "Stars eaten"
+msgstr ""
+
+msgid "Levels started"
+msgstr ""
+
+msgid "Levels completed"
+msgstr ""
+
+msgid "Guys lost"
+msgstr ""
+
+msgid "Keys used"
+msgstr ""
+
+msgid "Tools used"
+msgstr ""
+
+msgid "TNT used"
+msgstr ""
+
+msgid "Time played"
+msgstr ""
 
 msgid "Click to continue"
 msgstr ""
@@ -76,19 +109,52 @@ msgstr ""
 msgid "A fire pit trap. Falling in would hurt quite a lot."
 msgstr ""
 
+msgid "Level Select"
+msgstr ""
+
+msgid "Levels: %d / %d"
+msgstr ""
+
+msgid "Stars: %d / %d"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Stats"
+msgstr ""
+
+msgid "Credits"
+msgstr ""
+
+msgid "Congratulations"
+msgstr ""
+
+msgid "Thanks to his pals, Red's hunger is finally sated! Unfortunately, he's been away from the office for quite a few hours now, so should probably should get back if he wants to avoid having to work late. Again."
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
 msgid "Resume"
 msgstr ""
 
 msgid "Tips"
 msgstr ""
 
-msgid "Options"
-msgstr ""
-
 msgid "Restart"
 msgstr ""
 
 msgid "Quit"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Res"
 msgstr ""
 
 msgid "Sound"
@@ -104,18 +170,6 @@ msgid "Speed"
 msgstr ""
 
 msgid "Play"
-msgstr ""
-
-msgid "Stats"
-msgstr ""
-
-msgid "Rate"
-msgstr ""
-
-msgid "Share"
-msgstr ""
-
-msgid "Credits"
 msgstr ""
 
 msgid "Welcome to Three Guys! Click to see the next tip."

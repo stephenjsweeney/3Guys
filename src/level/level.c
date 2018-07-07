@@ -620,7 +620,7 @@ static void drawPause(void)
 	
 	setGLRectangleBatchColor(1.0, 1.0, 0.0, 1.0);
 	
-	drawText(x + (w / 2), y + 35, TA_CENTER, 48, "Pause");
+	drawText(x + (w / 2), y + 35, TA_CENTER, 48, app.strings[ST_PAUSE]);
 	
 	drawWidgets();
 }
