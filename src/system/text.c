@@ -40,7 +40,7 @@ void initFonts(void)
 	memset(&fontHead, 0, sizeof(Font));
 	fontTail = &fontHead;
 	
-	initFont("cardigan", "fonts/cardigan titling rg.ttf");
+	initFont("cardigan", getFileLocation("fonts/cardigan titling rg.ttf"));
 	
 	useFont("cardigan");
 }
