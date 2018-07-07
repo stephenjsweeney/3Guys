@@ -29,7 +29,6 @@ extern void doWipe(void);
 extern void drawBackground(Background *background);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawShadowText(int x, int y, int align, int size, const char *format, ...);
-extern void drawText(int x, int y, int align, int size, const char *format, ...);
 extern void drawWidgets(void);
 extern void drawWipe(void);
 extern Atlas *getImageFromAtlas(char *filename, int required);

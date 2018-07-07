@@ -55,21 +55,21 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
-	drawText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Credits");
+	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Credits");
 	
-	drawText(SCREEN_WIDTH / 2, 250, TA_CENTER, 45, "Sound Effects");
+	drawShadowText(SCREEN_WIDTH / 2, 250, TA_CENTER, 45, "Sound Effects");
 	
-	drawText(SCREEN_WIDTH / 2, 350, TA_CENTER, 30, "Created using Bfxr");
-	drawText(SCREEN_WIDTH / 2, 400, TA_CENTER, 30, "www.bfxr.net");
+	drawShadowText(SCREEN_WIDTH / 2, 350, TA_CENTER, 30, "Created using Bfxr");
+	drawShadowText(SCREEN_WIDTH / 2, 400, TA_CENTER, 30, "www.bfxr.net");
 	
-	drawText(SCREEN_WIDTH / 2, 550, TA_CENTER, 45, "Music");
+	drawShadowText(SCREEN_WIDTH / 2, 550, TA_CENTER, 45, "Music");
 	
-	drawText(SCREEN_WIDTH / 2, 650, TA_CENTER, 30, "Cheerful 1 - Choro Bavario");
-	drawText(SCREEN_WIDTH / 2, 700, TA_CENTER, 30, "Copyright 2009 MSTR \"Choro Bavario\"");
-	drawText(SCREEN_WIDTH / 2, 750, TA_CENTER, 30, "www.jamendo.com/en/artist/349242/mstr");
+	drawShadowText(SCREEN_WIDTH / 2, 650, TA_CENTER, 30, "Cheerful 1 - Choro Bavario");
+	drawShadowText(SCREEN_WIDTH / 2, 700, TA_CENTER, 30, "Copyright 2009 MSTR \"Choro Bavario\"");
+	drawShadowText(SCREEN_WIDTH / 2, 750, TA_CENTER, 30, "www.jamendo.com/en/artist/349242/mstr");
 	
-	drawText(SCREEN_WIDTH / 2, 825, TA_CENTER, 30, "Happy-Go-Lucky Puzzle");
-	drawText(SCREEN_WIDTH / 2, 875, TA_CENTER, 30, "Copyright 2014 Axton Crolley");
+	drawShadowText(SCREEN_WIDTH / 2, 825, TA_CENTER, 30, "Happy-Go-Lucky Puzzle");
+	drawShadowText(SCREEN_WIDTH / 2, 875, TA_CENTER, 30, "Copyright 2014 Axton Crolley");
 	
 	drawWidgets();
 	

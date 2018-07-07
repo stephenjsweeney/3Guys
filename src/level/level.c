@@ -595,13 +595,13 @@ static void drawTips(void)
 	
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	
-	drawText(x + 10, y + 10, TA_LEFT, 32, level.tips[currentTip]);
+	drawShadowText(x + 10, y + 10, TA_LEFT, 32, level.tips[currentTip]);
 	
 	setTextWidth(0);
 	
-	drawText(x + 10, y + h - 34, TA_LEFT, 24, app.strings[ST_CLICK_TO_CONTINUE]);
+	drawShadowText(x + 10, y + h - 34, TA_LEFT, 24, app.strings[ST_CLICK_TO_CONTINUE]);
 	
-	drawText(x + w - 10, y + h - 34, TA_RIGHT, 24, "%d / %d", currentTip + 1, level.numTips);
+	drawShadowText(x + w - 10, y + h - 34, TA_RIGHT, 24, "%d / %d", currentTip + 1, level.numTips);
 }
 
 static void drawPause(void)

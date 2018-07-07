@@ -32,6 +32,7 @@ extern void drawWidgets(void);
 extern void drawWipe(void);
 extern Atlas *getImageFromAtlas(char *filename, int required);
 extern Widget *getWidget(const char *name, const char *group);
+extern void initCredits(void);
 extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initLevelSelect(void);
 extern void initOptions(void);
@@ -43,6 +44,5 @@ extern void playMusic(int loop);
 extern void playSound(int snd, int ch);
 extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void showWidgetGroup(const char *name);
-extern void initCredits(void);
 
 extern App app;

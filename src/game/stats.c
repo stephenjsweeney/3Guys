@@ -70,21 +70,21 @@ static void draw(void)
 	
 	drawBackground(&background);
 	
-	drawText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Stats");
+	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, "Stats");
 	
 	y = 250;
 	
 	for (i = 0 ; i < STAT_MAX ; i++)
 	{
-		drawText(25, y, TA_LEFT, 35, statString[i]);
+		drawShadowText(25, y, TA_LEFT, 35, statString[i]);
 		
 		if (i != STAT_TIME_PLAYED)
 		{
-			drawText(SCREEN_WIDTH - 25, y, TA_RIGHT, 35, "%d", game.stats[i]);
+			drawShadowText(SCREEN_WIDTH - 25, y, TA_RIGHT, 35, "%d", game.stats[i]);
 		}
 		else
 		{
-			drawText(SCREEN_WIDTH - 25, y, TA_RIGHT, 35, "%s", timeToString(game.stats[i] / FPS, 1));
+			drawShadowText(SCREEN_WIDTH - 25, y, TA_RIGHT, 35, "%s", timeToString(game.stats[i] / FPS, 1));
 		}
 		
 		y += 75;

@@ -41,6 +41,7 @@ extern void drawEntities(int backgroundPlane);
 extern void drawFilledRect(int x, int y, int w, int h, float r, float g, float b, float a);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawRect(int x, int y, int w, int h, float r, float g, float b, float a);
+extern void drawShadowText(int x, int y, int align, int size, const char *format, ...);
 extern void drawText(int x, int y, int align, int size, const char *format, ...);
 extern void drawWidgets(void);
 extern void drawWipe(void);

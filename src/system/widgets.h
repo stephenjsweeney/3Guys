@@ -28,7 +28,7 @@ extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int
 extern void drawFilledRect(int x, int y, int w, int h, float r, float g, float b, float a);
 extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawRect(int x, int y, int w, int h, float r, float g, float b, float a);
-extern void drawText(int x, int y, int align, int size, const char *format, ...);
+extern void drawShadowText(int x, int y, int align, int size, const char *format, ...);
 extern char **getFileList(const char *dir, int *count);
 extern Atlas *getImageFromAtlas(char *filename, int required);
 extern long lookup(const char *name);
