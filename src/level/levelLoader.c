@@ -26,6 +26,7 @@ static void loadEntities(cJSON *entitiesJSON);
 static void addEntityDef(char *type, void (*initFunc)(Entity *));
 static int entComparator(const void *a, const void *b);
 static Entity *createEntity(const char *type);
+static char *getLevelFilename(int id);
 
 static EntityDef entityDefHead;
 static EntityDef *entityDefTail;
@@ -39,7 +40,7 @@ int loadLevel(int id)
 	
 	level.id = id;
 	
-	filename = buildFormattedString("data/levels/%d.json", id);
+	filename = getLevelFilename(id);
 	
 	if (fileExists(filename))
 	{
@@ -62,7 +63,25 @@ int loadLevel(int id)
 		return 1;
 	}
 	
+	free(filename);
+	
 	return 0;
+}
+
+static char *getLevelFilename(int id)
+{
+	char *filename;
+	
+	filename = buildFormattedString("data/levels/%d.json", id);
+	
+	if (!fileExists(filename))
+	{
+		free(filename);
+		
+		filename = buildFormattedString(DATA_DIR"/data/levels/%d.json", id);
+	}
+	
+	return filename;
 }
 
 static void loadMeta(cJSON *metaJSON)
