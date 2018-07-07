@@ -171,6 +171,8 @@ static void stats(void)
 static void credits(void)
 {
 	playSound(SND_BUTTON, 1);
+	
+	initCredits();
 }
 
 static void quit(void)

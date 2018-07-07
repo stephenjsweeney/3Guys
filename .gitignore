@@ -10,3 +10,4 @@ sound
 .DS_Store
 dist/*
 /3Guys.exe
+/.errors
