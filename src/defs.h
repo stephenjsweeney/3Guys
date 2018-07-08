@@ -91,9 +91,9 @@ enum
 
 enum
 {
-	TA_LEFT,
-	TA_RIGHT,
-	TA_CENTER
+	TEXT_ALIGN_LEFT,
+	TEXT_ALIGN_RIGHT,
+	TEXT_ALIGN_CENTER
 };
 
 enum

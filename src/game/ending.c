@@ -106,10 +106,10 @@ static void draw(void)
 		drawGLRectangleBatch(&bouncers[i].image->rect, bouncers[i].x, bouncers[i].y, 1);
 	}
 	
-	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, app.strings[ST_CONGRATULATIONS]);
+	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_CONGRATULATIONS]);
 	
 	setTextWidth(700);
-	drawShadowText(25, 300, TA_LEFT, 45, app.strings[ST_ENDING]);
+	drawShadowText(25, 300, TEXT_ALIGN_LEFT, 45, app.strings[ST_ENDING]);
 	setTextWidth(0);
 	
 	drawWidgets();

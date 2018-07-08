@@ -25,7 +25,6 @@ static void mkpath(const char *path);
 void createSaveFolder(void)
 {
 	char *userHome, *dir;
-	int i;
 	
 	userHome = getenv("USERPROFILE");
 	
@@ -37,14 +36,11 @@ void createSaveFolder(void)
 	
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "User home = %s", userHome);
 	
-	for (i = 0 ; i < MAX_SAVE_SLOTS ; i++)
-	{
-		dir = buildFormattedString("%s\\3Guys\\%d", userHome, i);
-		
-		mkpath(dir);
-		
-		free(dir);
-	}
+	dir = buildFormattedString("%s\\3Guys", userHome);
+	
+	mkpath(dir);
+	
+	free(dir);
 	
 	app.saveDir = buildFormattedString("%s\\3Guys", userHome);
 }
@@ -83,9 +79,4 @@ void mkpath(const char *path)
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
 		exit(1);
 	}
-}
-
-void createScreenshotFolder(void)
-{
-	dev.screenshotFolder = "./";
 }

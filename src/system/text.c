@@ -164,11 +164,11 @@ void drawText(int x, int y, int align, int size, const char *format, ...)
 		
 		calcTextDimensions(drawTextBuffer, size, &w, &h);
 		
-		if (align == TA_RIGHT)
+		if (align == TEXT_ALIGN_RIGHT)
 		{
 			x -= w;
 		}
-		else if (align == TA_CENTER)
+		else if (align == TEXT_ALIGN_CENTER)
 		{
 			x -= (w / 2);
 		}

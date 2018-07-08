@@ -522,13 +522,13 @@ static void drawTopBar(void)
 {
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	
-	drawText(LEVEL_RENDER_X, 20, TA_LEFT, 32, app.strings[ST_LEVEL_NUM], level.id);
+	drawText(LEVEL_RENDER_X, 20, TEXT_ALIGN_LEFT, 32, app.strings[ST_LEVEL_NUM], level.id);
 	
 	if (level.moves != -1)
 	{
 		if (level.moves > 0 || level.state == LS_COMPLETE)
 		{
-			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, 32, app.strings[ST_NUM_MOVES], level.moves);
+			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TEXT_ALIGN_RIGHT, 32, app.strings[ST_NUM_MOVES], level.moves);
 		}
 		else
 		{
@@ -537,7 +537,7 @@ static void drawTopBar(void)
 				setGLRectangleBatchColor(1.0, 0.0, 0.0, 1.0);
 			}
 			
-			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TA_RIGHT, 32, app.strings[ST_OUT_OF_MOVES]);
+			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TEXT_ALIGN_RIGHT, 32, app.strings[ST_OUT_OF_MOVES]);
 		}
 	}
 }
@@ -567,18 +567,18 @@ static void drawBottomBar(void)
 		
 		if (level.tools > 0)
 		{
-			drawText(LEVEL_RENDER_X + 265, 1185, TA_LEFT, 40, "%d", level.tools);
+			drawText(LEVEL_RENDER_X + 265, 1185, TEXT_ALIGN_LEFT, 40, "%d", level.tools);
 		}
 		
 		if (level.tnt > 0)
 		{
-			drawText(LEVEL_RENDER_X + 465, 1185, TA_LEFT, 40, "%d", level.tnt);
+			drawText(LEVEL_RENDER_X + 465, 1185, TEXT_ALIGN_LEFT, 40, "%d", level.tnt);
 		}
 	}
 	else
 	{
 		setTextWidth(700);
-		drawText(LEVEL_RENDER_X + 100, 1175, TA_LEFT, 32, level.message);
+		drawText(LEVEL_RENDER_X + 100, 1175, TEXT_ALIGN_LEFT, 32, level.message);
 		setTextWidth(0);
 	}
 	
@@ -603,13 +603,13 @@ static void drawTips(void)
 	
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	
-	drawShadowText(x + 10, y + 10, TA_LEFT, 32, level.tips[currentTip]);
+	drawShadowText(x + 10, y + 10, TEXT_ALIGN_LEFT, 32, level.tips[currentTip]);
 	
 	setTextWidth(0);
 	
-	drawShadowText(x + 10, y + h - 34, TA_LEFT, 24, app.strings[ST_CLICK_TO_CONTINUE]);
+	drawShadowText(x + 10, y + h - 34, TEXT_ALIGN_LEFT, 24, app.strings[ST_CLICK_TO_CONTINUE]);
 	
-	drawShadowText(x + w - 10, y + h - 34, TA_RIGHT, 24, "%d / %d", currentTip + 1, level.numTips);
+	drawShadowText(x + w - 10, y + h - 34, TEXT_ALIGN_RIGHT, 24, "%d / %d", currentTip + 1, level.numTips);
 }
 
 static void drawPause(void)
@@ -628,7 +628,7 @@ static void drawPause(void)
 	
 	setGLRectangleBatchColor(1.0, 1.0, 0.0, 1.0);
 	
-	drawText(x + (w / 2), y + 35, TA_CENTER, 48, app.strings[ST_PAUSE]);
+	drawText(x + (w / 2), y + 35, TEXT_ALIGN_CENTER, 48, app.strings[ST_PAUSE]);
 	
 	drawWidgets();
 }

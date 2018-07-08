@@ -86,11 +86,11 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
-	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, app.strings[ST_OPTIONS]);
+	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_OPTIONS]);
 	
 	setTextWidth(700);
 	setGLRectangleBatchColor(1.0, 1.0, 0.75, 1.0);
-	drawText(50, 1050, TA_LEFT, 25, app.strings[ST_RESTART_RES]);
+	drawText(50, 1050, TEXT_ALIGN_LEFT, 25, app.strings[ST_RESTART_RES]);
 	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 	setTextWidth(0);
 	

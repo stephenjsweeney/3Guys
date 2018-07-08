@@ -55,21 +55,21 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
-	drawShadowText(SCREEN_WIDTH / 2, 100, TA_CENTER, 60, app.strings[ST_CREDITS]);
+	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_CREDITS]);
 	
-	drawShadowText(SCREEN_WIDTH / 2, 250, TA_CENTER, 45, "Sound Effects");
+	drawShadowText(SCREEN_WIDTH / 2, 250, TEXT_ALIGN_CENTER, 45, "Sound Effects");
 	
-	drawShadowText(SCREEN_WIDTH / 2, 350, TA_CENTER, 30, "Created using Bfxr");
-	drawShadowText(SCREEN_WIDTH / 2, 400, TA_CENTER, 30, "www.bfxr.net");
+	drawShadowText(SCREEN_WIDTH / 2, 350, TEXT_ALIGN_CENTER, 30, "Created using Bfxr");
+	drawShadowText(SCREEN_WIDTH / 2, 400, TEXT_ALIGN_CENTER, 30, "www.bfxr.net");
 	
-	drawShadowText(SCREEN_WIDTH / 2, 550, TA_CENTER, 45, "Music");
+	drawShadowText(SCREEN_WIDTH / 2, 550, TEXT_ALIGN_CENTER, 45, "Music");
 	
-	drawShadowText(SCREEN_WIDTH / 2, 650, TA_CENTER, 30, "Cheerful 1 - Choro Bavario");
-	drawShadowText(SCREEN_WIDTH / 2, 700, TA_CENTER, 30, "Copyright 2009 MSTR \"Choro Bavario\"");
-	drawShadowText(SCREEN_WIDTH / 2, 750, TA_CENTER, 30, "www.jamendo.com/en/artist/349242/mstr");
+	drawShadowText(SCREEN_WIDTH / 2, 650, TEXT_ALIGN_CENTER, 30, "Cheerful 1 - Choro Bavario");
+	drawShadowText(SCREEN_WIDTH / 2, 700, TEXT_ALIGN_CENTER, 30, "Copyright 2009 MSTR \"Choro Bavario\"");
+	drawShadowText(SCREEN_WIDTH / 2, 750, TEXT_ALIGN_CENTER, 30, "www.jamendo.com/en/artist/349242/mstr");
 	
-	drawShadowText(SCREEN_WIDTH / 2, 825, TA_CENTER, 30, "Happy-Go-Lucky Puzzle");
-	drawShadowText(SCREEN_WIDTH / 2, 875, TA_CENTER, 30, "Copyright 2014 Axton Crolley");
+	drawShadowText(SCREEN_WIDTH / 2, 825, TEXT_ALIGN_CENTER, 30, "Happy-Go-Lucky Puzzle");
+	drawShadowText(SCREEN_WIDTH / 2, 875, TEXT_ALIGN_CENTER, 30, "Copyright 2014 Axton Crolley");
 	
 	drawWidgets();
 	

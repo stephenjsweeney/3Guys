@@ -13,7 +13,7 @@ CXXFLAGS += `$(SDLC) --cflags` -DVERSION=$(VERSION) -DREVISION=$(REVISION) -DDAT
 CXXFLAGS += -ansi -pedantic
 CXXFLAGS += -g -lefence -std=gnu99
 
-LDFLAGS += `$(SDLC) --libs` -lm -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lSDL2main -lpng -lz
+LDFLAGS += `$(SDLC) --libs` -lm -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lSDL2main -lpng -lz -lopengl32
 
 # linking the program.
 $(PROG): $(OBJS)

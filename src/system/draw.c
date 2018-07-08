@@ -71,11 +71,11 @@ void presentScene(void)
 {
 	if (dev.debug)
 	{
-		drawText(5, 0, TA_LEFT, 18, "DEBUG MODE");
+		drawText(5, 0, TEXT_ALIGN_LEFT, 18, "DEBUG MODE");
 		
 		if (dev.showFPS)
 		{
-			drawText(SCREEN_WIDTH - 5, 0, TA_RIGHT, 18, "FPS: %d", dev.fps);
+			drawText(SCREEN_WIDTH - 5, 0, TEXT_ALIGN_RIGHT, 18, "FPS: %d", dev.fps);
 		}
 	}
 	

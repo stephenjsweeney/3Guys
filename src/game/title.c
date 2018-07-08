@@ -130,9 +130,9 @@ static void draw(void)
 	
 	setGLRectangleBatchColor(1.0f, 1.0f, 1.0f, 1.0f);
 	
-	drawShadowText(10, SCREEN_HEIGHT - 25, TA_LEFT, 18, "Copyright Parallel Realities, 2016-2018");
+	drawShadowText(10, SCREEN_HEIGHT - 25, TEXT_ALIGN_LEFT, 18, "Copyright Parallel Realities, 2016-2018");
 	
-	drawShadowText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 25, TA_RIGHT, 18, "Version %.1f.%d", VERSION, REVISION);
+	drawShadowText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 25, TEXT_ALIGN_RIGHT, 18, "Version %.1f.%d", VERSION, REVISION);
 	
 	drawWipe();
 }

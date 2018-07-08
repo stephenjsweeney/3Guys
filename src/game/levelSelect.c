@@ -217,14 +217,14 @@ static void draw(void)
 		
 		if (l->levelNum <= MAX_LEVELS)
 		{
-			drawShadowText(l->x + 58, l->y + 28, TA_CENTER, 48, "%d", l->levelNum);
+			drawShadowText(l->x + 58, l->y + 28, TEXT_ALIGN_CENTER, 48, "%d", l->levelNum);
 		}
 	}
 	
-	drawShadowText(SCREEN_WIDTH / 2, 40, TA_CENTER, 48, app.strings[ST_LEVEL_SELECT]);
+	drawShadowText(SCREEN_WIDTH / 2, 40, TEXT_ALIGN_CENTER, 48, app.strings[ST_LEVEL_SELECT]);
 	
-	drawShadowText(50, 150, TA_LEFT, 32, app.strings[ST_LEVELS], game.levelsCompleted, MAX_LEVELS);
-	drawShadowText(SCREEN_WIDTH - 50, 150, TA_RIGHT, 32, app.strings[ST_STARS], starsFound, starsAvailable);
+	drawShadowText(50, 150, TEXT_ALIGN_LEFT, 32, app.strings[ST_LEVELS], game.levelsCompleted, MAX_LEVELS);
+	drawShadowText(SCREEN_WIDTH - 50, 150, TEXT_ALIGN_RIGHT, 32, app.strings[ST_STARS], starsFound, starsAvailable);
 	
 	drawWidgets();
 	

@@ -131,7 +131,7 @@ void drawWidgets(void)
 					{
 						w->x = (SCREEN_WIDTH - w->w) / 2;
 					}
-					drawShadowText(w->x, w->y, TA_LEFT, FONT_SIZE, w->label);
+					drawShadowText(w->x, w->y, TEXT_ALIGN_LEFT, FONT_SIZE, w->label);
 					break;
 					
 				case WT_IMAGE:
@@ -143,7 +143,7 @@ void drawWidgets(void)
 					drawRect(w->x + 260, w->y + 10, 300, 40, 1.0f, 1.0f, 1.0f, 1.0f);
 					drawFilledRect(w->x + 262, w->y + 12, 296 * (w->value / w->maxValue), 36, 1, 1, 1, 1.0f);
 					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-					drawShadowText(w->x, w->y, TA_LEFT, FONT_SIZE, w->label);
+					drawShadowText(w->x, w->y, TEXT_ALIGN_LEFT, FONT_SIZE, w->label);
 					break;
 					
 				case WT_SLIDER_MINUS:
@@ -157,8 +157,8 @@ void drawWidgets(void)
 				case WT_SPINNER:
 					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 					calcTextDimensions(w->label, FONT_SIZE, &w->w, &w->h);
-					drawShadowText(w->x, w->y, TA_LEFT, FONT_SIZE, w->label);
-					drawShadowText(w->x + 400, w->y, TA_CENTER, FONT_SIZE, w->options[(int)w->value]);
+					drawShadowText(w->x, w->y, TEXT_ALIGN_LEFT, FONT_SIZE, w->label);
+					drawShadowText(w->x + 400, w->y, TEXT_ALIGN_CENTER, FONT_SIZE, w->options[(int)w->value]);
 					break;
 					
 				case WT_SPINNER_LEFT:
