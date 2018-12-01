@@ -29,13 +29,12 @@ extern void drawText(int x, int y, int align, int size, const char *format, ...)
 extern void drawWidgets(void);
 extern void drawWipe(void);
 extern Widget *getWidget(const char *name, const char *group);
-extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initWipe(int type);
 extern float limit(float i, float a, float b);
 extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
 extern void saveConfig(void);
-extern void setGLRectangleBatchColor(float r, float g, float b, float a);
+extern void setTextColor(int r, int g, int b, int a);
 extern void setTextWidth(int width);
 extern void showWidgetGroup(const char *name);
 

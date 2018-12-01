@@ -21,11 +21,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern void addExplosionEffect(int mx, int my, float r, float g, float b);
+extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
 extern void clearRoute(void);
-extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
-extern GLRectangle *getCurrentFrame(Sprite *s);
+extern AtlasImage *getCurrentFrame(Sprite *s);
 extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
-extern Atlas *getImageFromAtlas(char *filename, int required);
+extern AtlasImage *getImageFromAtlas(char *filename, int required);
 extern Sprite *getSprite(char *name);
 extern int isGuy(Entity *e);
 extern void playSound(int snd, int ch);

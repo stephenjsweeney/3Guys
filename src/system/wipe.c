@@ -38,7 +38,7 @@ int doWipe(void)
 		case WIPE_FADE:
 			if (wipeValue > 0)
 			{
-				wipeValue -= 0.025;
+				wipeValue -= 8;
 			}
 			break;
 			
@@ -56,14 +56,14 @@ void drawWipe(void)
 		case WIPE_IN:
 			if (wipeValue < SCREEN_WIDTH)
 			{
-				drawFilledRect(wipeValue, 0, SCREEN_WIDTH - wipeValue, SCREEN_HEIGHT, 0, 0, 0, 1);
+				drawFilledRect(wipeValue, 0, SCREEN_WIDTH - wipeValue, SCREEN_HEIGHT, 0, 0, 0, 255);
 			}
 			break;
 			
 		case WIPE_OUT:
 			if (wipeValue < SCREEN_WIDTH)
 			{
-				drawFilledRect(0, 0, wipeValue, SCREEN_HEIGHT, 0, 0, 0, 1);
+				drawFilledRect(0, 0, wipeValue, SCREEN_HEIGHT, 0, 0, 0, 255);
 			}
 			break;
 			
@@ -86,6 +86,6 @@ void initWipe(int type)
 	
 	if (type == WIPE_FADE)
 	{
-		wipeValue = 1;
+		wipeValue = 255;
 	}
 }

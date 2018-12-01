@@ -40,8 +40,6 @@ int main(int argc, char *argv[])
 	
 	initSDL();
 	
-	initOpenGL();
-	
 	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
 	
 	initGameSystem();

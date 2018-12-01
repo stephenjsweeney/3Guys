@@ -28,7 +28,6 @@ extern void drawShadowText(int x, int y, int align, int size, const char *format
 extern void drawWidgets(void);
 extern void drawWipe(void);
 extern Widget *getWidget(const char *name, const char *group);
-extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initTitle(void);
 extern void initWipe(int type);
 extern Texture *loadTexture(const char *filename);

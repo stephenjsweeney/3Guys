@@ -169,4 +169,7 @@ void handleInput(void)
 	}
 	
 	SDL_GetMouseState(&app.mouse.x, &app.mouse.y);
+	
+	app.mouse.x *= app.scaleX;
+	app.mouse.y *= app.scaleY;
 }

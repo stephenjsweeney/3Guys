@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 #include "SDL2/SDL_image.h"
-#include "SDL2/SDL_opengl.h"
 
-extern const char *getFileLocation(const char *filename);
 extern unsigned long hashcode(const char *str);
+
+extern App app;

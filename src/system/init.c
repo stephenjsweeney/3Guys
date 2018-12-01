@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void loadConfig(void);
 static void loadConfigFile(char *filename);
 void saveConfig(void);
-static void showLoadingStep(float step, float maxSteps, GLRectangle *whiteSquare);
+static void showLoadingStep(float step, float maxSteps);
 
 void init18N(int argc, char *argv[])
 {
@@ -77,7 +77,9 @@ void initSDL(void)
 	
 	app.window = SDL_CreateWindow("3Guys", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, app.config.winWidth, app.config.winHeight, SDL_WINDOW_OPENGL);
 	
-	app.glContext = SDL_GL_CreateContext(app.window);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+
+	app.renderer = SDL_CreateRenderer(app.window, -1, SDL_RENDERER_ACCELERATED);
 
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
@@ -88,46 +90,28 @@ void initSDL(void)
 	}
 }
 
-void initOpenGL(void)
-{
-	glShadeModel(GL_SMOOTH);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glViewport(0, 0, app.config.winWidth, app.config.winHeight);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 1, -1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	
-	initGLRectangleBatch();
-}
-
 void initGameSystem(void)
 {
-	int i, numInitFuns;
-	GLRectangle whiteSquare;
+	int i, numInitFuncs;
 	void (*initFuncs[]) (void) = {
 		initStrings,
-		initAtlas,
 		initFonts,
-		initGraphics,
 		initWidgets,
 		initEntityDefs,
 		initSprites,
 		initSounds,
 		initGame
 	};
-
-	numInitFuns = sizeof(initFuncs) / sizeof(void*);
 	
-	initGLRectangle(&whiteSquare, 32, 32);
+	initAtlas();
+	
+	initGraphics();
 
-	for (i = 0 ; i < numInitFuns ; i++)
+	numInitFuncs = sizeof(initFuncs) / sizeof(void*);
+
+	for (i = 0 ; i < numInitFuncs ; i++)
 	{
-		showLoadingStep(i + 1, numInitFuns, &whiteSquare);
+		showLoadingStep(i + 1, numInitFuncs);
 
 		initFuncs[i]();
 	}
@@ -136,7 +120,7 @@ void initGameSystem(void)
 /*
  * Just in case the initial loading takes a while on the target machine. The rest of the loading a pretty quick by comparison.
  */
-static void showLoadingStep(float step, float maxSteps, GLRectangle *whiteSquare)
+static void showLoadingStep(float step, float maxSteps)
 {
 	SDL_Rect r;
 
@@ -147,28 +131,22 @@ static void showLoadingStep(float step, float maxSteps, GLRectangle *whiteSquare
 	r.x = (SCREEN_WIDTH / 2) - r.w / 2;
 	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
 
-	setGLRectangleSize(whiteSquare, r.w, r.h);
-	setGLRectangleBatchColor(0.5f, 0.5f, 0.5f, 1);
-	drawGLRectangleBatch(whiteSquare, r.x, r.y, 0);
+	drawFilledRect(r.x, r.y, r.w, r.h, 128, 128, 128, 255);
 	
 	r.x++;
 	r.y++;
 	r.w -= 2;
 	r.h -= 2;
-
-	setGLRectangleSize(whiteSquare, r.w, r.h);
-	setGLRectangleBatchColor(0, 0, 0, 1);
-	drawGLRectangleBatch(whiteSquare, r.x, r.y, 0);
+	
+	drawFilledRect(r.x, r.y, r.w, r.h, 0, 0, 0, 255);
 
 	r.w *= (step / maxSteps);
 	r.x++;
 	r.y++;
 	r.w -= 2;
 	r.h -= 2;
-
-	setGLRectangleSize(whiteSquare, r.w, r.h);
-	setGLRectangleBatchColor(0.5f, 0.75f, 1.0f, 1);
-	drawGLRectangleBatch(whiteSquare, r.x, r.y, 0);
+	
+	drawFilledRect(r.x, r.y, r.w, r.h, 128, 192, 255, 255);
 
 	presentScene();
 
@@ -253,8 +231,6 @@ void saveConfig(void)
 void cleanup(void)
 {
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Cleaning up ...");
-	
-	SDL_GL_DeleteContext(app.glContext);
 	
 	SDL_DestroyWindow(app.window);
 	

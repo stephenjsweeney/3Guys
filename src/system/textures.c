@@ -20,8 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "textures.h"
 
-static Texture *addTextureToCache(const char *name, GLint texture);
-GLint toTexture(SDL_Surface *surface, int destroySurface);
+static Texture *addTextureToCache(const char *name, SDL_Texture *texture);
+SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface);
 Texture *getTexture(const char *name);
 
 static Texture textures[NUM_TEXTURE_BUCKETS];
@@ -31,7 +31,7 @@ void initTextures(void)
 	memset(&textures, 0, sizeof(Texture) * NUM_TEXTURE_BUCKETS);
 }
 
-static Texture *addTextureToCache(const char *name, GLint texture)
+static Texture *addTextureToCache(const char *name, SDL_Texture *texture)
 {
 	Texture *t, *new;
 	int i;
@@ -59,12 +59,9 @@ static Texture *addTextureToCache(const char *name, GLint texture)
 
 Texture *loadTexture(const char *filename)
 {
-	SDL_Surface *surface;
-	GLint texture;
+	SDL_Texture *texture;
 	
-	surface = IMG_Load(getFileLocation(filename));
-	
-	texture = toTexture(surface, 1);
+	texture = IMG_LoadTexture(app.renderer, filename);
 	
 	return addTextureToCache(filename, texture);
 }
@@ -90,49 +87,11 @@ Texture *getTexture(const char *filename)
 	return loadTexture(filename);
 }
 
-GLint toTexture(SDL_Surface *surface, int destroySurface)
+SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface)
 {
-	GLint numCols;
-	GLenum textureFormat;
-	GLuint texture;
+	SDL_Texture *texture;
 	
-	numCols = surface->format->BytesPerPixel;
-	
-	if (numCols == 4)
-	{
-		if (surface->format->Rmask == 0x000000ff)
-		{
-			textureFormat = GL_RGBA;
-		}
-		else
-		{
-			textureFormat = GL_BGRA;
-		}
-	}
-	else if (numCols == 3)
-	{
-		if (surface->format->Rmask == 0x000000ff)
-		{
-			textureFormat = GL_RGB;
-		}
-		else
-		{
-			textureFormat = GL_BGR;
-		}
-	}
-	else
-	{
-		exit(1);
-	}
-	
-	glGenTextures(1, &texture);
-	
-	glBindTexture(GL_TEXTURE_2D, texture);
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	
-	glTexImage2D(GL_TEXTURE_2D, 0, numCols, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
+	texture = SDL_CreateTextureFromSurface(app.renderer, surface);
 	
 	if (destroySurface)
 	{
@@ -155,7 +114,7 @@ void destroyTextures(void)
 		while (t)
 		{
 			next = t->next;
-			glDeleteTextures(1, &t->texture);
+			SDL_DestroyTexture(t->texture);
 			free(t);
 			t = next;
 		}

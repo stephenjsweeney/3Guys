@@ -31,15 +31,14 @@ static void credits(void);
 static void quit(void);
 
 static Background background;
-static Atlas *logo;
-static Atlas *bouncerTypes[MAX_BOUNCER_TYPES];
+static AtlasImage *logo;
+static AtlasImage *bouncerTypes[MAX_BOUNCER_TYPES];
 static Bouncer bouncers[MAX_BOUNCERS];
 static int isPlayingMusic = 0;
 
 void initTitle(void)
 {
-	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
-	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
+	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
 	background.r = background.g = background.b = 1.0;
 	
 	logo = getImageFromAtlas("gfx/main/logo.png", 1);
@@ -87,7 +86,7 @@ static void initBouncers(void)
 		bouncers[i].y = SCREEN_HEIGHT;
 		bouncers[i].y += rand() % 100;
 		bouncers[i].dy = (float) -(4 + rand() % 8);
-		bouncers[i].image = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
+		bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 	}
 }
 
@@ -106,7 +105,7 @@ static void logic(void)
 		{
 			bouncers[i].x = rand() % SCREEN_WIDTH - 96;
 			bouncers[i].dy = -(4 + rand() % 16);
-			bouncers[i].image = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
+			bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 		}
 	}
 	
@@ -117,18 +116,20 @@ static void draw(void)
 {
 	int i;
 	
+	SDL_SetTextureColorMod(logo->texture, 255, 255, 255);
+	
 	drawBackground(&background);
 	
 	for (i = 0 ; i < MAX_BOUNCERS ; i++)
 	{
-		drawGLRectangleBatch(&bouncers[i].image->rect, bouncers[i].x, bouncers[i].y, 0);
+		blitAtlasImage(bouncers[i].atlasImage, bouncers[i].x, bouncers[i].y, 0);
 	}
 	
-	drawGLRectangleBatch(&logo->rect, SCREEN_WIDTH / 2, 200, 1);
+	blitAtlasImage(logo, SCREEN_WIDTH / 2, 200, 1);
 	
 	drawWidgets();
 	
-	setGLRectangleBatchColor(1.0f, 1.0f, 1.0f, 1.0f);
+	setTextColor(255, 255, 255, 255);
 	
 	drawShadowText(10, SCREEN_HEIGHT - 25, TEXT_ALIGN_LEFT, 18, "Copyright Parallel Realities, 2016-2018");
 	

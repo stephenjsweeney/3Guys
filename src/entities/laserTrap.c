@@ -29,7 +29,7 @@ static void draw(void);
 static void initLaserTrap(Entity *e);
 
 static Sprite *laserBeam;
-static Atlas *inactive;
+static AtlasImage *inactive;
 
 void initHorizontalLaserTrap(Entity *e)
 {
@@ -140,10 +140,7 @@ static void draw(void)
 			x = LEVEL_RENDER_X + ex * TILE_SIZE;
 			y = LEVEL_RENDER_Y + ey * TILE_SIZE;
 			
-			glRectangleBatch.rotate = 1;
-			glRectangleBatch.angle = self->angle;
-			drawGLRectangleBatch(getCurrentFrame(laserBeam), x, y, 0);
-			glRectangleBatch.rotate = 0;
+			blitAtlasImageRotated(getCurrentFrame(laserBeam), x, y, self->angle);
 			
 			ex += dx;
 			ey += dy;
@@ -154,20 +151,14 @@ static void draw(void)
 		x = LEVEL_RENDER_X + self->x * TILE_SIZE;
 		y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
 
-		glRectangleBatch.rotate = 1;
-		glRectangleBatch.angle = self->angle;
-		drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 0);
-		glRectangleBatch.rotate = 0;
+		blitAtlasImageRotated(getCurrentFrame(self->sprite), x, y, self->angle);
 	}
 	else
 	{
 		x = LEVEL_RENDER_X + self->x * TILE_SIZE;
 		y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
 
-		glRectangleBatch.rotate = 1;
-		glRectangleBatch.angle = self->angle;
-		drawGLRectangleBatch(&inactive->rect, x, y, 0);
-		glRectangleBatch.rotate = 0;
+		blitAtlasImageRotated(inactive, x, y, self->angle);
 	}
 }
 

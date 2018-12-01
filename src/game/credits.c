@@ -29,8 +29,7 @@ static Widget *backWidget;
 
 void initCredits(void)
 {
-	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
-	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
+	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
 	background.r = background.g = background.b = 1.0;
 	
 	showWidgetGroup("credits");

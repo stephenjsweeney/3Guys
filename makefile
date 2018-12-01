@@ -26,7 +26,7 @@ ifneq ("$(wildcard .errors)","")
 CXXFLAGS += -Wall -Wempty-body -Werror -Wstrict-prototypes -Werror=maybe-uninitialized -Warray-bounds
 endif
 
-LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm -lz -lpng -lGL
+LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm -lz -lpng
 
 SHARED_FILES = LICENSE README.md data gfx music sound icons fonts
 DIST_FILES = $(SHARED_FILES) locale $(PROG)

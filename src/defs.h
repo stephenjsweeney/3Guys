@@ -36,10 +36,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TO_RAIDANS(angleDegrees) (angleDegrees * PI / 180.0)
 #define TO_DEGREES(angleRadians) (angleRadians * 180.0 / PI)
 
-#define MAX_VERTS 		12
-#define MAX_TEX_CORDS 	8
-#define MAX_RECTS 		1024
-
 #define SAVE_FILENAME		"game.save"
 #define CONFIG_FILENAME		"config.json"
 

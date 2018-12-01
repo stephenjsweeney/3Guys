@@ -61,12 +61,10 @@ static void doControls(void)
 		level.message = NULL;
 		
 		x = app.mouse.x;
-		x /= app.scaleX;
 		x -= LEVEL_RENDER_X;
 		x /= TILE_SIZE;
 		
 		y = app.mouse.y;
-		y /= app.scaleY;
 		y -= LEVEL_RENDER_Y;
 		y /= TILE_SIZE;
 		

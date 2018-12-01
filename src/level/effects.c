@@ -20,8 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "effects.h"
 
-static Atlas *explosionSphere;
-static Atlas *teleportStar;
+static AtlasImage *explosionSphere;
+static AtlasImage *teleportStar;
 
 void initEffects(void)
 {
@@ -64,9 +64,9 @@ void drawEffects(void)
 	
 	for (e = level.effectHead.next ; e != NULL ; e = e->next)
 	{
-		setGLRectangleBatchColor(e->r, e->g, e->b, 1);
+		SDL_SetTextureColorMod(e->atlasImage->texture, e->r, e->g, e->b);
 		
-		drawGLRectangleBatch(&e->atlas->rect, e->x, e->y, 1);
+		blitAtlasImage(e->atlasImage, e->x, e->y, 1);
 	}
 }
 
@@ -96,7 +96,7 @@ void addExplosionEffect(int mx, int my, float r, float g, float b)
 		e->g = g;
 		e->b = b;
 		e->life = FPS / 3;
-		e->atlas = explosionSphere;
+		e->atlasImage = explosionSphere;
 		
 		switch (i)
 		{
@@ -149,7 +149,7 @@ void addTeleportStars(int mx, int my, int amount)
 		e->x = x;
 		e->y = y;
 		e->life = FPS / 2 + (rand() % FPS / 2);
-		e->atlas = teleportStar;
+		e->atlasImage = teleportStar;
 		
 		e->r = 1.0f;
 		e->g = 1.0f;

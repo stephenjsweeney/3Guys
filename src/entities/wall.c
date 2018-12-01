@@ -26,7 +26,7 @@ static void die(void);
 static void activate(void);
 static void draw(void);
 
-static Atlas *wallDown;
+static AtlasImage *wallDown;
 
 void initWall(Entity *e)
 {
@@ -90,11 +90,11 @@ static void draw(void)
 	
 	if (self->active)
 	{
-		drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
+		blitAtlasImage(getCurrentFrame(self->sprite), x, y, 1);
 	}
 	else
 	{
-		drawGLRectangleBatch(&wallDown->rect, x, y, 1);
+		blitAtlasImage(wallDown, x, y, 1);
 	}
 }
 

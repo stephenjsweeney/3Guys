@@ -24,8 +24,8 @@ static void die(void);
 static int blocking(void);
 static void draw(void);
 static void tick(void);
-static Atlas *bow;
-static Atlas *eyelashes;
+static AtlasImage *bow;
+static AtlasImage *eyelashes;
 
 static void initGuy(Entity *e)
 {
@@ -118,12 +118,12 @@ static void draw(void)
 	x += TILE_SIZE / 2;
 	y += TILE_SIZE / 2;
 	
-	drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
+	blitAtlasImage(getCurrentFrame(self->sprite), x, y, 1);
 
 	if (self->female)
 	{
-		drawGLRectangleBatch(&eyelashes->rect, x, y, 1);
-		drawGLRectangleBatch(&bow->rect, x - 25, y - 30, 1);
+		blitAtlasImage(eyelashes, x, y, 1);
+		blitAtlasImage(bow, x - 25, y - 30, 1);
 	}
 }
 

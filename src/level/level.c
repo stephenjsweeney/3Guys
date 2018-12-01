@@ -45,13 +45,13 @@ static void restart(void);
 static void quit(void);
 static void postOptions(void);
 
-static Atlas *tiles[MAX_TILES];
-static Atlas *routeBlob;
-static Atlas *routeLink;
-static Atlas *highlight;
-static Atlas *selectRect;
-static Atlas *tools;
-static Atlas *tnt;
+static AtlasImage *tiles[MAX_TILES];
+static AtlasImage *routeBlob;
+static AtlasImage *routeLink;
+static AtlasImage *highlight;
+static AtlasImage *selectRect;
+static AtlasImage *tools;
+static AtlasImage *tnt;
 static int moveTimer;
 static int restarting;
 static Background background;
@@ -88,8 +88,7 @@ void initLevel(int id)
 	
 	doEntities();
 	
-	initGLRectangle(&background.rect, MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE);
-	background.rect.texture = loadTexture("gfx/backgrounds/background2.jpg")->texture;
+	background.texture = loadTexture("gfx/backgrounds/background2.jpg")->texture;
 	background.x = LEVEL_RENDER_X;
 	background.y = LEVEL_RENDER_Y;
 	
@@ -429,7 +428,7 @@ static void draw(void)
 	
 	drawRoute();
 	
-	drawGLRectangleBatch(&selectRect->rect, LEVEL_RENDER_X + level.guy->x * TILE_SIZE, LEVEL_RENDER_Y + level.guy->y * TILE_SIZE, 0);
+	blitAtlasImage(selectRect, LEVEL_RENDER_X + level.guy->x * TILE_SIZE, LEVEL_RENDER_Y + level.guy->y * TILE_SIZE, 0);
 	
 	drawEntities(0);
 	
@@ -455,8 +454,6 @@ static void drawMap(void)
 {
 	int x, y, i;
 	
-	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-	
 	for (y = 0 ; y < MAP_HEIGHT ; y++)
 	{
 		for (x = 0 ; x < MAP_WIDTH ; x++)
@@ -465,7 +462,7 @@ static void drawMap(void)
 			
 			if (i > 0)
 			{
-				drawGLRectangleBatch(&tiles[i]->rect, LEVEL_RENDER_X + x * TILE_SIZE, LEVEL_RENDER_Y + y * TILE_SIZE, 0);
+				blitAtlasImage(tiles[i], LEVEL_RENDER_X + x * TILE_SIZE, LEVEL_RENDER_Y + y * TILE_SIZE, 0);
 			}
 		}
 	}
@@ -480,30 +477,22 @@ static void drawRoute(void)
 	
 	if (level.routeHead.next != NULL)
 	{
-		setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-		
 		for (n = level.routeHead.next ; n != NULL ; n = n->next)
 		{
 			x = LEVEL_RENDER_X + n->x * TILE_SIZE;
 			y = LEVEL_RENDER_Y + n->y * TILE_SIZE;
 			
-			drawGLRectangleBatch(&highlight->rect, x, y, 0);
-			
-			glRectangleBatch.rotate = 1;
+			blitAtlasImage(highlight, x, y, 0);
 			
 			if (n != level.routeHead.next)
 			{
-				glRectangleBatch.angle = getAngle(prev->x, prev->y, n->x, n->y);
-				drawGLRectangleBatch(&routeLink->rect, x, y, 0);
+				blitAtlasImageRotated(routeLink, x, y, getAngle(prev->x, prev->y, n->x, n->y));
 			}
 			
 			if (n->next != NULL)
 			{
-				glRectangleBatch.angle = getAngle(n->next->x, n->next->y, n->x, n->y);
-				drawGLRectangleBatch(&routeLink->rect, x, y, 0);
+				blitAtlasImageRotated(routeLink, x, y, getAngle(n->next->x, n->next->y, n->x, n->y));
 			}
-
-			glRectangleBatch.rotate = 0;
 			
 			prev = n;
 		}
@@ -514,13 +503,13 @@ static void drawRoute(void)
 		x += TILE_SIZE / 2;
 		y += TILE_SIZE / 2;
 		
-		drawGLRectangleBatch(&routeBlob->rect, x, y, 1);
+		blitAtlasImage(routeBlob, x, y, 1);
 	}
 }
 
 static void drawTopBar(void)
 {
-	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
+	setTextColor(255, 255, 255, 255);
 	
 	drawText(LEVEL_RENDER_X, 20, TEXT_ALIGN_LEFT, 32, app.strings[ST_LEVEL_NUM], level.id);
 	
@@ -534,7 +523,7 @@ static void drawTopBar(void)
 		{
 			if (tickTimer % 60 < 30)
 			{
-				setGLRectangleBatchColor(1.0, 0.0, 0.0, 1.0);
+				setTextColor(255, 0, 0, 255);
 			}
 			
 			drawText(SCREEN_WIDTH - LEVEL_RENDER_X, 20, TEXT_ALIGN_RIGHT, 32, app.strings[ST_OUT_OF_MOVES]);
@@ -544,25 +533,23 @@ static void drawTopBar(void)
 
 static void drawBottomBar(void)
 {
-	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-	
-	drawGLRectangleBatch(&level.guy->sprite->frames[0]->rect, LEVEL_RENDER_X + 15, 1180, 0);
+	blitAtlasImage(level.guy->sprite->frames[0], LEVEL_RENDER_X + 15, 1180, 0);
 	
 	if (level.message == NULL)
 	{
 		if (level.tools > 0)
 		{
-			drawGLRectangleBatch(&tools->rect, LEVEL_RENDER_X + 175, 1187, 0);
+			blitAtlasImage(tools, LEVEL_RENDER_X + 175, 1187, 0);
 		}
 		
 		if (level.tnt > 0)
 		{
-			drawGLRectangleBatch(&tnt->rect, LEVEL_RENDER_X + 375, 1187, 0);
+			blitAtlasImage(tnt, LEVEL_RENDER_X + 375, 1187, 0);
 		}
 		
 		if (level.guy->carrying)
 		{
-			drawGLRectangleBatch(&level.guy->carrying->sprite->frames[0]->rect, LEVEL_RENDER_X + 575, 1200, 0);
+			blitAtlasImage(level.guy->carrying->sprite->frames[0], LEVEL_RENDER_X + 575, 1200, 0);
 		}
 		
 		if (level.tools > 0)
@@ -582,7 +569,7 @@ static void drawBottomBar(void)
 		setTextWidth(0);
 	}
 	
-	drawRect(LEVEL_RENDER_X, 1160, SCREEN_WIDTH - (LEVEL_RENDER_X * 2), 110, 0.75f, 0.75f, 0.75f, 1.0f);
+	drawRect(LEVEL_RENDER_X, 1160, SCREEN_WIDTH - (LEVEL_RENDER_X * 2), 110, 192, 192, 192, 255);
 }
 
 static void drawTips(void)
@@ -595,13 +582,13 @@ static void drawTips(void)
 	
 	x = (SCREEN_WIDTH - w) / 2;
 	
-	drawFilledRect(x, y, w, h, 0, 0, 0, 0.75f);
+	drawFilledRect(x, y, w, h, 0, 0, 0, 192);
 	
-	drawRect(x, y, w, h, 1.0f, 1.0f, 1.0f, 1.0f);
+	drawRect(x, y, w, h, 255, 255, 255, 255);
 	
 	setTextWidth(600);
 	
-	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
+	setTextColor(255, 255, 255, 255);
 	
 	drawShadowText(x + 10, y + 10, TEXT_ALIGN_LEFT, 32, level.tips[currentTip]);
 	
@@ -622,11 +609,11 @@ static void drawPause(void)
 	x = (SCREEN_WIDTH - w) / 2;
 	y = (SCREEN_HEIGHT - h) / 2;
 	
-	drawFilledRect(x, y, w, h, 0, 0, 0, 0.75f);
+	drawFilledRect(x, y, w, h, 0, 0, 0, 192);
 	
-	drawRect(x, y, w, h, 1.0f, 1.0f, 1.0f, 1.0f);
+	drawRect(x, y, w, h, 255, 255, 255, 255);
 	
-	setGLRectangleBatchColor(1.0, 1.0, 0.0, 1.0);
+	setTextColor(255, 255, 0, 255);
 	
 	drawText(x + (w / 2), y + 35, TEXT_ALIGN_CENTER, 48, app.strings[ST_PAUSE]);
 	

@@ -26,7 +26,7 @@ static void activate(void);
 static void describe(void);
 static void draw(void);
 
-static Atlas *inactiveTeleporter;
+static AtlasImage *inactiveTeleporter;
 
 void initTeleporter(Entity *e)
 {
@@ -99,11 +99,11 @@ static void draw(void)
 	
 	if (self->active)
 	{
-		drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
+		blitAtlasImage(getCurrentFrame(self->sprite), x, y, 1);
 	}
 	else
 	{
-		drawGLRectangleBatch(&inactiveTeleporter->rect, x, y, 1);
+		blitAtlasImage(inactiveTeleporter, x, y, 1);
 	}
 }
 
