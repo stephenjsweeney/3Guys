@@ -42,7 +42,7 @@ static int starsAvailable;
 void initLevelSelect(void)
 {
 	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	background.r = background.g = background.b = 1.0;
+	background.r = background.g = background.b = 255;
 	
 	levelSelectRect = getImageFromAtlas("gfx/levelSelect/levelSelectRectangle.png", 1);
 	padlock = getImageFromAtlas("gfx/levelSelect/padlock.png", 1);
@@ -178,21 +178,21 @@ static void draw(void)
 			{
 				if (l->levelNum <= game.levelsCompleted)
 				{
-					//setGLRectangleBatchColor(0.5, 1.0, 0.5, 1);
+					SDL_SetTextureColorMod(levelSelectRect->texture, 128, 255, 128);
 				}
 				else
 				{
-					//setGLRectangleBatchColor(1.0, 1.0, 0.5, 1);
+					SDL_SetTextureColorMod(levelSelectRect->texture, 255, 255, 128);
 				}
 			}
 			else
 			{
-				//setGLRectangleBatchColor(1, 1, 1, 1);
+				SDL_SetTextureColorMod(levelSelectRect->texture, 255, 255, 255);
 			}
 
 			blitAtlasImage(levelSelectRect, l->x, l->y, 0);
 			
-			//setGLRectangleBatchColor(1, 1, 1, 1);
+			SDL_SetTextureColorMod(padlock->texture, 255, 255, 255);
 			
 			if (!l->available)
 			{

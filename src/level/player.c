@@ -142,7 +142,7 @@ static void handleTNT(int x, int y)
 	{
 		addFloor(x, y);
 
-		addExplosionEffect(x, y, 1, 1, 1);
+		addExplosionEffect(x, y, 255, 255, 255);
 
 		playSound(SND_BOMB, -1);
 

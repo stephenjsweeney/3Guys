@@ -116,6 +116,7 @@ static void initFont(char *name, char *filename)
 void drawShadowText(int x, int y, int align, int size, const char *format, ...)
 {
 	va_list args;
+	SDL_Color oldColor;
 	
 	memset(&shadowTextBuffer, '\0', sizeof(drawTextBuffer));
 
@@ -123,10 +124,11 @@ void drawShadowText(int x, int y, int align, int size, const char *format, ...)
 	vsprintf(shadowTextBuffer, format, args);
 	va_end(args);
 	
-	SDL_SetTextureColorMod(activeFont->texture, 0, 0, 0);
+	oldColor = color;
+	color.r = color.g = color.b = color.a = 0;
 	drawText(x + 4, y + 4, align, size, shadowTextBuffer);
 	
-	SDL_SetTextureColorMod(activeFont->texture, color.r, color.g, color.b);
+	color = oldColor;
 	drawText(x, y, align, size, shadowTextBuffer);
 }
 
@@ -138,6 +140,8 @@ void drawText(int x, int y, int align, int size, const char *format, ...)
 	
 	if (activeFont)
 	{
+		SDL_SetTextureColorMod(activeFont->texture, color.r, color.g, color.b);
+		
 		memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
 
 		va_start(args, format);

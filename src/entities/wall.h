@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void addExplosionEffect(int mx, int my, float r, float g, float b);
+extern void addExplosionEffect(int mx, int my, int r, int g, int b);
 extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
 extern void clearRoute(void);
 extern AtlasImage *getCurrentFrame(Sprite *s);

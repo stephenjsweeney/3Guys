@@ -37,11 +37,14 @@ static Widget *musicWidget;
 static Widget *sexWidget;
 static Widget *speedWidget;
 static Widget *backWidget;
+static AtlasImage *whiteSquare;
 
 void initOptions(void)
 {
 	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	background.r = background.g = background.b = 1.0;
+	background.r = background.g = background.b = 255;
+	
+	whiteSquare = getImageFromAtlas("gfx/main/whiteSquare.png", 1);
 	
 	showWidgetGroup("options");
 	
@@ -86,6 +89,8 @@ static void draw(void)
 	drawBackground(&background);
 	
 	setTextColor(255, 255, 255, 255);
+	
+	SDL_SetTextureColorMod(whiteSquare->texture, 255, 255, 255);
 	
 	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_OPTIONS]);
 	

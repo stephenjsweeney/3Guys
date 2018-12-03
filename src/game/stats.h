@@ -34,6 +34,7 @@ extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
 extern void showWidgetGroup(const char *name);
 extern char *timeToString(int seconds, int showHours);
+extern void setTextColor(int r, int g, int b, int a);
 
 extern App app;
 extern Game game;

@@ -188,9 +188,9 @@ typedef struct {
 struct Effect {
 	float x;
 	float y;
-	float r;
-	float g;
-	float b;
+	int r;
+	int g;
+	int b;
 	float dx;
 	float dy;
 	int life;
@@ -270,13 +270,13 @@ struct Credit {
 typedef struct {
 	int x;
 	int y;
-	float r;
-	float g;
-	float b;
+	int tx;
+	int ty;
+	int r;
+	int g;
+	int b;
 	float dx;
 	float dy;
-	float tx;
-	float ty;
 	SDL_Texture *texture;
 } Background;
 

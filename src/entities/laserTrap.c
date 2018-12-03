@@ -140,6 +140,9 @@ static void draw(void)
 			x = LEVEL_RENDER_X + ex * TILE_SIZE;
 			y = LEVEL_RENDER_Y + ey * TILE_SIZE;
 			
+			x += TILE_SIZE / 2;
+			y += TILE_SIZE / 2;
+			
 			blitAtlasImageRotated(getCurrentFrame(laserBeam), x, y, self->angle);
 			
 			ex += dx;
@@ -148,8 +151,11 @@ static void draw(void)
 			hit = (ex == self->tx && ey == self->ty);
 		}
 		
-		x = LEVEL_RENDER_X + self->x * TILE_SIZE;
-		y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
+		x = LEVEL_RENDER_X + (self->x * TILE_SIZE);
+		y = LEVEL_RENDER_Y + (self->y * TILE_SIZE);
+		
+		x += TILE_SIZE / 2;
+		y += TILE_SIZE / 2;
 
 		blitAtlasImageRotated(getCurrentFrame(self->sprite), x, y, self->angle);
 	}
@@ -157,6 +163,9 @@ static void draw(void)
 	{
 		x = LEVEL_RENDER_X + self->x * TILE_SIZE;
 		y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
+		
+		x += TILE_SIZE / 2;
+			y += TILE_SIZE / 2;
 
 		blitAtlasImageRotated(inactive, x, y, self->angle);
 	}
@@ -171,7 +180,7 @@ static void die(void)
 {
 	playSound(SND_DIE, -1);
 	
-	addExplosionEffect(self->x, self->y, 1, 1, 1);
+	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }
 
 static void describe(void)

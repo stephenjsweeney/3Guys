@@ -35,6 +35,7 @@ extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
 extern void saveConfig(void);
 extern void setTextColor(int r, int g, int b, int a);
+extern AtlasImage *getImageFromAtlas(char *filename, int required);
 extern void setTextWidth(int width);
 extern void showWidgetGroup(const char *name);
 

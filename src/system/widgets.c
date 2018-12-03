@@ -157,7 +157,7 @@ void drawWidgets(void)
 					break;
 					
 				case WT_SPINNER_RIGHT:
-					blitAtlasImage(arrow, w->x, w->y, 0);
+					blitAtlasImage(arrow, w->x, w->y, 1);
 					break;
 			}
 		}
@@ -322,8 +322,8 @@ static void createSpinnerControls(Widget *parent)
 	snprintf(w->name, MAX_NAME_LENGTH, "%sL", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
-	w->x = parent->x + 200;
-	w->y = parent->y + 14;
+	w->x = parent->x + 200 - arrow->rect.w;
+	w->y = parent->y + arrow->rect.h;
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 	
@@ -336,7 +336,7 @@ static void createSpinnerControls(Widget *parent)
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = SCREEN_WIDTH - 75;
-	w->y = parent->y + 14;
+	w->y = parent->y + arrow->rect.h;
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 }

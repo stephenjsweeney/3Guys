@@ -99,11 +99,10 @@ void initLevel(int id)
 	tools = getImageFromAtlas("gfx/sprites/tools.png", 1);
 	tnt = getImageFromAtlas("gfx/sprites/tnt.png", 1);
 	
-	background.dx = (float) ((randF() - randF()) / 1000);
-	background.dy = (float) ((randF() - randF()) / 1000);
-	background.r = (float) (0.25 + (randF() * 0.5));
-	background.g = (float) (0.25 + (randF() * 0.5));
-	background.b = (float) (0.25 + (randF() * 0.5));
+	background.dx = 1;
+	background.r = 64 + rand() % 128;
+	background.g = 64 + rand() % 128;
+	background.b = 64 + rand() % 128;
 	
 	moveTimer = 0;
 	
@@ -422,6 +421,8 @@ static void draw(void)
 {
 	drawBackground(&background);
 	
+	SDL_SetTextureColorMod(selectRect->texture, 255, 255, 255);
+	
 	drawEntities(1);
 	
 	drawMap();
@@ -483,6 +484,9 @@ static void drawRoute(void)
 			y = LEVEL_RENDER_Y + n->y * TILE_SIZE;
 			
 			blitAtlasImage(highlight, x, y, 0);
+			
+			x += TILE_SIZE / 2;
+			y += TILE_SIZE / 2;
 			
 			if (n != level.routeHead.next)
 			{
@@ -640,6 +644,8 @@ static void resume(void)
 static void tips(void)
 {
 	show = SHOW_TIPS;
+	
+	currentTip = 0;
 	
 	playSound(SND_BUTTON, 0);
 }

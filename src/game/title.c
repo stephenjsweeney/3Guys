@@ -39,7 +39,7 @@ static int isPlayingMusic = 0;
 void initTitle(void)
 {
 	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	background.r = background.g = background.b = 1.0;
+	background.r = background.g = background.b = 255;
 	
 	logo = getImageFromAtlas("gfx/main/logo.png", 1);
 	

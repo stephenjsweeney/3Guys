@@ -123,6 +123,9 @@ void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, float angle)
 	dest.w = atlasImage->rect.w;
 	dest.h = atlasImage->rect.h;
 	
+	dest.x -= dest.w / 2;
+	dest.y -= dest.h / 2;
+	
 	SDL_RenderCopyEx(app.renderer, atlasImage->texture, &atlasImage->rect, &dest, angle, NULL, SDL_FLIP_NONE);
 }
 
@@ -163,6 +166,8 @@ void drawRect(int x, int y, int w, int h, int r, int g, int b, int a)
 
 void drawBackground(Background *background)
 {
+	SDL_SetTextureColorMod(background->texture, background->r, background->g, background->b);
+	
 	blit(background->texture, background->x, background->y, 0);
 }
 

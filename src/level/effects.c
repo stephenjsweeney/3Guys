@@ -70,7 +70,7 @@ void drawEffects(void)
 	}
 }
 
-void addExplosionEffect(int mx, int my, float r, float g, float b)
+void addExplosionEffect(int mx, int my, int r, int g, int b)
 {
 	Effect *e;
 	int i, x, y;
@@ -151,13 +151,13 @@ void addTeleportStars(int mx, int my, int amount)
 		e->life = FPS / 2 + (rand() % FPS / 2);
 		e->atlasImage = teleportStar;
 		
-		e->r = 1.0f;
-		e->g = 1.0f;
-		e->b = 1.0f;
+		e->r = 255;
+		e->g = 255;
+		e->b = 255;
 
-		e->r -= (randF() * 0.5);
-		e->g -= (randF() * 0.5);
-		e->b -= (randF() * 0.5);
+		e->r -= rand() % 128;
+		e->g -= rand() % 128;
+		e->b -= rand() % 128;
 		
 		e->dx = (float) ((randF() - randF()) * 4);
 		e->dy = (float) ((randF() - randF()) * 4);

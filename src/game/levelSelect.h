@@ -37,7 +37,6 @@ extern void initTitle(void);
 extern void initWipe(int type);
 extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
-extern void setGLRectangleBatchColor(float r, float g, float b, float a);
 extern void showWidgetGroup(const char *name);
 
 extern App app;
