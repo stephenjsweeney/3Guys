@@ -654,6 +654,8 @@ static void tips(void)
 {
 	show = SHOW_TIPS;
 	
+	currentTip = 0;
+	
 	playSound(SND_BUTTON, 0);
 }
 
