@@ -29,7 +29,7 @@ enum
 
 extern void animateSprites(void);
 extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
-extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, float angle);
+extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, int center, float angle);
 extern void clearRoute(void);
 extern void destroyEntities(void);
 extern void doEffects(void);

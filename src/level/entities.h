@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, float angle);
+extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, int center, float angle);
 extern AtlasImage *getCurrentFrame(Sprite *s);
 
 extern Entity *self;

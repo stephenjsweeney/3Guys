@@ -114,7 +114,7 @@ void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center)
 	blitRect(atlasImage->texture, &atlasImage->rect, x, y, center);
 }
 
-void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, float angle)
+void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, int center, float angle)
 {
 	SDL_Rect dest;
 	
@@ -123,8 +123,11 @@ void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, float angle)
 	dest.w = atlasImage->rect.w;
 	dest.h = atlasImage->rect.h;
 	
-	dest.x -= dest.w / 2;
-	dest.y -= dest.h / 2;
+	if (center)
+	{
+		dest.x -= dest.w / 2;
+		dest.y -= dest.h / 2;
+	}
 	
 	SDL_RenderCopyEx(app.renderer, atlasImage->texture, &atlasImage->rect, &dest, angle, NULL, SDL_FLIP_NONE);
 }

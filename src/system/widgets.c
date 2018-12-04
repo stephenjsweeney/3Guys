@@ -34,6 +34,7 @@ static void loadWidget(cJSON *root);
 static void createOptions(Widget *w, cJSON *options);
 static void createSpinnerControls(Widget *parent);
 static void createSliderControls(Widget *parent);
+static void setColor(Widget *w, int r, int g, int b, int a);
 
 void initWidgets(void)
 {
@@ -104,16 +105,16 @@ void drawWidgets(void)
 	{
 		if (w->visible)
 		{
-			setTextColor(255, 255, 255, 255);
+			setColor(w, 255, 255, 255, 255);
 			
 			if (w->disabled)
 			{
-				setTextColor(255, 255, 255, 128);
+				setColor(w, 255, 255, 255, 128);
 			}
 			
 			if (w == selectedWidget)
 			{
-				setTextColor(0, 255, 0, 255);
+				setColor(w, 0, 255, 0, 255);
 			}
 			
 			switch (w->type)
@@ -153,14 +154,25 @@ void drawWidgets(void)
 					break;
 					
 				case WT_SPINNER_LEFT:
-					blitAtlasImageRotated(arrow, w->x, w->y, 180);
+					blitAtlasImageRotated(arrow, w->x, w->y, 0, 180);
 					break;
 					
 				case WT_SPINNER_RIGHT:
-					blitAtlasImage(arrow, w->x, w->y, 1);
+					blitAtlasImage(arrow, w->x, w->y, 0);
 					break;
 			}
 		}
+	}
+}
+
+static void setColor(Widget *w, int r, int g, int b, int a)
+{
+	setTextColor(r, g, b, a);
+	
+	if (w->atlasImage)
+	{
+		SDL_SetTextureColorMod(w->atlasImage->texture, r, g, b);
+		SDL_SetTextureAlphaMod(w->atlasImage->texture, a);
 	}
 }
 
@@ -323,7 +335,7 @@ static void createSpinnerControls(Widget *parent)
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = parent->x + 200 - arrow->rect.w;
-	w->y = parent->y + arrow->rect.h;
+	w->y = parent->y + arrow->rect.h / 2;
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 	
@@ -336,7 +348,7 @@ static void createSpinnerControls(Widget *parent)
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = SCREEN_WIDTH - 75;
-	w->y = parent->y + arrow->rect.h;
+	w->y = parent->y + arrow->rect.h / 2;
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 }

@@ -122,7 +122,7 @@ void drawEntities(int backgroundPlane)
 				x += TILE_SIZE / 2;
 				y += TILE_SIZE / 2;
 
-				blitAtlasImageRotated(getCurrentFrame(self->sprite), x, y, self->angle);
+				blitAtlasImageRotated(getCurrentFrame(self->sprite), x, y, 1, self->angle);
 			}
 		}
 	}

@@ -210,6 +210,8 @@ static void draw(void)
 		}
 	}
 	
+	setTextColor(255, 255, 255, 255);
+	
 	for (i = 0 ; i < MAX_LEVEL_PER_PAGE ; i++)
 	{
 		l = &levelRect[i];

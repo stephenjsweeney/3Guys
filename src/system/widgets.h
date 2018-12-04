@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FONT_SIZE		48
 
 extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
-extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, float angle);
+extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, int center, float angle);
 extern void calcTextDimensions(char *text, int size, int *w, int *h);
 extern int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 extern void drawFilledRect(int x, int y, int w, int h, int r, int g, int b, int a);

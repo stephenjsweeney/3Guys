@@ -143,7 +143,7 @@ static void draw(void)
 			x += TILE_SIZE / 2;
 			y += TILE_SIZE / 2;
 			
-			blitAtlasImageRotated(getCurrentFrame(laserBeam), x, y, self->angle);
+			blitAtlasImageRotated(getCurrentFrame(laserBeam), x, y, 1, self->angle);
 			
 			ex += dx;
 			ey += dy;
@@ -157,7 +157,7 @@ static void draw(void)
 		x += TILE_SIZE / 2;
 		y += TILE_SIZE / 2;
 
-		blitAtlasImageRotated(getCurrentFrame(self->sprite), x, y, self->angle);
+		blitAtlasImageRotated(getCurrentFrame(self->sprite), x, y, 1, self->angle);
 	}
 	else
 	{
@@ -167,7 +167,7 @@ static void draw(void)
 		x += TILE_SIZE / 2;
 			y += TILE_SIZE / 2;
 
-		blitAtlasImageRotated(inactive, x, y, self->angle);
+		blitAtlasImageRotated(inactive, x, y, 1, self->angle);
 	}
 }
 

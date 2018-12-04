@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../common.h"
 
 extern void addExplosionEffect(int mx, int my, int r, int g, int b);
-extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, float angle);
+extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, int center, float angle);
 extern AtlasImage *getCurrentFrame(Sprite *s);
 extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
 extern AtlasImage *getImageFromAtlas(char *filename, int required);

@@ -490,12 +490,12 @@ static void drawRoute(void)
 			
 			if (n != level.routeHead.next)
 			{
-				blitAtlasImageRotated(routeLink, x, y, getAngle(prev->x, prev->y, n->x, n->y));
+				blitAtlasImageRotated(routeLink, x, y, 1, getAngle(prev->x, prev->y, n->x, n->y));
 			}
 			
 			if (n->next != NULL)
 			{
-				blitAtlasImageRotated(routeLink, x, y, getAngle(n->next->x, n->next->y, n->x, n->y));
+				blitAtlasImageRotated(routeLink, x, y, 1, getAngle(n->next->x, n->next->y, n->x, n->y));
 			}
 			
 			prev = n;
