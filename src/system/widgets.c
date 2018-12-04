@@ -329,7 +329,7 @@ static void createSpinnerControls(Widget *parent)
 	snprintf(w->name, MAX_NAME_LENGTH, "%sL", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
-	w->x = parent->x + 200 - arrow->rect.w;
+	w->x = parent->x + 200;
 	w->y = parent->y + arrow->rect.h / 2;
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;

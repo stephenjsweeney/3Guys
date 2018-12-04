@@ -125,7 +125,7 @@ void drawShadowText(int x, int y, int align, int size, const char *format, ...)
 	va_end(args);
 	
 	oldColor = color;
-	color.r = color.g = color.b = color.a = 0;
+	color.r = color.g = color.b = 0;
 	drawText(x + 4, y + 4, align, size, shadowTextBuffer);
 	
 	color = oldColor;

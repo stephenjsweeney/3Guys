@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../common.h"
 
-#define FONT_SIZE			120
+#define FONT_SIZE			64
 #define FONT_TEXTURE_SIZE	1024
 
 extern char *getFileLocation(char *filename);
