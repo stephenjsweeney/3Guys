@@ -268,10 +268,8 @@ struct Credit {
 };
 
 typedef struct {
-	int x;
-	int y;
-	int tx;
-	int ty;
+	float x;
+	float y;
 	int r;
 	int g;
 	int b;

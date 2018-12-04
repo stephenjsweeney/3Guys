@@ -169,9 +169,22 @@ void drawRect(int x, int y, int w, int h, int r, int g, int b, int a)
 
 void drawBackground(Background *background)
 {
+	int sx, sy, w, h, x, y;
+	
+	SDL_QueryTexture(background->texture, NULL, NULL, &w, &h);
+	
+	sx = background->x > 0 ? background->x - w : background->x;
+	sy = background->y > 0 ? background->y - h : background->y;
+	
 	SDL_SetTextureColorMod(background->texture, background->r, background->g, background->b);
 	
-	blit(background->texture, background->x, background->y, 0);
+	for (x = sx ; x < SCREEN_WIDTH ; x += w)
+	{
+		for (y = sy ; y < SCREEN_HEIGHT ; y += h)
+		{
+			blit(background->texture, x, y, 0);
+		}
+	}
 }
 
 static void initColor(SDL_Color *c, int r, int g, int b)

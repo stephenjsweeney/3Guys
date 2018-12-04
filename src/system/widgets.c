@@ -169,11 +169,8 @@ static void setColor(Widget *w, int r, int g, int b, int a)
 {
 	setTextColor(r, g, b, a);
 	
-	if (w->atlasImage)
-	{
-		SDL_SetTextureColorMod(w->atlasImage->texture, r, g, b);
-		SDL_SetTextureAlphaMod(w->atlasImage->texture, a);
-	}
+	SDL_SetTextureColorMod(whiteSquare->texture, r, g, b);
+	SDL_SetTextureAlphaMod(whiteSquare->texture, a);
 }
 
 void showWidgetGroup(const char *group)
@@ -281,8 +278,6 @@ static void loadWidget(cJSON *root)
 		case WT_SLIDER:
 			STRNCPY(w->label, cJSON_GetObjectItem(root, "label")->valuestring, MAX_NAME_LENGTH);
 			w->maxValue = cJSON_GetObjectItem(root, "maxValue")->valueint;
-			w->w = SCREEN_WIDTH;
-			w->h = 40;
 			createSliderControls(w);
 			break;
 			

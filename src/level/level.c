@@ -44,6 +44,8 @@ static void options(void);
 static void restart(void);
 static void quit(void);
 static void postOptions(void);
+static void doBackground(void);
+static void drawClippedBackground(void);
 
 static AtlasImage *tiles[MAX_TILES];
 static AtlasImage *routeBlob;
@@ -99,7 +101,9 @@ void initLevel(int id)
 	tools = getImageFromAtlas("gfx/sprites/tools.png", 1);
 	tnt = getImageFromAtlas("gfx/sprites/tnt.png", 1);
 	
-	background.dx = 1;
+	background.dx = (-10.0 + rand() % 20) / 10.0;
+	background.dy = (-10.0 + rand() % 20) / 10.0;
+	
 	background.r = 64 + rand() % 128;
 	background.g = 64 + rand() % 128;
 	background.b = 64 + rand() % 128;
@@ -173,8 +177,7 @@ static void logic(void)
 	
 	wiping = doWipe();
 	
-	background.tx += background.dx;
-	background.ty += background.dy;
+	doBackground();
 	
 	tickTimer++;
 	
@@ -196,6 +199,36 @@ static void logic(void)
 				doLevel();
 				break;
 		}
+	}
+}
+
+static void doBackground(void)
+{
+	int w, h;
+	
+	SDL_QueryTexture(background.texture, NULL, NULL, &w, &h);
+	
+	background.x += background.dx;
+	background.y += background.dy;
+	
+	if (background.x < -w)
+	{
+		background.x = (SCREEN_WIDTH - (SCREEN_WIDTH - w)) - 1;
+	}
+	
+	if (background.x >= SCREEN_WIDTH - (SCREEN_WIDTH - w))
+	{
+		background.x = 0;
+	}
+	
+	if (background.y < -h)
+	{
+		background.y = (SCREEN_HEIGHT - (SCREEN_HEIGHT - h)) - 1;
+	}
+	
+	if (background.y >= SCREEN_HEIGHT - (SCREEN_HEIGHT - h))
+	{
+		background.y = 0;
 	}
 }
 
@@ -419,7 +452,7 @@ static void restartLevel(void)
 
 static void draw(void)
 {
-	drawBackground(&background);
+	drawClippedBackground();
 	
 	SDL_SetTextureColorMod(selectRect->texture, 255, 255, 255);
 	
@@ -449,6 +482,22 @@ static void draw(void)
 	}
 	
 	drawWipe();
+}
+
+static void drawClippedBackground(void)
+{
+	int w, h;
+	
+	drawBackground(&background);
+	
+	w = LEVEL_RENDER_X + (MAP_WIDTH * TILE_SIZE);
+	h = LEVEL_RENDER_Y + (MAP_HEIGHT * TILE_SIZE);
+	
+	drawFilledRect(0, 0, SCREEN_WIDTH, LEVEL_RENDER_Y, 0, 0, 0, 255);
+	drawFilledRect(0, h, SCREEN_WIDTH, SCREEN_HEIGHT - h, 0, 0, 0, 255);
+	
+	drawFilledRect(0, 0, LEVEL_RENDER_X, SCREEN_HEIGHT, 0, 0, 0, 255);
+	drawFilledRect(w, 0, SCREEN_WIDTH - w, SCREEN_HEIGHT, 0, 0, 0, 255);
 }
 
 static void drawMap(void)

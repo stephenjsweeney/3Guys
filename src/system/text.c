@@ -141,6 +141,7 @@ void drawText(int x, int y, int align, int size, const char *format, ...)
 	if (activeFont)
 	{
 		SDL_SetTextureColorMod(activeFont->texture, color.r, color.g, color.b);
+		SDL_SetTextureAlphaMod(activeFont->texture, color.a);
 		
 		memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
 
