@@ -82,7 +82,7 @@ static void initBouncers(void)
 	
 	for (i = 0 ; i < MAX_BOUNCERS ; i++)
 	{
-		bouncers[i].x = rand() % SCREEN_WIDTH - 96;
+		bouncers[i].x = rand() % (SCREEN_WIDTH - 48);
 		bouncers[i].y = SCREEN_HEIGHT;
 		bouncers[i].y += rand() % 100;
 		bouncers[i].dy = (float) -(4 + rand() % 8);
@@ -103,7 +103,7 @@ static void logic(void)
 
 		if (bouncers[i].y >= SCREEN_HEIGHT + 100)
 		{
-			bouncers[i].x = rand() % SCREEN_WIDTH - 96;
+			bouncers[i].x = rand() % (SCREEN_WIDTH - 48);
 			bouncers[i].dy = -(4 + rand() % 16);
 			bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 		}
