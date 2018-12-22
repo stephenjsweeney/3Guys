@@ -29,10 +29,10 @@ static void next(void);
 static void back(void);
 static void countStars(void);
 
-static Atlas *levelSelectRect;
-static Atlas *padlock;
-static Atlas *levelStarMissing;
-static Atlas *levelStarFound;
+static AtlasImage *levelSelectRect;
+static AtlasImage *padlock;
+static AtlasImage *levelStarMissing;
+static AtlasImage *levelStarFound;
 static Background background;
 static LevelRect levelRect[MAX_LEVEL_PER_PAGE];
 static int page = -1;
@@ -41,9 +41,8 @@ static int starsAvailable;
 
 void initLevelSelect(void)
 {
-	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
-	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	background.r = background.g = background.b = 1.0;
+	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
+	background.r = background.g = background.b = 255;
 	
 	levelSelectRect = getImageFromAtlas("gfx/levelSelect/levelSelectRectangle.png", 1);
 	padlock = getImageFromAtlas("gfx/levelSelect/padlock.png", 1);
@@ -145,7 +144,7 @@ static void doLevelSelect(void)
 		{
 			l = &levelRect[i];
 			
-			if (collision(app.mouse.x / app.scaleX, app.mouse.y / app.scaleY, 1, 1, l->x, l->y, levelSelectRect->rect.w, levelSelectRect->rect.h))
+			if (collision(app.mouse.x, app.mouse.y, 1, 1, l->x, l->y, levelSelectRect->rect.w, levelSelectRect->rect.h))
 			{
 				if (l->available)
 				{
@@ -179,37 +178,39 @@ static void draw(void)
 			{
 				if (l->levelNum <= game.levelsCompleted)
 				{
-					setGLRectangleBatchColor(0.5, 1.0, 0.5, 1);
+					SDL_SetTextureColorMod(levelSelectRect->texture, 128, 255, 128);
 				}
 				else
 				{
-					setGLRectangleBatchColor(1.0, 1.0, 0.5, 1);
+					SDL_SetTextureColorMod(levelSelectRect->texture, 255, 255, 128);
 				}
 			}
 			else
 			{
-				setGLRectangleBatchColor(1, 1, 1, 1);
+				SDL_SetTextureColorMod(levelSelectRect->texture, 255, 255, 255);
 			}
 
-			drawGLRectangleBatch(&levelSelectRect->rect, l->x, l->y, 0);
+			blitAtlasImage(levelSelectRect, l->x, l->y, 0);
 			
-			setGLRectangleBatchColor(1, 1, 1, 1);
+			SDL_SetTextureColorMod(padlock->texture, 255, 255, 255);
 			
 			if (!l->available)
 			{
-				drawGLRectangleBatch(&padlock->rect, l->x + 80, l->y + 80, 0);
+				blitAtlasImage(padlock, l->x + 80, l->y + 80, 0);
 			}
 
 			if (l->hasFoundStar)
 			{
-				drawGLRectangleBatch(&levelStarFound->rect, l->x + levelSelectRect->rect.w / 2, (int) (l->y + levelSelectRect->rect.h + 32), 1);
+				blitAtlasImage(levelStarFound, l->x + levelSelectRect->rect.w / 2, (int) (l->y + levelSelectRect->rect.h + 32), 1);
 			}
 			else if (l->hasStar)
 			{
-				drawGLRectangleBatch(&levelStarMissing->rect, l->x + levelSelectRect->rect.w / 2, (int) (l->y + levelSelectRect->rect.h + 32), 1);
+				blitAtlasImage(levelStarMissing, l->x + levelSelectRect->rect.w / 2, (int) (l->y + levelSelectRect->rect.h + 32), 1);
 			}
 		}
 	}
+	
+	setTextColor(255, 255, 255, 255);
 	
 	for (i = 0 ; i < MAX_LEVEL_PER_PAGE ; i++)
 	{

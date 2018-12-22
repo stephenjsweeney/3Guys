@@ -106,8 +106,6 @@ void drawEntities(int backgroundPlane)
 {
 	int x, y;
 	
-	setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
-	
 	for (self = level.entityHead.next ; self != NULL ; self = self->next)
 	{
 		if (self->visible && self->backgroundPlane == backgroundPlane)
@@ -124,10 +122,7 @@ void drawEntities(int backgroundPlane)
 				x += TILE_SIZE / 2;
 				y += TILE_SIZE / 2;
 
-				glRectangleBatch.rotate = 1;
-				glRectangleBatch.angle = self->angle;
-				drawGLRectangleBatch(getCurrentFrame(self->sprite), x, y, 1);
-				glRectangleBatch.rotate = 0;
+				blitAtlasImageRotated(getCurrentFrame(self->sprite), x, y, 1, self->angle);
 			}
 		}
 	}

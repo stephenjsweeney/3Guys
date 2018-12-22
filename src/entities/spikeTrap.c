@@ -60,5 +60,5 @@ static void die(void)
 {
 	playSound(SND_DIE, -1);
 	
-	addExplosionEffect(self->x, self->y, 1, 1, 1);
+	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }

@@ -23,10 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static Widget widgetHead;
 static Widget *widgetTail;
 static Widget *selectedWidget;
-static Atlas *plus;
-static Atlas *minus;
-static Atlas *arrow;
-static Atlas *whiteSquare;
+static AtlasImage *plus;
+static AtlasImage *minus;
+static AtlasImage *arrow;
+static AtlasImage *whiteSquare;
 
 static void loadWidgets(void);
 static void loadWidgetSet(char *filename);
@@ -34,6 +34,7 @@ static void loadWidget(cJSON *root);
 static void createOptions(Widget *w, cJSON *options);
 static void createSpinnerControls(Widget *parent);
 static void createSliderControls(Widget *parent);
+static void setColor(Widget *w, int r, int g, int b, int a);
 
 void initWidgets(void)
 {
@@ -51,19 +52,12 @@ void initWidgets(void)
 void doWidgets(void)
 {
 	Widget *w;
-	float x, y;
 	
 	selectedWidget = NULL;
 	
-	x = app.mouse.x;
-	x /= app.scaleX;
-	
-	y = app.mouse.y;
-	y /= app.scaleY;
-	
 	for (w = widgetHead.next ; w != NULL ; w = w->next)
 	{
-		if (w->visible && !w->disabled && collision(x, y, 1, 1, w->x, w->y, w->w, w->h))
+		if (w->visible && !w->disabled && collision(app.mouse.x, app.mouse.y, 1, 1, w->x, w->y, w->w, w->h))
 		{
 			selectedWidget = w;
 			
@@ -111,16 +105,16 @@ void drawWidgets(void)
 	{
 		if (w->visible)
 		{
-			setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
+			setColor(w, 255, 255, 255, 255);
 			
 			if (w->disabled)
 			{
-				setGLRectangleBatchColor(1.0, 1.0, 1.0, 0.5);
+				setColor(w, 255, 255, 255, 128);
 			}
 			
 			if (w == selectedWidget)
 			{
-				setGLRectangleBatchColor(0.0, 1.0, 0.0, 1.0);
+				setColor(w, 0, 255, 0, 255);
 			}
 			
 			switch (w->type)
@@ -135,45 +129,48 @@ void drawWidgets(void)
 					break;
 					
 				case WT_IMAGE:
-					drawGLRectangleBatch(&w->atlas->rect, w->x, w->y, 0);
+					blitAtlasImage(w->atlasImage, w->x, w->y, 0);
 					break;
 					
 				case WT_SLIDER:
-					drawFilledRect(w->x + 260, w->y + 10, 300, 40, 0, 0, 0, 0.75f);
-					drawRect(w->x + 260, w->y + 10, 300, 40, 1.0f, 1.0f, 1.0f, 1.0f);
-					drawFilledRect(w->x + 262, w->y + 12, 296 * (w->value / w->maxValue), 36, 1, 1, 1, 1.0f);
-					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
+					drawFilledRect(w->x + 260, w->y + 10, 300, 40, 0, 0, 0, 192);
+					drawRect(w->x + 260, w->y + 10, 300, 40, 255, 255, 255, 255);
+					drawFilledRect(w->x + 262, w->y + 12, 296 * (w->value / w->maxValue), 36, 255, 255, 255, 255);
 					drawShadowText(w->x, w->y, TEXT_ALIGN_LEFT, FONT_SIZE, w->label);
 					break;
 					
 				case WT_SLIDER_MINUS:
-					drawGLRectangleBatch(&minus->rect, w->x, w->y, 0);
+					blitAtlasImage(minus, w->x, w->y, 0);
 					break;
 					
 				case WT_SLIDER_PLUS:
-					drawGLRectangleBatch(&plus->rect, w->x, w->y, 0);
+					blitAtlasImage(plus, w->x, w->y, 0);
 					break;
 					
 				case WT_SPINNER:
-					setGLRectangleBatchColor(1.0, 1.0, 1.0, 1.0);
 					calcTextDimensions(w->label, FONT_SIZE, &w->w, &w->h);
 					drawShadowText(w->x, w->y, TEXT_ALIGN_LEFT, FONT_SIZE, w->label);
 					drawShadowText(w->x + 400, w->y, TEXT_ALIGN_CENTER, FONT_SIZE, w->options[(int)w->value]);
 					break;
 					
 				case WT_SPINNER_LEFT:
-					glRectangleBatch.rotate = 1;
-					glRectangleBatch.angle = 180;
-					drawGLRectangleBatch(&arrow->rect, w->x, w->y, 0);
-					glRectangleBatch.rotate = 0;
+					blitAtlasImageRotated(arrow, w->x, w->y, 0, 180);
 					break;
 					
 				case WT_SPINNER_RIGHT:
-					drawGLRectangleBatch(&arrow->rect, w->x, w->y, 0);
+					blitAtlasImage(arrow, w->x, w->y, 0);
 					break;
 			}
 		}
 	}
+}
+
+static void setColor(Widget *w, int r, int g, int b, int a)
+{
+	setTextColor(r, g, b, a);
+	
+	SDL_SetTextureColorMod(whiteSquare->texture, r, g, b);
+	SDL_SetTextureAlphaMod(whiteSquare->texture, a);
 }
 
 void showWidgetGroup(const char *group)
@@ -273,9 +270,9 @@ static void loadWidget(cJSON *root)
 			break;
 			
 		case WT_IMAGE:
-			w->atlas = getImageFromAtlas(cJSON_GetObjectItem(root, "image")->valuestring, 1);
-			w->w = w->atlas->rect.w;
-			w->h = w->atlas->rect.h;
+			w->atlasImage = getImageFromAtlas(cJSON_GetObjectItem(root, "image")->valuestring, 1);
+			w->w = w->atlasImage->rect.w;
+			w->h = w->atlasImage->rect.h;
 			break;
 			
 		case WT_SLIDER:
@@ -333,7 +330,7 @@ static void createSpinnerControls(Widget *parent)
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = parent->x + 200;
-	w->y = parent->y + 14;
+	w->y = parent->y + arrow->rect.h / 2;
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 	
@@ -346,7 +343,7 @@ static void createSpinnerControls(Widget *parent)
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = SCREEN_WIDTH - 75;
-	w->y = parent->y + 14;
+	w->y = parent->y + arrow->rect.h / 2;
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 }

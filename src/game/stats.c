@@ -30,9 +30,8 @@ static Widget *backWidget;
 
 void initStats(void)
 {
-	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
-	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	background.r = background.g = background.b = 1.0;
+	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
+	background.r = background.g = background.b = 255;
 	
 	showWidgetGroup("stats");
 	
@@ -69,6 +68,8 @@ static void draw(void)
 	int i, y;
 	
 	drawBackground(&background);
+	
+	setTextColor(255, 255, 255, 255);
 	
 	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_STATS]);
 	

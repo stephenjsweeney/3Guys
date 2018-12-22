@@ -24,16 +24,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAX_BOUNCERS		100
 #define MAX_BOUNCER_TYPES	5
 
+extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
 extern void doWidgets(void);
 extern void doWipe(void);
 extern void drawBackground(Background *background);
-extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern void drawShadowText(int x, int y, int align, int size, const char *format, ...);
 extern void drawWidgets(void);
 extern void drawWipe(void);
-extern Atlas *getImageFromAtlas(char *filename, int required);
+extern AtlasImage *getImageFromAtlas(char *filename, int required);
 extern Widget *getWidget(const char *name, const char *group);
-extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initTitle(void);
 extern void initWipe(int type);
 extern Texture *loadTexture(const char *filename);

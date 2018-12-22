@@ -22,7 +22,7 @@ typedef struct Texture Texture;
 typedef struct Lookup Lookup;
 typedef struct Sprite Sprite;
 typedef struct Widget Widget;
-typedef struct Atlas Atlas;
+typedef struct AtlasImage AtlasImage;
 typedef struct Bucket Bucket;
 typedef struct Tuple Tuple;
 typedef struct Effect Effect;
@@ -41,8 +41,15 @@ typedef struct {
 struct Texture {
 	char name[MAX_DESCRIPTION_LENGTH];
 	long hash;
-	uint32_t texture;
+	SDL_Texture *texture;
 	Texture *next;
+};
+
+struct AtlasImage {
+	char filename[MAX_FILENAME_LENGTH];
+	SDL_Rect rect;
+	SDL_Texture *texture;
+	AtlasImage *next;
 };
 
 typedef struct {
@@ -70,36 +77,10 @@ struct Lookup {
 	Lookup *next;
 };
 
-typedef struct {
-	uint32_t texture;
-	int w;
-	int h;
-	float vertices[MAX_VERTS];
-	float textureCords[MAX_TEX_CORDS];
-} GLRectangle;
-
-typedef struct {
-	float vertices[MAX_RECTS * MAX_VERTS];
-	int indices[MAX_RECTS * 6];
-	float colors[MAX_RECTS * 16];
-	float textureCords[MAX_TEX_CORDS * MAX_RECTS];
-	int numAddedRects;
-	uint32_t currentTexture;
-	int vIndex;
-	int cIndex;
-	int tIndex;
-	int flipHorizontal;
-	int flipVertical;
-	int rotate;
-	float scale;
-	float angle;
-	float color[4];
-	int flushes;
-} GLRectangleBatch;
-
 struct Font {
-	char name[32];
-	GLRectangle glyphs[128];
+	char name[MAX_NAME_LENGTH];
+	SDL_Texture *texture;
+	AtlasImage glyphs[128];
 	Font *next;
 };
 
@@ -196,9 +177,10 @@ typedef struct {
 	int keyboard[MAX_KEYBOARD_KEYS];
 	int joypadButton[SDL_CONTROLLER_BUTTON_MAX];
 	int joypadAxis[JOYPAD_AXIS_MAX];
-	SDL_GLContext *glContext;
+	SDL_Renderer *renderer;
 	SDL_Window *window;
 	Delegate delegate;
+	SDL_Texture *backBuffer;
 	char *strings[ST_MAX];
 	Config config;
 } App;
@@ -206,13 +188,13 @@ typedef struct {
 struct Effect {
 	float x;
 	float y;
-	float r;
-	float g;
-	float b;
+	int r;
+	int g;
+	int b;
 	float dx;
 	float dy;
 	int life;
-	Atlas *atlas;
+	AtlasImage *atlasImage;
 	Effect *next;
 };
 
@@ -246,7 +228,7 @@ struct Sprite {
 	char name[MAX_NAME_LENGTH];
 	int *times;
 	char **filenames;
-	Atlas **frames;
+	AtlasImage **frames;
 	int currentFrame;
 	float currentTime;
 	int w;
@@ -272,15 +254,9 @@ struct Widget {
 	void (*action)(void);
 	char **options;
 	int numOptions;
-	Atlas *atlas;
+	AtlasImage *atlasImage;
 	Widget *parent;
 	Widget *next;
-};
-
-struct Atlas {
-	char filename[MAX_FILENAME_LENGTH];
-	GLRectangle rect;
-	Atlas *next;
 };
 
 struct Credit {
@@ -292,16 +268,14 @@ struct Credit {
 };
 
 typedef struct {
-	int x;
-	int y;
-	float r;
-	float g;
-	float b;
+	float x;
+	float y;
+	int r;
+	int g;
+	int b;
 	float dx;
 	float dy;
-	float tx;
-	float ty;
-	GLRectangle rect;
+	SDL_Texture *texture;
 } Background;
 
 typedef struct {
@@ -317,7 +291,7 @@ typedef struct {
 	float x;
 	float y;
 	float dy;
-	Atlas *image;
+	AtlasImage *atlasImage;
 } Bouncer;
 
 /* ===== i18n stuff ==== */

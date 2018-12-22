@@ -27,14 +27,12 @@ static void initBouncers(void);
 
 static Background background;
 static Widget *okWidget;
-static Atlas *bouncerTypes[MAX_BOUNCER_TYPES];
+static AtlasImage *bouncerTypes[MAX_BOUNCER_TYPES];
 static Bouncer bouncers[MAX_BOUNCERS];
 
 void initEnding(void)
 {
-	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
-	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	background.r = background.g = background.b = 1.0;
+	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
 	
 	showWidgetGroup("ending");
 	
@@ -64,7 +62,7 @@ static void initBouncers(void)
 		bouncers[i].x = rand() % SCREEN_WIDTH;
 		bouncers[i].y = -(rand() % SCREEN_HEIGHT) * 2;
 		bouncers[i].dy = rand() % 8;
-		bouncers[i].image = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
+		bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 	}
 }
 
@@ -86,7 +84,7 @@ static void logic(void)
 			bouncers[i].x = rand() % SCREEN_WIDTH;
 			bouncers[i].y = -(rand() % SCREEN_HEIGHT) * 2;
 			bouncers[i].dy = rand() % 8;
-			bouncers[i].image = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
+			bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 		}
 	}
 	
@@ -103,7 +101,7 @@ static void draw(void)
 	
 	for (i = 0 ; i < MAX_BOUNCERS ; i++)
 	{
-		drawGLRectangleBatch(&bouncers[i].image->rect, bouncers[i].x, bouncers[i].y, 1);
+		blitAtlasImage(bouncers[i].atlasImage, bouncers[i].x, bouncers[i].y, 1);
 	}
 	
 	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_CONGRATULATIONS]);

@@ -28,12 +28,14 @@ void drawText(int x, int y, int align, int size, const char *format, ...);
 void useFont(char *name);
 
 static SDL_Color white = {255, 255, 255, 255};
+static SDL_Color color;
 static int textWidth = 0;
 static char drawTextBuffer[1024];
 static char shadowTextBuffer[1024];
 static Font fontHead;
 static Font *fontTail;
 static Font *activeFont = NULL;
+static float scale;
 
 void initFonts(void)
 {
@@ -43,18 +45,19 @@ void initFonts(void)
 	initFont("cardigan", getFileLocation("fonts/cardigan titling rg.ttf"));
 	
 	useFont("cardigan");
+	
+	color.r = color.b = color.g = color.a = 255;
 }
 
 static void initFont(char *name, char *filename)
 {
-	uint32_t texture;
+	SDL_Texture *texture;
 	TTF_Font *font;
 	Font *f;
 	SDL_Surface *surface, *text;
 	SDL_Rect dest;
 	int i;
 	char c[2];
-	float x1, y1, x2, y2;
 		
 	surface = SDL_CreateRGBSurface(0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE, 32, 0, 0, 0, 0xff);
 	
@@ -86,19 +89,7 @@ static void initFont(char *name, char *filename)
 		
 		SDL_BlitSurface(text, NULL, surface, &dest);
 		
-		x1 = dest.x;
-		y1 = dest.y;
-		x2 = (dest.x + dest.w);
-		y2 = (dest.y + dest.h);
-		
-		x1 /= FONT_TEXTURE_SIZE;
-		y1 /= FONT_TEXTURE_SIZE;
-		x2 /= FONT_TEXTURE_SIZE;
-		y2 /= FONT_TEXTURE_SIZE;
-		
-		setGLRectangleSize(&f->glyphs[i], dest.w, dest.h);
-		
-		setGLRectangleTextureCoords(&f->glyphs[i], x1, y1, x2, y2);
+		f->glyphs[i].rect = dest;
 		
 		SDL_FreeSurface(text);
 		
@@ -108,6 +99,8 @@ static void initFont(char *name, char *filename)
 	TTF_CloseFont(font);
 	
 	texture = toTexture(surface, 1);
+	
+	f->texture = texture;
 	
 	for (i = 0 ; i < 128 ; i++)
 	{
@@ -123,7 +116,7 @@ static void initFont(char *name, char *filename)
 void drawShadowText(int x, int y, int align, int size, const char *format, ...)
 {
 	va_list args;
-	float color[4];
+	SDL_Color oldColor;
 	
 	memset(&shadowTextBuffer, '\0', sizeof(drawTextBuffer));
 
@@ -131,12 +124,11 @@ void drawShadowText(int x, int y, int align, int size, const char *format, ...)
 	vsprintf(shadowTextBuffer, format, args);
 	va_end(args);
 	
-	memcpy(color, glRectangleBatch.color, sizeof(float) * 4);
-	
-	setGLRectangleBatchColor(0, 0, 0, 1);
+	oldColor = color;
+	color.r = color.g = color.b = 0;
 	drawText(x + 4, y + 4, align, size, shadowTextBuffer);
 	
-	setGLRectangleBatchColor(color[0], color[1], color[2], color[3]);
+	color = oldColor;
 	drawText(x, y, align, size, shadowTextBuffer);
 }
 
@@ -145,16 +137,19 @@ void drawText(int x, int y, int align, int size, const char *format, ...)
 	int i, startX, n, w, h;
 	char word[128];
 	va_list args;
-
+	
 	if (activeFont)
 	{
+		SDL_SetTextureColorMod(activeFont->texture, color.r, color.g, color.b);
+		SDL_SetTextureAlphaMod(activeFont->texture, color.a);
+		
 		memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
 
 		va_start(args, format);
 		vsprintf(drawTextBuffer, format, args);
 		va_end(args);
 		
-		glRectangleBatch.scale = size / (FONT_SIZE * 1.0f);
+		scale = size / (FONT_SIZE * 1.0f);
 		
 		startX = x;
 		
@@ -188,14 +183,13 @@ void drawText(int x, int y, int align, int size, const char *format, ...)
 		}
 		
 		drawWord(word, &x, &y, startX);
-		
-		glRectangleBatch.scale = 1.0f;
 	}
 }
 
 static void drawWord(char *word, int *x, int *y, int startX)
 {
 	int i, c;
+	SDL_Rect dest;
 	
 	if (textWidth > 0)
 	{
@@ -206,9 +200,14 @@ static void drawWord(char *word, int *x, int *y, int startX)
 	{
 		c = word[i];
 		
-		drawGLRectangleBatch(&activeFont->glyphs[c], *x, *y, 0);
+		dest.x = *x;
+		dest.y = *y;
+		dest.w = activeFont->glyphs[c].rect.w * scale;
+		dest.h = activeFont->glyphs[c].rect.h * scale;
 		
-		*x += activeFont->glyphs[c].w * glRectangleBatch.scale;
+		SDL_RenderCopy(app.renderer, activeFont->texture, &activeFont->glyphs[c].rect, &dest);
+		
+		*x += activeFont->glyphs[c].rect.w * scale;
 	}
 }
 
@@ -222,13 +221,13 @@ static void applyWordWrap(char *word, int *x, int *y, int startX)
 	{
 		c = word[i];
 		
-		w += activeFont->glyphs[c].w * glRectangleBatch.scale;
+		w += activeFont->glyphs[c].rect.w * scale;
 		
 		if (*x + w > textWidth)
 		{
 			*x = startX;
 			
-			*y += activeFont->glyphs[c].h * glRectangleBatch.scale;
+			*y += activeFont->glyphs[c].rect.h * scale;
 			
 			return;
 		}
@@ -263,12 +262,20 @@ void calcTextDimensions(char *text, int size, int *w, int *h)
 	{
 		c = text[i];
 		
-		*w += activeFont->glyphs[c].w * scale;
-		*h = MAX(activeFont->glyphs[c].h * scale, *h);
+		*w += activeFont->glyphs[c].rect.w * scale;
+		*h = MAX(activeFont->glyphs[c].rect.h * scale, *h);
 	}
 }
 
 void setTextWidth(int width)
 {
 	textWidth = width;
+}
+
+void setTextColor(int r, int g, int b, int a)
+{
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	color.a = a;
 }

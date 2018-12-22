@@ -61,12 +61,10 @@ static void doControls(void)
 		level.message = NULL;
 		
 		x = app.mouse.x;
-		x /= app.scaleX;
 		x -= LEVEL_RENDER_X;
 		x /= TILE_SIZE;
 		
 		y = app.mouse.y;
-		y /= app.scaleY;
 		y -= LEVEL_RENDER_Y;
 		y /= TILE_SIZE;
 		
@@ -144,7 +142,7 @@ static void handleTNT(int x, int y)
 	{
 		addFloor(x, y);
 
-		addExplosionEffect(x, y, 1, 1, 1);
+		addExplosionEffect(x, y, 255, 255, 255);
 
 		playSound(SND_BOMB, -1);
 

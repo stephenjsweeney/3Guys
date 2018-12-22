@@ -22,21 +22,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void loadAtlasData(void);
 
-static Atlas atlases[NUM_ATLAS_BUCKETS];
+static AtlasImage atlases[NUM_ATLAS_BUCKETS];
 static Texture *atlasTexture;
 
 void initAtlas(void)
 {
-	memset(&atlases, 0, sizeof(Atlas) * NUM_ATLAS_BUCKETS);
+	memset(&atlases, 0, sizeof(AtlasImage) * NUM_ATLAS_BUCKETS);
 	
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 
 	loadAtlasData();
 }
 
-Atlas *getImageFromAtlas(char *filename, int required)
+AtlasImage *getImageFromAtlas(char *filename, int required)
 {
-	Atlas *a;
+	AtlasImage *a;
 	unsigned long i;
 
 	i = hashcode(filename) % NUM_ATLAS_BUCKETS;
@@ -60,9 +60,8 @@ Atlas *getImageFromAtlas(char *filename, int required)
 
 static void loadAtlasData(void)
 {
-	Atlas *atlas, *a;
-	int w, h;
-	float x1, y1, x2, y2;
+	AtlasImage *atlasImage, *a;
+	int x, y, w, h;
 	cJSON *root, *node;
 	char *text, *filename;
 	unsigned long i;
@@ -74,12 +73,10 @@ static void loadAtlasData(void)
 	for (node = root->child ; node != NULL ; node = node->next)
 	{
 		filename = cJSON_GetObjectItem(node, "filename")->valuestring;
+		x = cJSON_GetObjectItem(node, "x")->valueint;
+		y = cJSON_GetObjectItem(node, "y")->valueint;
 		w = cJSON_GetObjectItem(node, "w")->valueint;
 		h = cJSON_GetObjectItem(node, "h")->valueint;
-		x1 = cJSON_GetObjectItem(node, "x1")->valuedouble;
-		y1 = cJSON_GetObjectItem(node, "y1")->valuedouble;
-		x2 = cJSON_GetObjectItem(node, "x2")->valuedouble;
-		y2 = cJSON_GetObjectItem(node, "y2")->valuedouble;
 
 		i = hashcode(filename) % NUM_ATLAS_BUCKETS;
 
@@ -91,15 +88,17 @@ static void loadAtlasData(void)
 			a = a->next;
 		}
 		
-		atlas = malloc(sizeof(Atlas));
-		memset(atlas, 0, sizeof(Atlas));
-		a->next = atlas;
+		atlasImage = malloc(sizeof(AtlasImage));
+		memset(atlasImage, 0, sizeof(AtlasImage));
+		a->next = atlasImage;
 		
-		STRNCPY(atlas->filename, filename, MAX_FILENAME_LENGTH);
-		setGLRectangleSize(&atlas->rect, w, h);
-		setGLRectangleTextureCoords(&atlas->rect, x1, y1, x2, y2);
+		STRNCPY(atlasImage->filename, filename, MAX_FILENAME_LENGTH);
+		atlasImage->rect.x = x;
+		atlasImage->rect.y = y;
+		atlasImage->rect.w = w;
+		atlasImage->rect.h = h;
 		
-		atlas->rect.texture = atlasTexture->texture;
+		atlasImage->texture = atlasTexture->texture;
 	}
 	
 	cJSON_Delete(root);

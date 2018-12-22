@@ -23,18 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL_opengl.h"
 
 #include "../common.h"
 
-#define FONT_SIZE			120
+#define FONT_SIZE			64
 #define FONT_TEXTURE_SIZE	1024
 
-extern void drawGLRectangleBatch(GLRectangle *rect, int x, int y, int center);
 extern char *getFileLocation(char *filename);
-extern void setGLRectangleBatchColor(float r, float g, float b, float a);
-extern void setGLRectangleSize(GLRectangle *rect, int w, int h);
-extern void setGLRectangleTextureCoords(GLRectangle *rect, float x1, float y1, float x2, float y2);
-extern uint32_t toTexture(SDL_Surface *surface, int destroySurface);
+extern SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface);
 
-extern GLRectangleBatch glRectangleBatch;
+extern App app;

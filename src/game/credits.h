@@ -28,11 +28,11 @@ extern void drawShadowText(int x, int y, int align, int size, const char *format
 extern void drawWidgets(void);
 extern void drawWipe(void);
 extern Widget *getWidget(const char *name, const char *group);
-extern void initGLRectangle(GLRectangle *rect, int width, int height);
 extern void initTitle(void);
 extern void initWipe(int type);
 extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
+extern void setTextColor(int r, int g, int b, int a);
 extern void showWidgetGroup(const char *name);
 
 extern App app;

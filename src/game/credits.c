@@ -29,9 +29,8 @@ static Widget *backWidget;
 
 void initCredits(void)
 {
-	initGLRectangle(&background.rect, SCREEN_WIDTH, SCREEN_HEIGHT);
-	background.rect.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	background.r = background.g = background.b = 1.0;
+	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
+	background.r = background.g = background.b = 255;
 	
 	showWidgetGroup("credits");
 	
@@ -54,6 +53,8 @@ static void logic(void)
 static void draw(void)
 {
 	drawBackground(&background);
+	
+	setTextColor(255, 255, 255, 255);
 	
 	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_CREDITS]);
 	

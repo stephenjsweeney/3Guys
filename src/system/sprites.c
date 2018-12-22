@@ -78,9 +78,9 @@ static void animateSprite(Sprite *s)
 	}
 }
 
-GLRectangle *getCurrentFrame(Sprite *s)
+AtlasImage *getCurrentFrame(Sprite *s)
 {
-	return &s->frames[s->currentFrame]->rect;
+	return s->frames[s->currentFrame];
 }
 
 static void loadGameSprites(void)
@@ -144,7 +144,7 @@ void loadSprite(cJSON *root)
 	
 	s->times = malloc(sizeof(int) * s->numFrames);
 	s->filenames = malloc(sizeof(char*) * s->numFrames);
-	s->frames = malloc(sizeof(Atlas*) * s->numFrames);
+	s->frames = malloc(sizeof(AtlasImage*) * s->numFrames);
 	
 	i = 0;
 	
