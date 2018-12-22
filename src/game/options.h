@@ -28,6 +28,7 @@ extern void drawShadowText(int x, int y, int align, int size, const char *format
 extern void drawText(int x, int y, int align, int size, const char *format, ...);
 extern void drawWidgets(void);
 extern void drawWipe(void);
+extern AtlasImage *getImageFromAtlas(char *filename, int required);
 extern Widget *getWidget(const char *name, const char *group);
 extern void initWipe(int type);
 extern float limit(float i, float a, float b);
@@ -35,7 +36,6 @@ extern Texture *loadTexture(const char *filename);
 extern void playSound(int snd, int ch);
 extern void saveConfig(void);
 extern void setTextColor(int r, int g, int b, int a);
-extern AtlasImage *getImageFromAtlas(char *filename, int required);
 extern void setTextWidth(int width);
 extern void showWidgetGroup(const char *name);
 

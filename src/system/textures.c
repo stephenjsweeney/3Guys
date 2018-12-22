@@ -101,7 +101,6 @@ SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface)
 	return texture;
 }
 
-
 void destroyTextures(void)
 {
 	Texture *t, *next;

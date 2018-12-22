@@ -64,7 +64,6 @@ extern Texture *loadTexture(const char *filename);
 extern void moveEntities(void);
 extern void playMusic(int loop);
 extern void playSound(int snd, int ch);
-extern double randF(void);
 extern void saveGame(void);
 extern void setTextColor(int r, int g, int b, int a);
 extern void setTextWidth(int width);
