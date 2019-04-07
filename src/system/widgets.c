@@ -326,7 +326,6 @@ static void createSpinnerControls(Widget *parent)
 	widgetTail->next = w;
 	widgetTail = w;
 	w->type = WT_SPINNER_LEFT;
-	snprintf(w->name, MAX_NAME_LENGTH, "%sL", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = parent->x + 200;
@@ -339,7 +338,6 @@ static void createSpinnerControls(Widget *parent)
 	widgetTail->next = w;
 	widgetTail = w;
 	w->type = WT_SPINNER_RIGHT;
-	snprintf(w->name, MAX_NAME_LENGTH, "%sR", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = SCREEN_WIDTH - 75;
@@ -357,7 +355,6 @@ static void createSliderControls(Widget *parent)
 	widgetTail->next = w;
 	widgetTail = w;
 	w->type = WT_SLIDER_MINUS;
-	snprintf(w->name, MAX_NAME_LENGTH, "%s-", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = parent->x + 200;
@@ -370,7 +367,6 @@ static void createSliderControls(Widget *parent)
 	widgetTail->next = w;
 	widgetTail = w;
 	w->type = WT_SLIDER_PLUS;
-	snprintf(w->name, MAX_NAME_LENGTH, "%s+", parent->name);
 	strcpy(w->group, parent->group);
 	w->parent = parent;
 	w->x = SCREEN_WIDTH - 75;
