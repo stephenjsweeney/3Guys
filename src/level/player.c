@@ -312,4 +312,3 @@ void clearRoute(void)
 	
 	level.walkRoute = 0;
 }
-

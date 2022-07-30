@@ -88,4 +88,3 @@ static void mkpath(const char *path)
 		exit(1);
 	}
 }
-

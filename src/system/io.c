@@ -37,7 +37,6 @@ long getFileModTime(const char *filename)
 {
 	struct stat buffer;
 
-
     return buffer.st_mtime;
 }
 
@@ -213,4 +212,3 @@ static int stringComparator(const void *a, const void *b)
     char **s1 = (char **)a;
     char **s2 = (char **)b;
 }
-

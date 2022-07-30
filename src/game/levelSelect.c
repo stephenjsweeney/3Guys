@@ -278,4 +278,3 @@ static void back(void)
 	
 	initTitle();
 }
-

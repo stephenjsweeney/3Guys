@@ -172,4 +172,3 @@ static void loadSprite(cJSON *root)
 void destroySprites(void)
 {
 }
-

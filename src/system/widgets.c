@@ -387,4 +387,3 @@ static void createSliderControls(Widget *parent)
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 }
-

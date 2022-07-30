@@ -202,4 +202,3 @@ static void initColor(SDL_Color *c, int r, int g, int b)
 	c->b = b;
 	c->a = 255;
 }
-

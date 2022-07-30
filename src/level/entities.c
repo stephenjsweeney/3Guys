@@ -27,7 +27,6 @@ extern Entity *self;
 extern Game game;
 extern Level level;
 
-
 static Entity deadHead;
 static Entity *deadTail;
 
@@ -213,4 +212,3 @@ void destroyEntities(void)
 		free(e);
 	}
 }
-

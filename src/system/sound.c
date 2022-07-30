@@ -134,4 +134,3 @@ void destroySounds(void)
 		Mix_FreeMusic(music);
 	}
 }
-

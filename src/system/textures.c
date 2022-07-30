@@ -124,4 +124,3 @@ void destroyTextures(void)
 		textures[i].next = NULL;
 	}
 }
-

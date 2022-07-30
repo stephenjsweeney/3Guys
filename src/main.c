@@ -166,4 +166,3 @@ static void handleCommandLine(int argc, char *argv[])
 		initTitle();
 	}
 }
-

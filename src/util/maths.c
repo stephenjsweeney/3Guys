@@ -121,4 +121,3 @@ unsigned long hashcode(const char *str)
 	
 	return hash;
 }
-

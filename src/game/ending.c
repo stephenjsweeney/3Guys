@@ -135,4 +135,3 @@ static void ok(void)
 	
 	playSound(SND_SELECT, 0);
 }
-

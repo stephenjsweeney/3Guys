@@ -285,4 +285,3 @@ void setTextColor(int r, int g, int b, int a)
 	color.b = b;
 	color.a = a;
 }
-

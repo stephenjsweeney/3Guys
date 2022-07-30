@@ -57,4 +57,3 @@ static void resetSpinTimer(void)
 
 	self->spinTimer = randF() * FPS * 25;
 }
-

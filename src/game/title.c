@@ -197,4 +197,3 @@ static void quit(void)
 {
 	exit(1);
 }
-

@@ -786,4 +786,3 @@ void destroyLevel(void)
 
 	free(level.tips);
 }
-

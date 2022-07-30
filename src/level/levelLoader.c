@@ -320,4 +320,3 @@ static int entComparator(const void *a, const void *b)
 
 	return e1->type - e2->type;
 }
-

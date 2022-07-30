@@ -153,4 +153,3 @@ static int blocking(void)
 {
 	return 0;
 }
-

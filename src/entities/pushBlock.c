@@ -142,4 +142,3 @@ static void die(void)
 	
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }
-

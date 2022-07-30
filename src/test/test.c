@@ -31,4 +31,3 @@ void initLevelTest(int n)
 	
 	playMusic(1);
 }
-

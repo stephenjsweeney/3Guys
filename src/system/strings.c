@@ -56,4 +56,3 @@ void initStrings(void)
 	app.strings[ST_ENDING] = _("Thanks to his pals, Red's hunger is finally sated! Unfortunately, he's been away from the office for quite a few hours now, so should probably should get back if he wants to avoid having to work late. Again.");
 	app.strings[ST_RESTART_RES] = _("Resolution changes will take effect after the game is restarted.");
 }
-

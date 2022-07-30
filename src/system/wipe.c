@@ -93,4 +93,3 @@ void initWipe(int type)
 		wipeValue = 255;
 	}
 }
-

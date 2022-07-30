@@ -171,4 +171,3 @@ void addTeleportStars(int mx, int my, int amount)
 		e->dy = (float) ((randF() - randF()) * 4);
 	}
 }
-

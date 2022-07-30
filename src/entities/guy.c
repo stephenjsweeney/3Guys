@@ -176,4 +176,3 @@ int isGuy(Entity *e)
 {
 	return (e->type == ET_RED_GUY ||e->type == ET_GREEN_GUY || e->type == ET_YELLOW_GUY); 
 }
-

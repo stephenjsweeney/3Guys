@@ -123,4 +123,3 @@ const char *getFlagValues(const char *prefix, long flags)
 
 	return flagStr;
 }
-

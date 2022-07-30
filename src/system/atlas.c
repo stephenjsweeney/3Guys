@@ -110,4 +110,3 @@ static void loadAtlasData(void)
 	
 	free(text);
 }
-

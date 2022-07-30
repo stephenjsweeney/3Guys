@@ -185,4 +185,3 @@ static void setScreenResOption(Widget *w)
 		}
 	}
 }
-

@@ -387,4 +387,3 @@ void cleanupLanguage()
 
 	table.bucket = NULL;
 }
-

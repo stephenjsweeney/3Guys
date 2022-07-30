@@ -120,4 +120,3 @@ static int blocking(void)
 {
 	return self->active;
 }
-

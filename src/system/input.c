@@ -178,4 +178,3 @@ void handleInput(void)
 	app.mouse.x *= app.scaleX;
 	app.mouse.y *= app.scaleY;
 }
-

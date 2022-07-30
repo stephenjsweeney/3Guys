@@ -89,7 +89,6 @@ void initSDL(void)
 		exit(1);
     }
 
-
 	Mix_Volume(-1, app.config.soundVolume);
 	Mix_VolumeMusic(app.config.musicVolume);
 
@@ -258,4 +257,3 @@ void cleanup(void)
 
 	SDL_Quit();
 }
-
