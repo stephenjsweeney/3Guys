@@ -18,7 +18,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "door.h"
+#include "../level/player.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "../entities/guy.h"
+
+extern App app;
+extern Entity *self;
+extern Game game;
+extern Level level;
 
 static int canOpen(Entity *other);
 static void touch(Entity *other);
@@ -116,3 +126,4 @@ static int blocking(void)
 {
 	return 0;
 }
+

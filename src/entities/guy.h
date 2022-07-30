@@ -18,19 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-extern void addExplosionEffect(int mx, int my, int r, int g, int b);
-extern void addFloor(int x, int y);
-extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
-extern void failLevel(void);
-extern AtlasImage *getCurrentFrame(Sprite *s);
-extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
-extern AtlasImage *getImageFromAtlas(char *filename, int required);
-extern Sprite *getSprite(char *name);
-extern void playSound(int snd, int ch);
-
-extern App app;
-extern Entity *self;
-extern Game game;
-extern Level level;
+int isGuy(Entity *e);
+void initYellowGuy(Entity *e);
+void initGreenGuy(Entity *e);
+void initRedGuy(Entity *e);

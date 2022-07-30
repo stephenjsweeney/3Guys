@@ -18,7 +18,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "ending.h"
+#include "../system/atlas.h"
+#include "../game/title.h"
+#include "../system/widgets.h"
+#include "../system/text.h"
+#include "../system/textures.h"
+#include "../system/wipe.h"
+#include "../system/draw.h"
+#include "../system/sound.h"
+
+#define MAX_BOUNCERS		100
+#define MAX_BOUNCER_TYPES	5
+
+extern App app;
 
 static void logic(void);
 static void draw(void);
@@ -121,3 +135,4 @@ static void ok(void)
 	
 	playSound(SND_SELECT, 0);
 }
+

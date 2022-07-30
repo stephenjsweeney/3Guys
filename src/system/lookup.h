@@ -18,4 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
+const char *getFlagValues(const char *prefix, long flags);
+char *getLookupName(const char *prefix, long num);
+long lookup(const char *name);
+void initLookups(void);

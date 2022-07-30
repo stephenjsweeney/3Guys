@@ -18,12 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-#define EFFECT_SPEED 6
-
-extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
-extern AtlasImage *getImageFromAtlas(char *filename, int required);
-extern double randF(void);
-
-extern Level level;
+void addTeleportStars(int mx, int my, int amount);
+void addExplosionEffect(int mx, int my, int r, int g, int b);
+void drawEffects(void);
+void doEffects(void);
+void initEffects(void);

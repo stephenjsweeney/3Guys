@@ -18,12 +18,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "player.h"
+#include "../level/level.h"
+#include "../system/sound.h"
+#include "../level/effects.h"
+#include "../level/entities.h"
+
+extern App app;
+extern Dev dev;
+extern Entity *self;
+extern Game game;
+extern Level level;
 
 static void handleEntityClick(Entity *e);
 static void handleTNT(int x, int y);
 static int addRouteNode(void);
-void clearRoute(void);
 static void cancelLastNode(void);
 static void doControls(void);
 static int isWalkableByGuy(void);
@@ -302,3 +312,4 @@ void clearRoute(void)
 	
 	level.walkRoute = 0;
 }
+

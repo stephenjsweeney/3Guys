@@ -18,7 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "util.h"
+#include <time.h>
 
 static char TIME_STRING[MAX_NAME_LENGTH];
 
@@ -87,9 +89,7 @@ char *buildFormattedString(const char *format, ...)
 	char *s;
 	va_list args;
 	
-    va_start(args, format);
     n = vsnprintf(NULL, 0, format, args) + 1;
-    va_end(args);
 	
 	s = malloc(sizeof(char) * n);
 	
@@ -139,3 +139,4 @@ char *strtok_r(char *str, const char *delim, char **nextp)
 	
 	return ret;
 }
+

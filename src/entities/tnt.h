@@ -18,12 +18,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-extern Sprite *getSprite(char *name);
-extern int isGuy(Entity *e);
-extern void playSound(int snd, int ch);
-
-extern App app;
-extern Entity *self;
-extern Level level;
+void initTNT(Entity *e);

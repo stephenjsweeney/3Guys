@@ -18,7 +18,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "laserTrap.h"
+#include "../system/atlas.h"
+#include "../entities/guy.h"
+#include "../system/sprites.h"
+#include "../system/sound.h"
+#include "../level/effects.h"
+#include "../level/entities.h"
+#include "../system/draw.h"
+
+extern App app;
+extern Entity *self;
+extern Level level;
 
 static int blocking(void);
 static void tick(void);
@@ -199,3 +211,4 @@ static int blocking(void)
 {
 	return 1;
 }
+

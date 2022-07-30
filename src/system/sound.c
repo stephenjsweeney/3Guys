@@ -18,7 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "sound.h"
+#include <SDL2/SDL_mixer.h>
+#include "../system/io.h"
+
+#define MAX_BATTLE_SOUND_DISTANCE	(SCREEN_WIDTH * 2)
 
 static void loadSounds(void);
 
@@ -129,3 +134,4 @@ void destroySounds(void)
 		Mix_FreeMusic(music);
 	}
 }
+

@@ -18,4 +18,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
+unsigned long hashcode(const char *str);
+float wrap(float value, float low, float high);
+void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy);
+int getDistance(int x1, int y1, int x2, int y2);
+float limit(float i, float a, float b);
+int getPercent(float current, float total);
+double randF(void);
+int rrnd(int low, int high);
+float getAngle(int x1, int y1, int x2, int y2);
+float mod(float n, float x);

@@ -18,7 +18,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "title.h"
+#include "../game/levelSelect.h"
+#include "../system/atlas.h"
+#include "../game/credits.h"
+#include "../game/options.h"
+#include "../game/stats.h"
+#include "../system/widgets.h"
+#include "../system/text.h"
+#include "../system/textures.h"
+#include "../system/wipe.h"
+#include "../system/draw.h"
+#include "../system/sound.h"
+
+#define MAX_BOUNCERS		5
+#define MAX_BOUNCER_TYPES	8
+
+extern App app;
 
 static void logic(void);
 static void draw(void);
@@ -34,43 +51,43 @@ static Background background;
 static AtlasImage *logo;
 static AtlasImage *bouncerTypes[MAX_BOUNCER_TYPES];
 static Bouncer bouncers[MAX_BOUNCERS];
-static int isPlayingMusic = 0;
+static int playingMusic = 0;
 
 void initTitle(void)
 {
 	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
 	background.r = background.g = background.b = 255;
-	
+
 	logo = getImageFromAtlas("gfx/main/logo.png", 1);
-	
+
 	initBouncers();
-	
+
 	initWipe(WIPE_FADE);
-	
+
 	showWidgetGroup("title");
-	
+
 	getWidget("play", "title")->action = play;
 	getWidget("options", "title")->action = options;
 	getWidget("stats", "title")->action = stats;
 	getWidget("credits", "title")->action = credits;
 	getWidget("quit", "title")->action = quit;
-	
+
 	app.delegate.logic = &logic;
 	app.delegate.draw = &draw;
 	app.delegate.postOptions = &postOptions;
-	
-	if (!isPlayingMusic)
+
+	if (!playingMusic)
 	{
-		loadMusic("music/MSTR_-_MSTR_-_Choro_bavario_Loop.ogg");	
+		loadMusic("music/MSTR_-_MSTR_-_Choro_bavario_Loop.ogg");
 		playMusic(0);
-		isPlayingMusic = 1;
+		playingMusic = 1;
 	}
 }
 
 static void initBouncers(void)
 {
 	int i;
-	
+
 	bouncerTypes[0] = getImageFromAtlas("gfx/sprites/yellow1.png", 1);
 	bouncerTypes[1] = getImageFromAtlas("gfx/sprites/green1.png", 1);
 	bouncerTypes[2] = getImageFromAtlas("gfx/sprites/diamond1.png", 1);
@@ -79,7 +96,7 @@ static void initBouncers(void)
 	bouncerTypes[5] = getImageFromAtlas("gfx/sprites/tnt.png", 1);
 	bouncerTypes[6] = getImageFromAtlas("gfx/sprites/normalKey.png", 1);
 	bouncerTypes[7] = getImageFromAtlas("gfx/sprites/red1.png", 1);
-	
+
 	for (i = 0 ; i < MAX_BOUNCERS ; i++)
 	{
 		bouncers[i].x = rand() % (SCREEN_WIDTH - 48);
@@ -93,9 +110,9 @@ static void initBouncers(void)
 static void logic(void)
 {
 	int i;
-	
+
 	doWipe();
-	
+
 	for (i = 0 ; i < MAX_BOUNCERS ; i++)
 	{
 		bouncers[i].y += bouncers[i].dy;
@@ -108,33 +125,33 @@ static void logic(void)
 			bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 		}
 	}
-	
+
 	doWidgets();
 }
 
 static void draw(void)
 {
 	int i;
-	
+
 	SDL_SetTextureColorMod(logo->texture, 255, 255, 255);
-	
+
 	drawBackground(&background);
-	
+
 	for (i = 0 ; i < MAX_BOUNCERS ; i++)
 	{
 		blitAtlasImage(bouncers[i].atlasImage, bouncers[i].x, bouncers[i].y, 0);
 	}
-	
+
 	blitAtlasImage(logo, SCREEN_WIDTH / 2, 200, 1);
-	
+
 	drawWidgets();
-	
+
 	setTextColor(255, 255, 255, 255);
-	
+
 	drawShadowText(10, SCREEN_HEIGHT - 25, TEXT_ALIGN_LEFT, 18, "Copyright Parallel Realities, 2016-2018");
-	
+
 	drawShadowText(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 25, TEXT_ALIGN_RIGHT, 18, "Version %.1f.%d", VERSION, REVISION);
-	
+
 	drawWipe();
 }
 
@@ -142,37 +159,37 @@ static void postOptions(void)
 {
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
-	
+
 	showWidgetGroup("title");
-	
+
 	initWipe(WIPE_FADE);
 }
 
 static void play(void)
 {
 	playSound(SND_BUTTON, 1);
-	
+
 	initLevelSelect();
 }
 
 static void options(void)
 {
 	playSound(SND_BUTTON, 1);
-	
+
 	initOptions();
 }
 
 static void stats(void)
 {
 	playSound(SND_BUTTON, 1);
-	
+
 	initStats();
 }
 
 static void credits(void)
 {
 	playSound(SND_BUTTON, 1);
-	
+
 	initCredits();
 }
 
@@ -180,3 +197,4 @@ static void quit(void)
 {
 	exit(1);
 }
+

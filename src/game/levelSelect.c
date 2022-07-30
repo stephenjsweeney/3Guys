@@ -18,7 +18,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "levelSelect.h"
+#include "../system/atlas.h"
+#include "../game/title.h"
+#include "../level/level.h"
+#include "../system/widgets.h"
+#include "../system/text.h"
+#include "../util/util.h"
+#include "../system/textures.h"
+#include "../system/wipe.h"
+#include "../system/draw.h"
+#include "../system/sound.h"
+
+#define MAX_LEVEL_PER_PAGE		12
+
+extern App app;
+extern Game game;
 
 static void logic(void);
 static void draw(void);
@@ -262,3 +278,4 @@ static void back(void)
 	
 	initTitle();
 }
+

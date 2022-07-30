@@ -18,9 +18,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "entities.h"
+#include "../system/sprites.h"
+#include "../system/draw.h"
 
-void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
+extern Entity *self;
+extern Game game;
+extern Level level;
+
 
 static Entity deadHead;
 static Entity *deadTail;
@@ -207,3 +213,4 @@ void destroyEntities(void)
 		free(e);
 	}
 }
+

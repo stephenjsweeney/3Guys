@@ -18,11 +18,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-extern void drawText(int x, int y, int align, int size, const char *format, ...);
-extern AtlasImage *getImageFromAtlas(char *filename, int required);
-
-extern App app;
-extern Colors colors;
-extern Dev dev;
+void drawBackground(Background *background);
+void drawRect(int x, int y, int w, int h, int r, int g, int b, int a);
+void drawFilledRect(int x, int y, int w, int h, int r, int g, int b, int a);
+void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, int center, float angle);
+void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
+void blitRect(SDL_Texture *texture, SDL_Rect *src, int x, int y, int center);
+void blit(SDL_Texture *texture, int x, int y, int center);
+void presentScene(void);
+void prepareScene(void);
+void initGraphics(void);

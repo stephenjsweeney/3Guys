@@ -18,9 +18,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "game.h"
+#include "../json/cJSON.h"
+#include "../system/lookup.h"
+#include "../util/util.h"
+#include "../system/io.h"
 
-void loadGame(void);
+extern App app;
+extern Game game;
+
 
 void initGame(void)
 {
@@ -125,3 +132,4 @@ void saveGame(void)
 	
 	free(out);
 }
+

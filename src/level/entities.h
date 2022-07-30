@@ -18,11 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-extern void blitAtlasImageRotated(AtlasImage *atlasImage, int x, int y, int center, float angle);
-extern AtlasImage *getCurrentFrame(Sprite *s);
-
-extern Entity *self;
-extern Game game;
-extern Level level;
+void destroyEntities(void);
+void updateStar(void);
+void activateEntities(char *targetName);
+void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
+void drawEntities(int backgroundPlane);
+void guyTouchOthers(void);
+void moveEntities(void);
+void doEntities(void);
+void initEntities(void);

@@ -18,11 +18,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "init.h"
+#include "locale.h"
+#include <SDL2/SDL_image.h>
+#include "../json/cJSON.h"
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include "../system/strings.h"
+#include "../system/atlas.h"
+#include "../system/sprites.h"
+#include "../game/game.h"
+#include "../system/sound.h"
+#include "../util/util.h"
+#include "../system/i18n.h"
+#include "../system/io.h"
+#include "../system/text.h"
+#include "../level/levelLoader.h"
+#include "../system/draw.h"
+#include "../system/widgets.h"
+#include "../plat/win32/win32Init.h"
+
+extern App app;
 
 static void loadConfig(void);
 static void loadConfigFile(char *filename);
-void saveConfig(void);
 static void showLoadingStep(float step, float maxSteps);
 
 void init18N(int argc, char *argv[])
@@ -55,7 +75,7 @@ void initSDL(void)
 {
 	/* done in src/plat/ */
 	createSaveFolder();
-	
+
 	loadConfig();
 
 	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK) < 0)
@@ -66,17 +86,15 @@ void initSDL(void)
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
     {
-        printf("Couldn't initialize SDL Mixer\n");
 		exit(1);
     }
 
-    Mix_AllocateChannels(MAX_SND_CHANNELS);
-	
+
 	Mix_Volume(-1, app.config.soundVolume);
 	Mix_VolumeMusic(app.config.musicVolume);
-	
+
 	app.window = SDL_CreateWindow("3Guys", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, app.config.winWidth, app.config.winHeight, SDL_WINDOW_OPENGL);
-	
+
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
 	app.renderer = SDL_CreateRenderer(app.window, -1, SDL_RENDERER_ACCELERATED);
@@ -102,9 +120,9 @@ void initGameSystem(void)
 		initSounds,
 		initGame
 	};
-	
+
 	initAtlas();
-	
+
 	initGraphics();
 
 	numInitFuncs = sizeof(initFuncs) / sizeof(void*);
@@ -132,12 +150,12 @@ static void showLoadingStep(float step, float maxSteps)
 	r.y = (SCREEN_HEIGHT / 2) - r.h / 2;
 
 	drawFilledRect(r.x, r.y, r.w, r.h, 128, 128, 128, 255);
-	
+
 	r.x++;
 	r.y++;
 	r.w -= 2;
 	r.h -= 2;
-	
+
 	drawFilledRect(r.x, r.y, r.w, r.h, 0, 0, 0, 255);
 
 	r.w *= (step / maxSteps);
@@ -145,7 +163,7 @@ static void showLoadingStep(float step, float maxSteps)
 	r.y++;
 	r.w -= 2;
 	r.h -= 2;
-	
+
 	drawFilledRect(r.x, r.y, r.w, r.h, 128, 192, 255, 255);
 
 	presentScene();
@@ -156,19 +174,19 @@ static void showLoadingStep(float step, float maxSteps)
 static void loadConfig(void)
 {
 	char *filename;
-	
+
 	/* load default config first */
 	loadConfigFile("data/app/"CONFIG_FILENAME);
-	
+
 	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);
 
 	if (fileExists(filename))
 	{
 		loadConfigFile(filename);
 	}
-	
+
 	free(filename);
-	
+
 	/* so that the player doesn't get confused if this is a new game */
 	saveConfig();
 }
@@ -188,7 +206,7 @@ static void loadConfigFile(char *filename)
 	app.config.soundVolume = cJSON_GetObjectItem(root, "soundVolume")->valueint;
 	app.config.sex = cJSON_GetObjectItem(root, "sex")->valueint;
 	app.config.speed = cJSON_GetObjectItem(root, "speed")->valueint;
-	
+
 	/* volumes are 0 - 10 */
 	app.config.soundVolume *= 12.8;
 	app.config.musicVolume *= 12.8;
@@ -222,21 +240,22 @@ void saveConfig(void)
 	}
 
 	cJSON_Delete(root);
-	
+
 	free(out);
-	
+
 	free(filename);
 }
 
 void cleanup(void)
 {
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Cleaning up ...");
-	
+
 	SDL_DestroyWindow(app.window);
-	
+
 	TTF_Quit();
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Done.");
-	
+
 	SDL_Quit();
 }
+

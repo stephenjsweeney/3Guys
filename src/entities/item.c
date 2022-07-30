@@ -18,7 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "item.h"
+#include "../util/maths.h"
+
+extern Entity *self;
 
 static void tick(void);
 static void resetSpinTimer(void);
@@ -53,3 +57,4 @@ static void resetSpinTimer(void)
 
 	self->spinTimer = randF() * FPS * 25;
 }
+

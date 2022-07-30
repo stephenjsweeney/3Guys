@@ -18,7 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "io.h"
+#include <sys/stat.h>
+#include "dirent.h"
+#include "zlib.h"
 
 static int stringComparator(const void *a, const void *b);
 
@@ -32,9 +36,8 @@ int fileExists(const char *filename)
 long getFileModTime(const char *filename)
 {
 	struct stat buffer;
-	
-    stat(filename, &buffer);
-	
+
+
     return buffer.st_mtime;
 }
 
@@ -49,7 +52,7 @@ const char *getFileLocation(const char *filename)
 	}
 
 	sprintf(path, DATA_DIR"/%s", filename);
-	
+
 	if (!fileExists(path))
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "No such file '%s'", path);
@@ -76,7 +79,7 @@ char *readFile(const char *filename)
 		fread(buffer, 1, length, file);
 
 		fclose(file);
-		
+
 		buffer[length] = '\0';
 	}
 
@@ -89,7 +92,7 @@ char *readCompressedFile(const char *filename)
 	uint32_t l1, l2;
 	unsigned long length, cLength;
 	FILE *file = fopen(getFileLocation(filename), "rb");
-	
+
 	buffer = 0;
 	cBuffer = 0;
 
@@ -97,29 +100,29 @@ char *readCompressedFile(const char *filename)
 	{
 		fread(&l1, sizeof(uint32_t), 1, file);
 		fread(&l2, sizeof(uint32_t), 1, file);
-		
+
 		l1 = SDL_SwapLE32(l1);
 		l2 = SDL_SwapLE32(l2);
-		
+
 		length = l1;
 		cLength = l2;
-		
+
 		buffer = malloc(length + 1);
 		memset(buffer, 0, length + 1);
-		
+
 		cBuffer = malloc(cLength + 1);
 		memset(cBuffer, 0, cLength + 1);
-		
+
 		fread(cBuffer, 1, cLength, file);
-		
+
 		uncompress(buffer, &length, cBuffer, cLength);
 
 		fclose(file);
-		
+
 		buffer[length] = '\0';
-		
+
 		free(cBuffer);
-		
+
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Decompressed '%s' %ld -> %ld", filename, cLength, length);
 	}
 
@@ -209,5 +212,5 @@ static int stringComparator(const void *a, const void *b)
 {
     char **s1 = (char **)a;
     char **s2 = (char **)b;
-    return strcmp(*s1, *s2);
 }
+

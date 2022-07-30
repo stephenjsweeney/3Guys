@@ -18,7 +18,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "crumblingFloor.h"
+#include "../level/entities.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "../entities/guy.h"
+
+extern App app;
+extern Entity *self;
+extern Level level;
 
 static void describe(void);
 static int blocking(void);
@@ -76,3 +85,4 @@ static int blocking(void)
 {
 	return 0;
 }
+

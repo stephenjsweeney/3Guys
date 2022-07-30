@@ -18,7 +18,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "firePitTrap.h"
+#include "../entities/guy.h"
+#include "../system/sprites.h"
+#include "../system/sound.h"
+#include "../level/effects.h"
+#include "../level/entities.h"
+#include "../level/level.h"
+
+extern App app;
+extern Entity *self;
+extern Level level;
 
 static void touch(Entity *other);
 static int blocking(void);
@@ -102,3 +113,4 @@ static void die(void)
 	
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }
+

@@ -18,7 +18,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "options.h"
+#include <SDL2/SDL_mixer.h>
+#include "../system/draw.h"
+#include "../system/widgets.h"
+#include "../system/init.h"
+#include "../system/text.h"
+#include "../system/textures.h"
+#include "../system/wipe.h"
+#include "../system/atlas.h"
+#include "../system/sound.h"
+#include "../util/maths.h"
+
+extern App app;
 
 static void logic(void);
 static void draw(void);
@@ -172,3 +185,4 @@ static void setScreenResOption(Widget *w)
 		}
 	}
 }
+

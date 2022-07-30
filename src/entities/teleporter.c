@@ -18,7 +18,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "teleporter.h"
+#include "../system/atlas.h"
+#include "../system/sprites.h"
+#include "../system/sound.h"
+#include "../level/effects.h"
+#include "../level/entities.h"
+#include "../level/player.h"
+#include "../system/draw.h"
+
+extern App app;
+extern Entity *self;
+extern Level level;
 
 static void touch(Entity *other);
 static int blocking(void);
@@ -141,3 +153,4 @@ static int blocking(void)
 {
 	return 0;
 }
+

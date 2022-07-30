@@ -18,7 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "test.h"
+#include "../level/level.h"
+#include "../system/sound.h"
 
 void initLevelTest(int n)
 {
@@ -28,3 +31,4 @@ void initLevelTest(int n)
 	
 	playMusic(1);
 }
+

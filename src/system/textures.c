@@ -18,11 +18,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "textures.h"
+#include <SDL2/SDL_image.h>
+#include "../util/maths.h"
+
+extern App app;
 
 static Texture *addTextureToCache(const char *name, SDL_Texture *texture);
-SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface);
-Texture *getTexture(const char *name);
 
 static Texture textures[NUM_TEXTURE_BUCKETS];
 
@@ -121,3 +124,4 @@ void destroyTextures(void)
 		textures[i].next = NULL;
 	}
 }
+

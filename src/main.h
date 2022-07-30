@@ -18,24 +18,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "common.h"
-#include <time.h>
-
-extern void cleanup(void);
-extern void handleInput(void);
-extern void init18N(int argc, char *argv[]);
-extern void initEnding(void);
-extern void initGameSystem(void);
-extern void initLevelTest(int n);
-extern void initLookups(void);
-extern void initSDL(void);
-extern void initTitle(void);
-extern void prepareScene(void);
-extern void presentScene(void);
-
-App app;
-Colors colors;
-Dev dev;
-Entity *self;
-Game game;
-Level level;
+int main(int argc, char *argv[]);

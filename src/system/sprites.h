@@ -18,10 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "../json/cJSON.h"
-
-extern char **getFileList(const char *dir, int *count);
-extern AtlasImage *getImageFromAtlas(char *filename, int required);
-extern char *readFile(const char *filename);
-extern float wrap(float value, float low, float high);
+void destroySprites(void);
+AtlasImage *getCurrentFrame(Sprite *s);
+void animateSprites(void);
+Sprite *getSprite(char *name);
+void initSprites(void);

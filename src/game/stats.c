@@ -18,7 +18,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "stats.h"
+#include "../system/sound.h"
+#include "../game/title.h"
+#include "../system/widgets.h"
+#include "../system/text.h"
+#include "../util/util.h"
+#include "../system/textures.h"
+#include "../system/wipe.h"
+#include "../system/draw.h"
+
+extern App app;
+extern Game game;
 
 static void logic(void);
 static void draw(void);
@@ -102,3 +114,4 @@ static void back(void)
 	
 	playSound(SND_SELECT, 0);
 }
+

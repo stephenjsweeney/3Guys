@@ -18,7 +18,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "tools.h"
+#include "../system/sprites.h"
+#include "../system/sound.h"
+#include "../entities/guy.h"
+
+extern App app;
+extern Entity *self;
+extern Level level;
 
 static void touch(Entity *other);
 static void describe(void);
@@ -54,3 +62,4 @@ static int blocking(void)
 {
 	return 0;
 }
+

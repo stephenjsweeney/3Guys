@@ -18,15 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-extern void clearRoute(void);
-extern Sprite *getSprite(char *name);
-extern int isGuy(Entity *e);
-extern void playSound(int snd, int ch);
-extern void stepBack(void);
-
-extern App app;
-extern Entity *self;
-extern Game game;
-extern Level level;
+void initRedDoor(Entity *e);
+void initGreenDoor(Entity *e);
+void initYellowDoor(Entity *e);
+void initNormalDoor(Entity *e);

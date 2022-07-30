@@ -18,7 +18,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "widgets.h"
+#include "../json/cJSON.h"
+#include "../system/lookup.h"
+#include "../system/atlas.h"
+#include "../util/util.h"
+#include "../system/io.h"
+#include "../system/text.h"
+#include "../system/draw.h"
+#include "../util/maths.h"
+
+#define FONT_SIZE		48
+
+extern App app;
 
 static Widget widgetHead;
 static Widget *widgetTail;
@@ -374,3 +387,4 @@ static void createSliderControls(Widget *parent)
 	w->w = arrow->rect.w;
 	w->h = arrow->rect.h;
 }
+

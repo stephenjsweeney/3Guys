@@ -18,7 +18,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "guy.h"
+#include "../system/atlas.h"
+#include "../level/level.h"
+#include "../system/sound.h"
+#include "../level/effects.h"
+#include "../level/entities.h"
+#include "../system/draw.h"
+#include "../system/sprites.h"
+
+extern App app;
+extern Entity *self;
+extern Game game;
+extern Level level;
 
 static void die(void);
 static int blocking(void);
@@ -163,3 +176,4 @@ int isGuy(Entity *e)
 {
 	return (e->type == ET_RED_GUY ||e->type == ET_GREEN_GUY || e->type == ET_YELLOW_GUY); 
 }
+

@@ -18,8 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-#define WIPE_SPEED	24
-
-extern void drawFilledRect(int x, int y, int w, int h, int r, int g, int b, int a);
+void initWipe(int type);
+void drawWipe(void);
+int doWipe(void);

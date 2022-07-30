@@ -18,7 +18,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "levelLoader.h"
+#include "../json/cJSON.h"
+#include "../entities/laserTrap.h"
+#include "../entities/firePitTrap.h"
+#include "../entities/teleporter.h"
+#include "../entities/guy.h"
+#include "../entities/crumblingFloor.h"
+#include "../entities/diamond.h"
+#include "../entities/star.h"
+#include "../level/level.h"
+#include "../entities/tools.h"
+#include "../entities/key.h"
+#include "../entities/tnt.h"
+#include "../util/util.h"
+#include "../entities/wall.h"
+#include "../system/io.h"
+#include "../entities/door.h"
+#include "../entities/pushBlock.h"
+#include "../entities/movingPlatform.h"
+#include "../entities/spikeTrap.h"
+#include "../entities/pressurePlate.h"
+
+extern Level level;
 
 static void loadMeta(cJSON *metaJSON);
 static void loadMapData(cJSON *mapJSON);
@@ -297,3 +320,4 @@ static int entComparator(const void *a, const void *b)
 
 	return e1->type - e2->type;
 }
+

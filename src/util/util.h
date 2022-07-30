@@ -18,5 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "time.h"
+char *strtok_r(char *str, const char *delim, char **nextp);
+char *buildFormattedString(const char *format, ...);
+void *resize(void *array, int oldSize, int newSize);
+char *timeToDate(long millis);
+char *timeToString(int seconds, int showHours);
+int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);

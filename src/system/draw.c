@@ -18,7 +18,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "draw.h"
+#include "../system/text.h"
+#include "../system/atlas.h"
+
+extern App app;
+extern Colors colors;
+extern Dev dev;
 
 static void initColor(SDL_Color *c, int r, int g, int b);
 
@@ -195,3 +202,4 @@ static void initColor(SDL_Color *c, int r, int g, int b)
 	c->b = b;
 	c->a = 255;
 }
+

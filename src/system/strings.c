@@ -18,7 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "strings.h"
+
+extern App app;
 
 void initStrings(void)
 {
@@ -53,3 +56,4 @@ void initStrings(void)
 	app.strings[ST_ENDING] = _("Thanks to his pals, Red's hunger is finally sated! Unfortunately, he's been away from the office for quite a few hours now, so should probably should get back if he wants to avoid having to work late. Again.");
 	app.strings[ST_RESTART_RES] = _("Resolution changes will take effect after the game is restarted.");
 }
+

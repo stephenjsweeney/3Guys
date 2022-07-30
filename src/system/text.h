@@ -18,18 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "stdlib.h"
-#include "string.h"
-
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_ttf.h"
-
-#include "../common.h"
-
-#define FONT_SIZE			64
-#define FONT_TEXTURE_SIZE	1024
-
-extern char *getFileLocation(char *filename);
-extern SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface);
-
-extern App app;
+void setTextColor(int r, int g, int b, int a);
+void setTextWidth(int width);
+void calcTextDimensions(char *text, int size, int *w, int *h);
+void useFont(char *name);
+void drawText(int x, int y, int align, int size, const char *format, ...);
+void drawShadowText(int x, int y, int align, int size, const char *format, ...);
+void initFonts(void);

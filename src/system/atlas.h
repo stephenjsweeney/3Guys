@@ -18,9 +18,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "../json/cJSON.h"
-
-extern Texture *getTexture(const char *filename);
-extern unsigned long hashcode(const char *str);
-extern char *readFile(const char *filename);
+AtlasImage *getImageFromAtlas(char *filename, int required);
+void initAtlas(void);

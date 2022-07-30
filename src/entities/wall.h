@@ -18,17 +18,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-extern void addExplosionEffect(int mx, int my, int r, int g, int b);
-extern void blitAtlasImage(AtlasImage *atlasImage, int x, int y, int center);
-extern void clearRoute(void);
-extern AtlasImage *getCurrentFrame(Sprite *s);
-extern void getEntitiesAt(int x, int y, int *n, Entity *ignore, Entity **candidates);
-extern AtlasImage *getImageFromAtlas(char *filename, int required);
-extern Sprite *getSprite(char *name);
-extern int isGuy(Entity *e);
-extern void playSound(int snd, int ch);
-extern void stepBack(void);
-
-extern Entity *self;
+void initWall(Entity *e);

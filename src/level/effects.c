@@ -18,7 +18,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "effects.h"
+#include "../system/atlas.h"
+#include "../system/draw.h"
+#include "../util/maths.h"
+
+#define EFFECT_SPEED 6
+
+extern Level level;
 
 static AtlasImage *explosionSphere;
 static AtlasImage *teleportStar;
@@ -163,3 +171,4 @@ void addTeleportStars(int mx, int my, int amount)
 		e->dy = (float) ((randF() - randF()) * 4);
 	}
 }
+

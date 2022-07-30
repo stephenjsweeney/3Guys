@@ -18,7 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "wipe.h"
+#include "../system/draw.h"
+
+#define WIPE_SPEED	24
 
 static int wipeType;
 static float wipeValue;
@@ -89,3 +93,4 @@ void initWipe(int type)
 		wipeValue = 255;
 	}
 }
+

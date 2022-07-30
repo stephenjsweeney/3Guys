@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "maths.h"
 
 float mod(float n, float x)
@@ -38,7 +39,6 @@ int rrnd(int low, int high)
 
 double randF(void)
 {
-    return (double)rand() / (double)((unsigned)RAND_MAX + 1);
 }
 
 int getPercent(float current, float total)
@@ -121,3 +121,4 @@ unsigned long hashcode(const char *str)
 	
 	return hash;
 }
+

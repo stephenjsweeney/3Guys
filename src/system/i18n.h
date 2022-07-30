@@ -17,10 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, 51 Franklin Street, Suite 500, Boston, MA 02110-1335, USA.
 */
 
-#include "../common.h"
-
-#ifdef _WIN32
-	#include <windows.h>
-#endif
-
-#define TABLE_SIZE	255
+void cleanupLanguage();
+char *getTranslatedString(char *key);
+void setLanguage(char *applicationName, char *languageCode);

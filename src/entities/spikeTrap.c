@@ -18,7 +18,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "../common.h"
 #include "spikeTrap.h"
+#include "../system/sprites.h"
+#include "../system/sound.h"
+#include "../level/effects.h"
+#include "../entities/guy.h"
+
+extern Entity *self;
 
 static Sprite *activeTrap;
 
@@ -62,3 +69,4 @@ static void die(void)
 	
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }
+

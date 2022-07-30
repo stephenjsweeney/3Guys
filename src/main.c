@@ -18,7 +18,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "common.h"
 #include "main.h"
+#include <time.h>
+#include "system/lookup.h"
+#include "system/draw.h"
+#include "system/input.h"
+#include "test/test.h"
+#include "game/title.h"
+#include "system/init.h"
+#include "game/ending.h"
+
+App app;
+Colors colors;
+Dev dev;
+Entity *self;
+Game game;
+Level level;
 
 static void capFrameRate(long *then, float *remainder);
 static void handleCommandLine(int argc, char *argv[]);
@@ -150,3 +166,4 @@ static void handleCommandLine(int argc, char *argv[])
 		initTitle();
 	}
 }
+

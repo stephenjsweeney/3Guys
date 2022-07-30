@@ -18,10 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-#include "SDL2/SDL_mixer.h"
-
-#define MAX_BATTLE_SOUND_DISTANCE	(SCREEN_WIDTH * 2)
-
-extern char *getFileLocation(char *filename);
+void destroySounds(void);
+int isPlayingMusic(void);
+void pauseSound(int pause);
+void playSound(int snd, int ch);
+void fadeMusic(int ms);
+void stopMusic(void);
+void playMusic(int loop);
+void loadMusic(char *filename);
+void initSounds(void);

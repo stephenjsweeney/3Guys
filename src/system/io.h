@@ -18,8 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-
-#include "sys/stat.h"
-#include "dirent.h"
-#include "zlib.h"
+int renameFile(char *src, char *dest);
+int deleteFile(char *path);
+char **getFileList(const char *dir, int *count);
+int writeFile(const char *filename, const char *data);
+char *readCompressedFile(const char *filename);
+char *readFile(const char *filename);
+const char *getFileLocation(const char *filename);
+long getFileModTime(const char *filename);
+int fileExists(const char *filename);
