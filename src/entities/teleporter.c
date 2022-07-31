@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,21 +19,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "teleporter.h"
-#include "../system/atlas.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
+
 #include "../level/effects.h"
 #include "../level/entities.h"
 #include "../level/player.h"
+#include "../system/atlas.h"
 #include "../system/draw.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "teleporter.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void touch(Entity *other);
-static int blocking(void);
+static int	blocking(void);
 static void activate(void);
 static void describe(void);
 static void draw(void);
@@ -49,39 +50,39 @@ void initTeleporter(Entity *e)
 	e->describe = describe;
 	e->activate = activate;
 	e->draw = draw;
-	
+
 	e->active = 1;
-	
+
 	inactiveTeleporter = getImageFromAtlas("gfx/sprites/inactiveTeleporter.png", 1);
 }
 
 static void touch(Entity *other)
 {
 	Entity *candidates[MAX_CANDIDATES], *oldSelf;
-	int i, n;
-	
+	int		i, n;
+
 	if (self->active)
 	{
 		playSound(SND_TELEPORT, -1);
 
 		other->x = self->tx;
 		other->y = self->ty;
-		
+
 		if (other == level.guy)
 		{
 			clearRoute();
 		}
 
 		addTeleportStars(self->tx, self->ty, 35);
-		
+
 		getEntitiesAt(other->x, other->y, &n, other, candidates);
 
-		for (i = 0 ; i < n ; i++)
+		for (i = 0; i < n; i++)
 		{
 			oldSelf = self;
-			
+
 			self = candidates[i];
-			
+
 			if (candidates[i]->solid)
 			{
 				if (candidates[i]->visible)
@@ -93,7 +94,7 @@ static void touch(Entity *other)
 			{
 				candidates[i]->touch(other);
 			}
-			
+
 			self = oldSelf;
 		}
 	}
@@ -102,13 +103,13 @@ static void touch(Entity *other)
 static void draw(void)
 {
 	int x, y;
-	
+
 	x = LEVEL_RENDER_X + self->x * TILE_SIZE;
 	y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
 
 	x += TILE_SIZE / 2;
 	y += TILE_SIZE / 2;
-	
+
 	if (self->active)
 	{
 		blitAtlasImage(getCurrentFrame(self->sprite), x, y, 1);
@@ -122,15 +123,15 @@ static void draw(void)
 static void activate(void)
 {
 	Entity *candidates[MAX_CANDIDATES];
-	int n, i;
-	
+	int		n, i;
+
 	self->active = !self->active;
 
 	if (self->active)
 	{
 		getEntitiesAt(self->x, self->y, &n, self, candidates);
-		
-		for (i = 0 ; i < n ; i++)
+
+		for (i = 0; i < n; i++)
 		{
 			self->touch(candidates[i]);
 		}

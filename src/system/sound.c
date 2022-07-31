@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,12 +18,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "sound.h"
 #include <SDL2/SDL_mixer.h>
-#include "../system/io.h"
 
-#define MAX_BATTLE_SOUND_DISTANCE	(SCREEN_WIDTH * 2)
+#include "../common.h"
+
+#include "../system/io.h"
+#include "sound.h"
+
+#define MAX_BATTLE_SOUND_DISTANCE (SCREEN_WIDTH * 2)
 
 static void loadSounds(void);
 
@@ -32,7 +34,7 @@ static Mix_Music *music;
 
 void initSounds(void)
 {
-	memset(sounds, 0, sizeof(Mix_Chunk*) * SND_MAX);
+	memset(sounds, 0, sizeof(Mix_Chunk *) * SND_MAX);
 
 	music = NULL;
 
@@ -121,7 +123,7 @@ void destroySounds(void)
 {
 	int i;
 
-	for (i = 0 ; i < SND_MAX ; i++)
+	for (i = 0; i < SND_MAX; i++)
 	{
 		if (sounds[i])
 		{

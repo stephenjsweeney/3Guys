@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,9 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "util.h"
 #include <time.h>
+
+#include "../common.h"
+
+#include "util.h"
 
 static char TIME_STRING[MAX_NAME_LENGTH];
 
@@ -55,52 +57,52 @@ char *timeToString(int seconds, int showHours)
 char *timeToDate(long millis)
 {
 	static char DATE[MAX_NAME_LENGTH];
-	
+
 	struct tm *timeinfo;
-	time_t t;
-	
+	time_t	   t;
+
 	t = millis;
-	
+
 	timeinfo = localtime(&t);
-	
+
 	strftime(DATE, MAX_NAME_LENGTH, "%d %b %Y, %I:%M%p", timeinfo);
-	
+
 	return DATE;
 }
 
 void *resize(void *array, int oldSize, int newSize)
 {
 	void **newArray;
-	int copySize;
-	
+	int	   copySize;
+
 	copySize = newSize > oldSize ? oldSize : newSize;
-	
+
 	newArray = malloc(newSize);
 	memset(newArray, 0, newSize);
 	memcpy(newArray, array, copySize);
 	free(array);
-	
+
 	return newArray;
 }
 
 char *buildFormattedString(const char *format, ...)
 {
-	int n;
-	char *s;
+	int		n;
+	char	 *s;
 	va_list args;
-	
-    n = vsnprintf(NULL, 0, format, args) + 1;
-	
+
+	n = vsnprintf(NULL, 0, format, args) + 1;
+
 	s = malloc(sizeof(char) * n);
-	
+
 	va_start(args, format);
 	vsprintf(s, format, args);
 	va_end(args);
-	
+
 	return s;
 }
 
-/* 
+/*
  * public domain strtok_r() by Charlie Gordon
  *
  *   from comp.lang.c  9/14/2007
@@ -134,8 +136,8 @@ char *strtok_r(char *str, const char *delim, char **nextp)
 	{
 		*str++ = '\0';
 	}
-	
+
 	*nextp = str;
-	
+
 	return ret;
 }

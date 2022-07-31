@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,19 +19,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "star.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
-#include "../entities/guy.h"
 
-extern App app;
+#include "../entities/guy.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "star.h"
+
+extern App	   app;
 extern Entity *self;
-extern Game game;
-extern Level level;
+extern Game	   game;
+extern Level   level;
 
 static void touch(Entity *other);
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 
 void initStar(Entity *e)
 {
@@ -40,9 +41,9 @@ void initStar(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
-	
+
 	game.starsAvailable[level.id] = 1;
-	
+
 	if (game.starsFound[level.id])
 	{
 		e->alive = 0;

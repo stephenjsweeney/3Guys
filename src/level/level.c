@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,24 +19,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "level.h"
-#include "../game/levelSelect.h"
-#include "../system/atlas.h"
-#include "../game/options.h"
+
 #include "../game/ending.h"
-#include "../system/sprites.h"
-#include "../system/widgets.h"
-#include "../level/effects.h"
 #include "../game/game.h"
-#include "../system/text.h"
+#include "../game/levelSelect.h"
+#include "../game/options.h"
+#include "../level/effects.h"
 #include "../level/entities.h"
-#include "../system/textures.h"
-#include "../system/wipe.h"
 #include "../level/levelLoader.h"
 #include "../level/player.h"
+#include "../system/atlas.h"
 #include "../system/draw.h"
 #include "../system/sound.h"
+#include "../system/sprites.h"
+#include "../system/text.h"
+#include "../system/textures.h"
+#include "../system/widgets.h"
+#include "../system/wipe.h"
 #include "../util/maths.h"
+#include "level.h"
 
 enum
 {
@@ -45,10 +46,10 @@ enum
 	SHOW_PAUSE
 };
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Game game;
-extern Level level;
+extern Game	   game;
+extern Level   level;
 
 static void logic(void);
 static void draw(void);
@@ -81,13 +82,13 @@ static AtlasImage *highlight;
 static AtlasImage *selectRect;
 static AtlasImage *tools;
 static AtlasImage *tnt;
-static int moveTimer;
-static int restarting;
-static Background background;
-static int show;
-static int currentTip;
-static int tickTimer;
-static int playingMusic = 0;
+static int		   moveTimer;
+static int		   restarting;
+static Background  background;
+static int		   show;
+static int		   currentTip;
+static int		   tickTimer;
+static int		   playingMusic = 0;
 
 void initLevel(int id)
 {
@@ -187,10 +188,10 @@ void initLevel(int id)
 
 static void initTiles(void)
 {
-	int i;
+	int	 i;
 	char filename[MAX_FILENAME_LENGTH];
 
-	for (i = 1 ; i < MAX_TILES ; i++)
+	for (i = 1; i < MAX_TILES; i++)
 	{
 		sprintf(filename, "gfx/tiles/%d.png", i);
 
@@ -362,9 +363,9 @@ static void doLevel(void)
 
 static void moveGuy(void)
 {
-	Entity *candidates[MAX_CANDIDATES];
+	Entity	   *candidates[MAX_CANDIDATES];
 	RouteNode *node;
-	int n, blocked;
+	int		   n, blocked;
 
 	level.dx = level.routeHead.next->x - level.guy->x;
 	level.dy = level.routeHead.next->y - level.guy->y;
@@ -531,9 +532,9 @@ static void drawMap(void)
 {
 	int x, y, i;
 
-	for (y = 0 ; y < MAP_HEIGHT ; y++)
+	for (y = 0; y < MAP_HEIGHT; y++)
 	{
-		for (x = 0 ; x < MAP_WIDTH ; x++)
+		for (x = 0; x < MAP_WIDTH; x++)
 		{
 			i = level.data[x][y];
 
@@ -548,13 +549,13 @@ static void drawMap(void)
 static void drawRoute(void)
 {
 	RouteNode *n, *prev;
-	int x, y;
+	int		   x, y;
 
 	prev = &level.routeHead;
 
 	if (level.routeHead.next != NULL)
 	{
-		for (n = level.routeHead.next ; n != NULL ; n = n->next)
+		for (n = level.routeHead.next; n != NULL; n = n->next)
 		{
 			x = LEVEL_RENDER_X + n->x * TILE_SIZE;
 			y = LEVEL_RENDER_Y + n->y * TILE_SIZE;
@@ -761,9 +762,9 @@ static void postOptions(void)
 
 void destroyLevel(void)
 {
-	Entity *e;
+	Entity	   *e;
 	RouteNode *n;
-	int i;
+	int		   i;
 
 	while (level.entityHead.next)
 	{
@@ -779,7 +780,7 @@ void destroyLevel(void)
 		free(n);
 	}
 
-	for (i = 0 ; i < level.numTips ; i++)
+	for (i = 0; i < level.numTips; i++)
 	{
 		free(level.tips[i]);
 	}

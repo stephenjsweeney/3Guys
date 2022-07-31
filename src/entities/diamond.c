@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,19 +19,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "diamond.h"
+
 #include "../level/level.h"
 #include "../system/sound.h"
 #include "../system/sprites.h"
+#include "diamond.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Game game;
-extern Level level;
+extern Game	   game;
+extern Level   level;
 
 static void touch(Entity *other);
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 
 void initDiamond(Entity *e)
 {
@@ -47,7 +48,7 @@ static void touch(Entity *other)
 	if (other->type == ET_RED_GUY)
 	{
 		self->alive = 0;
-		
+
 		completeLevel();
 
 		playSound(SND_DIAMOND, 1);

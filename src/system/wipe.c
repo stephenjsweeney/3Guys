@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,12 +19,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "wipe.h"
+
 #include "../system/draw.h"
+#include "wipe.h"
 
-#define WIPE_SPEED	24
+#define WIPE_SPEED 24
 
-static int wipeType;
+static int	 wipeType;
 static float wipeValue;
 
 int doWipe(void)
@@ -38,18 +39,18 @@ int doWipe(void)
 				wipeValue += WIPE_SPEED;
 			}
 			return wipeValue < SCREEN_WIDTH;
-			
+
 		case WIPE_FADE:
 			if (wipeValue > 0)
 			{
 				wipeValue -= 8;
 			}
 			break;
-			
+
 		default:
 			break;
 	}
-	
+
 	return 0;
 }
 
@@ -63,21 +64,21 @@ void drawWipe(void)
 				drawFilledRect(wipeValue, 0, SCREEN_WIDTH - wipeValue, SCREEN_HEIGHT, 0, 0, 0, 255);
 			}
 			break;
-			
+
 		case WIPE_OUT:
 			if (wipeValue < SCREEN_WIDTH)
 			{
 				drawFilledRect(0, 0, wipeValue, SCREEN_HEIGHT, 0, 0, 0, 255);
 			}
 			break;
-			
+
 		case WIPE_FADE:
 			if (wipeValue > 0)
 			{
 				drawFilledRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, wipeValue);
 			}
 			break;
-			
+
 		default:
 			break;
 	}
@@ -87,7 +88,7 @@ void initWipe(int type)
 {
 	wipeType = type;
 	wipeValue = 0;
-	
+
 	if (type == WIPE_FADE)
 	{
 		wipeValue = 255;

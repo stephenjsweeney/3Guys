@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,9 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
+
 #include "input.h"
 
-#define MOUSE_DRAG_THRESHOLD	4
+#define MOUSE_DRAG_THRESHOLD 4
 
 extern App app;
 
@@ -110,7 +111,7 @@ static void doJoyAxis(SDL_JoyAxisEvent *event)
 void clearInput(void)
 {
 	SDL_Event event;
-	
+
 	memset(app.keyboard, 0, sizeof(int) * MAX_KEYBOARD_KEYS);
 	memset(&app.mouse, 0, sizeof(Mouse));
 	memset(&app.joypadButton, 0, sizeof(int) * SDL_CONTROLLER_BUTTON_MAX);
@@ -123,10 +124,10 @@ void clearInput(void)
 void handleInput(void)
 {
 	SDL_Event event;
-	
+
 	app.mouse.dx = 0;
 	app.mouse.dy = 0;
-	
+
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -134,11 +135,11 @@ void handleInput(void)
 			case SDL_MOUSEMOTION:
 				doMouseMotion(&event.motion);
 				break;
-				
+
 			case SDL_MOUSEWHEEL:
 				doMouseWheel(&event.wheel);
 				break;
-			
+
 			case SDL_MOUSEBUTTONDOWN:
 				doMouseDown(&event.button);
 				break;
@@ -146,11 +147,11 @@ void handleInput(void)
 			case SDL_MOUSEBUTTONUP:
 				doMouseUp(&event.button);
 				break;
-			
+
 			case SDL_KEYDOWN:
 				doKeyDown(&event.key);
 				break;
-				
+
 			case SDL_KEYUP:
 				doKeyUp(&event.key);
 				break;
@@ -162,19 +163,19 @@ void handleInput(void)
 			case SDL_JOYBUTTONUP:
 				doButtonUp(&event.jbutton);
 				break;
-				
+
 			case SDL_JOYAXISMOTION:
 				doJoyAxis(&event.jaxis);
 				break;
-			
+
 			case SDL_QUIT:
 				exit(0);
 				break;
 		}
 	}
-	
+
 	SDL_GetMouseState(&app.mouse.x, &app.mouse.y);
-	
+
 	app.mouse.x *= app.scaleX;
 	app.mouse.y *= app.scaleY;
 }

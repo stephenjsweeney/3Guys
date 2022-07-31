@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,18 +19,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "crumblingFloor.h"
+
+#include "../entities/guy.h"
 #include "../level/entities.h"
 #include "../system/sound.h"
 #include "../system/sprites.h"
-#include "../entities/guy.h"
+#include "crumblingFloor.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 static void tick(void);
 
 void initCrumblingFloor(Entity *e)
@@ -45,13 +46,13 @@ void initCrumblingFloor(Entity *e)
 static void tick(void)
 {
 	Entity *candidates[MAX_CANDIDATES];
-	int i, n, guyStanding;
-	
+	int		i, n, guyStanding;
+
 	guyStanding = 0;
-	
+
 	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
-	for (i = 0 ; i < n ; i++)
+	for (i = 0; i < n; i++)
 	{
 		if (isGuy(candidates[i]))
 		{

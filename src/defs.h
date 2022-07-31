@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,55 +28,57 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define _(string) getTranslatedString(string)
 
-#define PI 3.14159265358979323846
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
-#define CAROLINE(a,b) MIN(a,b)
-#define STRNCPY(dest, src, n) strncpy(dest, src, n); dest[n - 1] = '\0'
+#define PI			   3.14159265358979323846
+#define MIN(a, b)	   (((a) < (b)) ? (a) : (b))
+#define MAX(a, b)	   (((a) > (b)) ? (a) : (b))
+#define CAROLINE(a, b) MIN(a, b)
+#define STRNCPY(dest, src, n) \
+	strncpy(dest, src, n);    \
+	dest[n - 1] = '\0'
 #define TO_RAIDANS(angleDegrees) (angleDegrees * PI / 180.0)
 #define TO_DEGREES(angleRadians) (angleRadians * 180.0 / PI)
 
-#define SAVE_FILENAME		"game.save"
-#define CONFIG_FILENAME		"config.json"
+#define SAVE_FILENAME	"game.save"
+#define CONFIG_FILENAME "config.json"
 
-#define SCREEN_WIDTH	720
-#define SCREEN_HEIGHT	1280
+#define SCREEN_WIDTH  720
+#define SCREEN_HEIGHT 1280
 
-#define MAX_KEYBOARD_KEYS	350
-#define MAX_MOUSE_BUTTONS	6
+#define MAX_KEYBOARD_KEYS 350
+#define MAX_MOUSE_BUTTONS 6
 
-#define MAP_WIDTH			7
-#define MAP_HEIGHT			11
+#define MAP_WIDTH  7
+#define MAP_HEIGHT 11
 
-#define MAX_LEVELS			100
+#define MAX_LEVELS 100
 
-#define LEVEL_RENDER_X		24
-#define LEVEL_RENDER_Y		85
+#define LEVEL_RENDER_X 24
+#define LEVEL_RENDER_Y 85
 
-#define TILE_SIZE 		96
-#define MAX_TILES		101
+#define TILE_SIZE 96
+#define MAX_TILES 101
 
-#define FPS				60
-#define LOGIC_RATE		(1000.0 / FPS)
+#define FPS		   60
+#define LOGIC_RATE (1000.0 / FPS)
 
-#define MAX_NAME_LENGTH				32
-#define MAX_DESCRIPTION_LENGTH		512
-#define MAX_LINE_LENGTH				1024
-#define MAX_FILENAME_LENGTH			1024
+#define MAX_NAME_LENGTH		   32
+#define MAX_DESCRIPTION_LENGTH 512
+#define MAX_LINE_LENGTH		   1024
+#define MAX_FILENAME_LENGTH	   1024
 
-#define NUM_TEXTURE_BUCKETS			32
-#define NUM_ATLAS_BUCKETS			64
+#define NUM_TEXTURE_BUCKETS 32
+#define NUM_ATLAS_BUCKETS	64
 
-#define MAX_SND_CHANNELS			64
+#define MAX_SND_CHANNELS 64
 
-#define MAX_CANDIDATES				64
+#define MAX_CANDIDATES 64
 
-#define TILE_HOLE					0
-#define TILE_RED					1
-#define TILE_YELLOW					2
-#define TILE_GREEN					3
-#define TILE_FLOOR					10
-#define TILE_WALL					100
+#define TILE_HOLE	0
+#define TILE_RED	1
+#define TILE_YELLOW 2
+#define TILE_GREEN	3
+#define TILE_FLOOR	10
+#define TILE_WALL	100
 
 enum
 {
@@ -224,7 +226,8 @@ enum
 	STAT_MAX
 };
 
-enum {
+enum
+{
 	SEX_MALE,
 	SEX_FEMALE,
 	SEX_RANDOM

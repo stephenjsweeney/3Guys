@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,18 +19,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "spikeTrap.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
-#include "../level/effects.h"
+
 #include "../entities/guy.h"
+#include "../level/effects.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "spikeTrap.h"
 
 extern Entity *self;
 
 static Sprite *activeTrap;
 
 static void touch(Entity *other);
-static int blocking(void);
+static int	blocking(void);
 static void die(void);
 
 void initSpikeTrap(Entity *e)
@@ -40,7 +41,7 @@ void initSpikeTrap(Entity *e)
 	e->touch = touch;
 	e->die = die;
 	e->isBlocking = blocking;
-	
+
 	activeTrap = getSprite("SpikeTrap");
 }
 
@@ -49,7 +50,7 @@ static void touch(Entity *other)
 	if (isGuy(other))
 	{
 		other->alive = 0;
-		
+
 		self->sprite = activeTrap;
 	}
 	else if (other->type == ET_PUSH_BLOCK)
@@ -66,6 +67,6 @@ static int blocking(void)
 static void die(void)
 {
 	playSound(SND_DIE, -1);
-	
+
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }

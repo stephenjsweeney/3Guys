@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,14 +18,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "text.h"
 #include <SDL2/SDL_ttf.h>
-#include "../system/textures.h"
-#include "../system/io.h"
 
-#define FONT_SIZE			64
-#define FONT_TEXTURE_SIZE	1024
+#include "../common.h"
+
+#include "../system/io.h"
+#include "../system/textures.h"
+#include "text.h"
+
+#define FONT_SIZE		  64
+#define FONT_TEXTURE_SIZE 1024
 
 extern App app;
 
@@ -35,13 +37,13 @@ static void applyWordWrap(char *word, int *x, int *y, int startX);
 
 static SDL_Color white = {255, 255, 255, 255};
 static SDL_Color color;
-static int textWidth = 0;
-static char drawTextBuffer[1024];
-static char shadowTextBuffer[1024];
-static Font fontHead;
-static Font *fontTail;
-static Font *activeFont = NULL;
-static float scale;
+static int		 textWidth = 0;
+static char		 drawTextBuffer[1024];
+static char		 shadowTextBuffer[1024];
+static Font		 fontHead;
+static Font		*fontTail;
+static Font		*activeFont = NULL;
+static float	 scale;
 
 void initFonts(void)
 {
@@ -58,12 +60,12 @@ void initFonts(void)
 static void initFont(char *name, const char *filename)
 {
 	SDL_Texture *texture;
-	TTF_Font *font;
-	Font *f;
+	TTF_Font	 *font;
+	Font		 *f;
 	SDL_Surface *surface, *text;
-	SDL_Rect dest;
-	int i;
-	char c[2];
+	SDL_Rect	 dest;
+	int			 i;
+	char		 c[2];
 
 	surface = SDL_CreateRGBSurface(0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE, 32, 0, 0, 0, 0xff);
 
@@ -76,7 +78,7 @@ static void initFont(char *name, const char *filename)
 
 	dest.x = dest.y = 0;
 
-	for (i = ' ' ; i <= 'z' ; i++)
+	for (i = ' '; i <= 'z'; i++)
 	{
 		memset(c, 0, 2);
 
@@ -108,7 +110,7 @@ static void initFont(char *name, const char *filename)
 
 	f->texture = texture;
 
-	for (i = 0 ; i < 128 ; i++)
+	for (i = 0; i < 128; i++)
 	{
 		f->glyphs[i].texture = texture;
 	}
@@ -121,7 +123,7 @@ static void initFont(char *name, const char *filename)
 
 void drawShadowText(int x, int y, int align, int size, const char *format, ...)
 {
-	va_list args;
+	va_list	  args;
 	SDL_Color oldColor;
 
 	memset(&shadowTextBuffer, '\0', sizeof(drawTextBuffer));
@@ -140,8 +142,8 @@ void drawShadowText(int x, int y, int align, int size, const char *format, ...)
 
 void drawText(int x, int y, int align, int size, const char *format, ...)
 {
-	int i, startX, n, w, h;
-	char word[128];
+	int		i, startX, n, w, h;
+	char	word[128];
 	va_list args;
 
 	if (activeFont)
@@ -174,7 +176,7 @@ void drawText(int x, int y, int align, int size, const char *format, ...)
 			x -= (w / 2);
 		}
 
-		for (i = 0 ; i < strlen(drawTextBuffer) ; i++)
+		for (i = 0; i < strlen(drawTextBuffer); i++)
 		{
 			word[n++] = drawTextBuffer[i];
 
@@ -194,7 +196,7 @@ void drawText(int x, int y, int align, int size, const char *format, ...)
 
 static void drawWord(char *word, int *x, int *y, int startX)
 {
-	int i, c;
+	int		 i, c;
 	SDL_Rect dest;
 
 	if (textWidth > 0)
@@ -202,7 +204,7 @@ static void drawWord(char *word, int *x, int *y, int startX)
 		applyWordWrap(word, x, y, startX);
 	}
 
-	for (i = 0 ; i < strlen(word) ; i++)
+	for (i = 0; i < strlen(word); i++)
 	{
 		c = word[i];
 
@@ -223,7 +225,7 @@ static void applyWordWrap(char *word, int *x, int *y, int startX)
 
 	w = 0;
 
-	for (i = 0 ; i < strlen(word) ; i++)
+	for (i = 0; i < strlen(word); i++)
 	{
 		c = word[i];
 
@@ -244,7 +246,7 @@ void useFont(char *name)
 {
 	Font *f;
 
-	for (f = fontHead.next ; f != NULL ; f = f->next)
+	for (f = fontHead.next; f != NULL; f = f->next)
 	{
 		if (strcmp(f->name, name) == 0)
 		{
@@ -256,7 +258,7 @@ void useFont(char *name)
 
 void calcTextDimensions(char *text, int size, int *w, int *h)
 {
-	int i, c;
+	int	  i, c;
 	float scale;
 
 	scale = size / (FONT_SIZE * 1.0f);
@@ -264,7 +266,7 @@ void calcTextDimensions(char *text, int size, int *w, int *h)
 	*w = 0;
 	*h = 0;
 
-	for (i = 0 ; i < strlen(text) ; i++)
+	for (i = 0; i < strlen(text); i++)
 	{
 		c = text[i];
 

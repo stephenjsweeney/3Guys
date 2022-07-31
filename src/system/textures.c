@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,10 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "textures.h"
 #include <SDL2/SDL_image.h>
+
+#include "../common.h"
+
 #include "../util/maths.h"
+#include "textures.h"
 
 extern App app;
 
@@ -37,7 +39,7 @@ void initTextures(void)
 static Texture *addTextureToCache(const char *name, SDL_Texture *texture)
 {
 	Texture *t, *new;
-	int i;
+	int		 i;
 
 	i = hashcode(name) % NUM_TEXTURE_BUCKETS;
 
@@ -48,7 +50,7 @@ static Texture *addTextureToCache(const char *name, SDL_Texture *texture)
 	{
 		t = t->next;
 	}
-	
+
 	new = malloc(sizeof(Texture));
 	memset(new, 0, sizeof(Texture));
 
@@ -56,60 +58,60 @@ static Texture *addTextureToCache(const char *name, SDL_Texture *texture)
 	new->texture = texture;
 
 	t->next = new;
-	
+
 	return new;
 }
 
 Texture *loadTexture(const char *filename)
 {
 	SDL_Texture *texture;
-	
+
 	texture = IMG_LoadTexture(app.renderer, filename);
-	
+
 	return addTextureToCache(filename, texture);
 }
 
 Texture *getTexture(const char *filename)
 {
 	Texture *t;
-	int i;
+	int		 i;
 
 	i = hashcode(filename) % NUM_TEXTURE_BUCKETS;
 
 	/* check if the texture is already loaded */
-	for (t = textures[i].next ; t != NULL ; t = t->next)
+	for (t = textures[i].next; t != NULL; t = t->next)
 	{
 		if (strcmp(t->name, filename) == 0)
 		{
 			return t;
 		}
 	}
-	
+
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "%s not in texture cache", filename);
-	
+
 	return loadTexture(filename);
 }
 
 SDL_Texture *toTexture(SDL_Surface *surface, int destroySurface)
 {
 	SDL_Texture *texture;
-	
+
 	texture = SDL_CreateTextureFromSurface(app.renderer, surface);
-	
+
 	if (destroySurface)
 	{
 		SDL_FreeSurface(surface);
 	}
-	
+
 	return texture;
 }
 
 void destroyTextures(void)
 {
 	Texture *t, *next;
-	int i;
+	int		 i;
 
-	for (i = 0 ; i < NUM_TEXTURE_BUCKETS ; i++)
+	for (i = 0; i < NUM_TEXTURE_BUCKETS; i++)
 	{
 		t = textures[i].next;
 

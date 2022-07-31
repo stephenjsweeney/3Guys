@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,15 +18,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "stdlib.h"
-#include "stdio.h"
-#include "string.h"
-#include "math.h"
 #include "ctype.h"
-
-#include "SDL2/SDL.h"
-
 #include "defs.h"
+#include "math.h"
+#include "SDL2/SDL.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
 #include "structs.h"
 
 extern char *getTranslatedString(char *string);

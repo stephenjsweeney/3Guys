@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,20 +19,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "pushBlock.h"
-#include "../system/sprites.h"
-#include "../level/player.h"
-#include "../system/sound.h"
+
 #include "../level/effects.h"
 #include "../level/entities.h"
+#include "../level/player.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "pushBlock.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void touch(Entity *other);
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 static void die(void);
 
 void initPushBlock(Entity *e)
@@ -48,12 +49,12 @@ void initPushBlock(Entity *e)
 
 static void touch(Entity *other)
 {
-	int mx, my, blocked, tile, i, n;
+	int		mx, my, blocked, tile, i, n;
 	Entity *candidates[MAX_CANDIDATES], *oldSelf;
-	
+
 	mx = self->x + level.dx;
 	my = self->y + level.dy;
-	
+
 	blocked = 1;
 
 	if (mx >= 0 && my >= 0 && mx < MAP_WIDTH && my < MAP_HEIGHT)
@@ -63,10 +64,10 @@ static void touch(Entity *other)
 		if (tile == TILE_GREEN || (tile >= TILE_FLOOR && tile < TILE_WALL))
 		{
 			blocked = 0;
-			
+
 			getEntitiesAt(mx, my, &n, self, candidates);
 
-			for (i = 0 ; i < n ; i++)
+			for (i = 0; i < n; i++)
 			{
 				if (candidates[i]->solid && candidates[i]->visible)
 				{
@@ -80,37 +81,37 @@ static void touch(Entity *other)
 	{
 		self->x = mx;
 		self->y = my;
-		
+
 		getEntitiesAt(self->x, self->y, &n, self, candidates);
 
 		/* block touch anything in the new square */
-		for (i = 0 ; i < n ; i++)
+		for (i = 0; i < n; i++)
 		{
 			if (candidates[i]->touch)
 			{
 				oldSelf = self;
-				
+
 				self = candidates[i];
-				
+
 				self->touch(oldSelf);
-				
+
 				self = oldSelf;
 			}
 		}
-		
+
 		getEntitiesAt(other->x, other->y, &n, other, candidates);
 
 		/* pusher touch anything that was revealed by the block */
-		for (i = 0 ; i < n ; i++)
+		for (i = 0; i < n; i++)
 		{
 			if (candidates[i]->touch)
 			{
 				oldSelf = self;
-				
+
 				self = candidates[i];
-				
+
 				self->touch(other);
-				
+
 				self = oldSelf;
 			}
 		}
@@ -137,8 +138,8 @@ static int blocking(void)
 static void die(void)
 {
 	self->alive = 0;
-	
+
 	playSound(SND_DIE, -1);
-	
+
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }

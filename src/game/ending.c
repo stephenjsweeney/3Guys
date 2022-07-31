@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,18 +19,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "ending.h"
-#include "../system/atlas.h"
+
 #include "../game/title.h"
-#include "../system/widgets.h"
-#include "../system/text.h"
-#include "../system/textures.h"
-#include "../system/wipe.h"
+#include "../system/atlas.h"
 #include "../system/draw.h"
 #include "../system/sound.h"
+#include "../system/text.h"
+#include "../system/textures.h"
+#include "../system/widgets.h"
+#include "../system/wipe.h"
+#include "ending.h"
 
-#define MAX_BOUNCERS		100
-#define MAX_BOUNCER_TYPES	5
+#define MAX_BOUNCERS	  100
+#define MAX_BOUNCER_TYPES 5
 
 extern App app;
 
@@ -39,24 +40,24 @@ static void draw(void);
 static void ok(void);
 static void initBouncers(void);
 
-static Background background;
-static Widget *okWidget;
+static Background  background;
+static Widget	  *okWidget;
 static AtlasImage *bouncerTypes[MAX_BOUNCER_TYPES];
-static Bouncer bouncers[MAX_BOUNCERS];
+static Bouncer	   bouncers[MAX_BOUNCERS];
 
 void initEnding(void)
 {
 	background.texture = loadTexture("gfx/backgrounds/background.jpg")->texture;
-	
+
 	showWidgetGroup("ending");
-	
+
 	initBouncers();
-	
+
 	initWipe(WIPE_FADE);
-	
+
 	okWidget = getWidget("ok", "ending");
 	okWidget->action = ok;
-	
+
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
 }
@@ -64,14 +65,14 @@ void initEnding(void)
 static void initBouncers(void)
 {
 	int i;
-	
+
 	bouncerTypes[0] = getImageFromAtlas("gfx/sprites/diamond1.png", 1);
 	bouncerTypes[1] = getImageFromAtlas("gfx/sprites/star1.png", 1);
 	bouncerTypes[2] = getImageFromAtlas("gfx/sprites/tools.png", 1);
 	bouncerTypes[3] = getImageFromAtlas("gfx/sprites/tnt.png", 1);
 	bouncerTypes[4] = getImageFromAtlas("gfx/sprites/normalKey.png", 1);
-	
-	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+
+	for (i = 0; i < MAX_BOUNCERS; i++)
 	{
 		bouncers[i].x = rand() % SCREEN_WIDTH;
 		bouncers[i].y = -(rand() % SCREEN_HEIGHT) * 2;
@@ -83,8 +84,8 @@ static void initBouncers(void)
 static void logic(void)
 {
 	int i;
-	
-	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+
+	for (i = 0; i < MAX_BOUNCERS; i++)
 	{
 		bouncers[i].y += bouncers[i].dy;
 		bouncers[i].dy += 0.2;
@@ -101,37 +102,37 @@ static void logic(void)
 			bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 		}
 	}
-	
+
 	doWidgets();
-	
+
 	doWipe();
 }
 
 static void draw(void)
 {
 	int i;
-	
+
 	drawBackground(&background);
-	
-	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+
+	for (i = 0; i < MAX_BOUNCERS; i++)
 	{
 		blitAtlasImage(bouncers[i].atlasImage, bouncers[i].x, bouncers[i].y, 1);
 	}
-	
+
 	drawShadowText(SCREEN_WIDTH / 2, 100, TEXT_ALIGN_CENTER, 60, app.strings[ST_CONGRATULATIONS]);
-	
+
 	setTextWidth(700);
 	drawShadowText(25, 300, TEXT_ALIGN_LEFT, 45, app.strings[ST_ENDING]);
 	setTextWidth(0);
-	
+
 	drawWidgets();
-	
+
 	drawWipe();
 }
 
 static void ok(void)
 {
 	initTitle();
-	
+
 	playSound(SND_SELECT, 0);
 }

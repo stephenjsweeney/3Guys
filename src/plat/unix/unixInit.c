@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,13 +18,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../common.h"
-#include "unixInit.h"
-#include "../../util/util.h"
-#include <sys/stat.h>
-#include <pwd.h>
-#include <unistd.h>
 #include <errno.h>
+#include <pwd.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include "../../common.h"
+
+#include "../../util/util.h"
+#include "unixInit.h"
 
 extern App app;
 
@@ -56,19 +58,19 @@ void createSaveFolder(void)
 static void mkpath(const char *path)
 {
 	char dir[MAX_FILENAME_LENGTH];
-	int i, rootPath;
+	int	 i, rootPath;
 
 	strcpy(dir, "");
 
 	rootPath = 1;
 
-	for (i = 0 ; i < strlen(path) ; i++)
+	for (i = 0; i < strlen(path); i++)
 	{
 		if (path[i] == '/')
 		{
 			if (!rootPath)
 			{
-				if (mkdir(dir, S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH) != 0 && errno != EEXIST)
+				if (mkdir(dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0 && errno != EEXIST)
 				{
 					SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
 					exit(1);
@@ -82,7 +84,7 @@ static void mkpath(const char *path)
 		dir[i + 1] = '\0';
 	}
 
-	if (mkdir(dir, S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH) != 0 && errno != EEXIST)
+	if (mkdir(dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0 && errno != EEXIST)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Failed to create save dir '%s'.", dir);
 		exit(1);

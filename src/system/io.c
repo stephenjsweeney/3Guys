@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,11 +18,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "io.h"
+#include <dirent.h>
 #include <sys/stat.h>
-#include "dirent.h"
-#include "zlib.h"
+#include <zlib.h>
+
+#include "../common.h"
+
+#include "io.h"
 
 static int stringComparator(const void *a, const void *b);
 
@@ -37,7 +39,7 @@ long getFileModTime(const char *filename)
 {
 	struct stat buffer;
 
-    return buffer.st_mtime;
+	return buffer.st_mtime;
 }
 
 const char *getFileLocation(const char *filename)
@@ -50,7 +52,7 @@ const char *getFileLocation(const char *filename)
 		return filename;
 	}
 
-	sprintf(path, DATA_DIR"/%s", filename);
+	sprintf(path, DATA_DIR "/%s", filename);
 
 	if (!fileExists(path))
 	{
@@ -63,9 +65,9 @@ const char *getFileLocation(const char *filename)
 
 char *readFile(const char *filename)
 {
-	char *buffer = 0;
+	char		 *buffer = 0;
 	unsigned long length;
-	FILE *file = fopen(getFileLocation(filename), "rb");
+	FILE		 *file = fopen(getFileLocation(filename), "rb");
 
 	if (file)
 	{
@@ -88,9 +90,9 @@ char *readFile(const char *filename)
 char *readCompressedFile(const char *filename)
 {
 	unsigned char *buffer, *cBuffer;
-	uint32_t l1, l2;
-	unsigned long length, cLength;
-	FILE *file = fopen(getFileLocation(filename), "rb");
+	uint32_t	   l1, l2;
+	unsigned long  length, cLength;
+	FILE		  *file = fopen(getFileLocation(filename), "rb");
 
 	buffer = 0;
 	cBuffer = 0;
@@ -125,7 +127,7 @@ char *readCompressedFile(const char *filename)
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, "Decompressed '%s' %ld -> %ld", filename, cLength, length);
 	}
 
-	return (char*) buffer;
+	return (char *)buffer;
 }
 
 int writeFile(const char *filename, const char *data)
@@ -144,10 +146,10 @@ int writeFile(const char *filename, const char *data)
 
 char **getFileList(const char *dir, int *count)
 {
-	DIR *d;
-	int i;
+	DIR		   *d;
+	int			   i;
 	struct dirent *ent;
-	char **filenames;
+	char		 **filenames;
 
 	i = 0;
 	filenames = NULL;
@@ -164,8 +166,8 @@ char **getFileList(const char *dir, int *count)
 
 		if (i > 0)
 		{
-			filenames = malloc(sizeof(char*) * i);
-			memset(filenames, 0, sizeof(char*) * i);
+			filenames = malloc(sizeof(char *) * i);
+			memset(filenames, 0, sizeof(char *) * i);
 
 			rewinddir(d);
 
@@ -191,7 +193,7 @@ char **getFileList(const char *dir, int *count)
 
 	if (filenames)
 	{
-		qsort(filenames, i, sizeof(char*), stringComparator);
+		qsort(filenames, i, sizeof(char *), stringComparator);
 	}
 
 	return filenames;
@@ -209,6 +211,6 @@ int renameFile(char *src, char *dest)
 
 static int stringComparator(const void *a, const void *b)
 {
-    char **s1 = (char **)a;
-    char **s2 = (char **)b;
+	char **s1 = (char **)a;
+	char **s2 = (char **)b;
 }

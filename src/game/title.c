@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,21 +19,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "title.h"
-#include "../game/levelSelect.h"
-#include "../system/atlas.h"
+
 #include "../game/credits.h"
+#include "../game/levelSelect.h"
 #include "../game/options.h"
 #include "../game/stats.h"
-#include "../system/widgets.h"
-#include "../system/text.h"
-#include "../system/textures.h"
-#include "../system/wipe.h"
+#include "../system/atlas.h"
 #include "../system/draw.h"
 #include "../system/sound.h"
+#include "../system/text.h"
+#include "../system/textures.h"
+#include "../system/widgets.h"
+#include "../system/wipe.h"
+#include "title.h"
 
-#define MAX_BOUNCERS		5
-#define MAX_BOUNCER_TYPES	8
+#define MAX_BOUNCERS	  5
+#define MAX_BOUNCER_TYPES 8
 
 extern App app;
 
@@ -47,11 +48,11 @@ static void stats(void);
 static void credits(void);
 static void quit(void);
 
-static Background background;
+static Background  background;
 static AtlasImage *logo;
 static AtlasImage *bouncerTypes[MAX_BOUNCER_TYPES];
-static Bouncer bouncers[MAX_BOUNCERS];
-static int playingMusic = 0;
+static Bouncer	   bouncers[MAX_BOUNCERS];
+static int		   playingMusic = 0;
 
 void initTitle(void)
 {
@@ -97,12 +98,12 @@ static void initBouncers(void)
 	bouncerTypes[6] = getImageFromAtlas("gfx/sprites/normalKey.png", 1);
 	bouncerTypes[7] = getImageFromAtlas("gfx/sprites/red1.png", 1);
 
-	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+	for (i = 0; i < MAX_BOUNCERS; i++)
 	{
 		bouncers[i].x = rand() % (SCREEN_WIDTH - 48);
 		bouncers[i].y = SCREEN_HEIGHT;
 		bouncers[i].y += rand() % 100;
-		bouncers[i].dy = (float) -(4 + rand() % 8);
+		bouncers[i].dy = (float)-(4 + rand() % 8);
 		bouncers[i].atlasImage = bouncerTypes[rand() % MAX_BOUNCER_TYPES];
 	}
 }
@@ -113,7 +114,7 @@ static void logic(void)
 
 	doWipe();
 
-	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+	for (i = 0; i < MAX_BOUNCERS; i++)
 	{
 		bouncers[i].y += bouncers[i].dy;
 		bouncers[i].dy += 0.2;
@@ -137,7 +138,7 @@ static void draw(void)
 
 	drawBackground(&background);
 
-	for (i = 0 ; i < MAX_BOUNCERS ; i++)
+	for (i = 0; i < MAX_BOUNCERS; i++)
 	{
 		blitAtlasImage(bouncers[i].atlasImage, bouncers[i].x, bouncers[i].y, 0);
 	}

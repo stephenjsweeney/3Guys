@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,24 +19,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "player.h"
-#include "../level/level.h"
-#include "../system/sound.h"
+
 #include "../level/effects.h"
 #include "../level/entities.h"
+#include "../level/level.h"
+#include "../system/sound.h"
+#include "player.h"
 
-extern App app;
-extern Dev dev;
+extern App	   app;
+extern Dev	   dev;
 extern Entity *self;
-extern Game game;
-extern Level level;
+extern Game	   game;
+extern Level   level;
 
 static void handleEntityClick(Entity *e);
 static void handleTNT(int x, int y);
-static int addRouteNode(void);
+static int	addRouteNode(void);
 static void cancelLastNode(void);
 static void doControls(void);
-static int isWalkableByGuy(void);
+static int	isWalkableByGuy(void);
 static void doDebugControls(void);
 
 static SDL_Point lastRouteNode;
@@ -52,7 +53,7 @@ void doPlayer(void)
 	{
 		doControls();
 	}
-	
+
 	if (dev.debug)
 	{
 		doDebugControls();
@@ -61,39 +62,39 @@ void doPlayer(void)
 
 static void doControls(void)
 {
-	Entity *candidates[MAX_CANDIDATES];
-	float x, y;
-	int n, i;
+	Entity	   *candidates[MAX_CANDIDATES];
+	float	   x, y;
+	int		   n, i;
 	RouteNode *node;
-	
+
 	if (app.mouse.button[SDL_BUTTON_LEFT])
 	{
 		level.message = NULL;
-		
+
 		x = app.mouse.x;
 		x -= LEVEL_RENDER_X;
 		x /= TILE_SIZE;
-		
+
 		y = app.mouse.y;
 		y -= LEVEL_RENDER_Y;
 		y /= TILE_SIZE;
-		
+
 		if (level.routeHead.next == NULL)
 		{
 			getEntitiesAt(x, y, &n, NULL, candidates);
-			
+
 			if (n == 1)
 			{
 				handleEntityClick(candidates[0]);
 			}
 			else
 			{
-				for (i = 0 ; i < n ; i++)
+				for (i = 0; i < n; i++)
 				{
 					handleEntityClick(candidates[i]);
 				}
 			}
-			
+
 			handleTNT(x, y);
 		}
 		else
@@ -102,7 +103,7 @@ static void doControls(void)
 			{
 				lastRouteNode.x = x;
 				lastRouteNode.y = y;
-				
+
 				if (addRouteNode())
 				{
 					node = malloc(sizeof(RouteNode));
@@ -113,7 +114,7 @@ static void doControls(void)
 					level.routeTail->x = lastRouteNode.x;
 					level.routeTail->y = lastRouteNode.y;
 				}
-				
+
 				cancelLastNode();
 			}
 		}
@@ -123,7 +124,7 @@ static void doControls(void)
 		if (level.routeHead.next != NULL && level.routeHead.next->next != NULL)
 		{
 			level.walkRoute = 1;
-			
+
 			/* ignore 0, as it's the guy himself */
 			node = level.routeHead.next;
 			level.routeHead.next = node->next;
@@ -141,7 +142,7 @@ static void doDebugControls(void)
 	if (app.keyboard[SDL_SCANCODE_1])
 	{
 		completeLevel();
-		
+
 		app.keyboard[SDL_SCANCODE_1] = 0;
 	}
 }
@@ -159,7 +160,7 @@ static void handleTNT(int x, int y)
 		if (level.tnt != -1)
 		{
 			level.tnt--;
-			
+
 			game.stats[STAT_TNT_USED]++;
 		}
 	}
@@ -183,7 +184,7 @@ static void handleEntityClick(Entity *e)
 				memset(n, 0, sizeof(RouteNode));
 				level.routeTail->next = n;
 				level.routeTail = n;
-				
+
 				n->x = lastRouteNode.x;
 				n->y = lastRouteNode.y;
 			}
@@ -192,12 +193,12 @@ static void handleEntityClick(Entity *e)
 				level.guy = e;
 			}
 			break;
-			
+
 		default:
 			if (level.routeHead.next == NULL && e->describe != NULL)
 			{
 				self = e;
-				
+
 				self->describe();
 			}
 			break;
@@ -206,15 +207,15 @@ static void handleEntityClick(Entity *e)
 
 static int addRouteNode(void)
 {
-	int i, n;
-	Entity *candidates[MAX_CANDIDATES];
+	int		   i, n;
+	Entity	   *candidates[MAX_CANDIDATES];
 	RouteNode *node;
-	
+
 	if (lastRouteNode.x < 0 || lastRouteNode.x >= MAP_WIDTH || lastRouteNode.y < 0 || lastRouteNode.y >= MAP_HEIGHT || level.data[lastRouteNode.x][lastRouteNode.y] == TILE_WALL || !isWalkableByGuy())
 	{
 		return 0;
 	}
-	
+
 	/* too far away from last node */
 	if (abs(level.routeTail->x - lastRouteNode.x) > 1 || abs(level.routeTail->y - lastRouteNode.y) > 1)
 	{
@@ -226,27 +227,27 @@ static int addRouteNode(void)
 	{
 		return 0;
 	}
-	
+
 	getEntitiesAt(lastRouteNode.x, lastRouteNode.y, &n, NULL, candidates);
-	
-	for (i = 0 ; i < n ; i++)
+
+	for (i = 0; i < n; i++)
 	{
 		self = candidates[i];
-		
+
 		if (level.guy != candidates[i] && candidates[i]->isBlocking())
 		{
 			return 0;
 		}
 	}
-	
-	for (node = level.routeHead.next ; node != NULL ; node = node->next)
+
+	for (node = level.routeHead.next; node != NULL; node = node->next)
 	{
 		if (node->x == lastRouteNode.x && node->y == lastRouteNode.y)
 		{
 			return 0;
 		}
 	}
-	
+
 	return 1;
 }
 
@@ -256,13 +257,13 @@ static int isWalkableByGuy(void)
 	{
 		case TILE_RED:
 			return level.guy->type == ET_RED_GUY;
-		
+
 		case TILE_YELLOW:
 			return level.guy->type == ET_YELLOW_GUY;
-		
+
 		case TILE_GREEN:
 			return level.guy->type == ET_GREEN_GUY;
-			
+
 		default:
 			return 1;
 	}
@@ -273,8 +274,8 @@ static void cancelLastNode(void)
 	RouteNode *n, *prev;
 
 	prev = &level.routeHead;
-	
-	for (n = level.routeHead.next ; n != NULL ; n = n->next)
+
+	for (n = level.routeHead.next; n != NULL; n = n->next)
 	{
 		if (n == level.routeTail && prev->x == lastRouteNode.x && prev->y == lastRouteNode.y)
 		{
@@ -283,7 +284,7 @@ static void cancelLastNode(void)
 			level.routeTail = prev;
 			return;
 		}
-		
+
 		prev = n;
 	}
 }
@@ -297,7 +298,7 @@ void stepBack(void)
 void clearRoute(void)
 {
 	RouteNode *n;
-	
+
 	while (level.routeHead.next)
 	{
 		n = level.routeHead.next;
@@ -307,8 +308,8 @@ void clearRoute(void)
 
 	memset(&level.routeHead, 0, sizeof(RouteNode));
 	level.routeTail = &level.routeHead;
-	
+
 	level.dx = level.dy = 0;
-	
+
 	level.walkRoute = 0;
 }

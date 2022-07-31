@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,20 +19,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "firePitTrap.h"
+
 #include "../entities/guy.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
 #include "../level/effects.h"
 #include "../level/entities.h"
 #include "../level/level.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "firePitTrap.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void touch(Entity *other);
-static int blocking(void);
+static int	blocking(void);
 static void tick(void);
 static void describe(void);
 static void die(void);
@@ -51,13 +52,13 @@ void initFirePitTrap(Entity *e)
 static void tick(void)
 {
 	Entity *candidates[MAX_CANDIDATES];
-	int i, n, guyStanding;
-	
+	int		i, n, guyStanding;
+
 	guyStanding = 0;
-	
+
 	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
-	for (i = 0 ; i < n ; i++)
+	for (i = 0; i < n; i++)
 	{
 		if (isGuy(candidates[i]))
 		{
@@ -89,9 +90,9 @@ static void touch(Entity *other)
 		else if (other->type == ET_PUSH_BLOCK)
 		{
 			addFloor(self->x, self->y);
-			
+
 			other->alive = 0;
-			
+
 			self->alive = 0;
 		}
 	}
@@ -110,6 +111,6 @@ static void describe(void)
 static void die(void)
 {
 	playSound(SND_DIE, -1);
-	
+
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }

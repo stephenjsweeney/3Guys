@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,20 +19,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "wall.h"
-#include "../system/atlas.h"
+
 #include "../entities/guy.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
 #include "../level/effects.h"
 #include "../level/entities.h"
 #include "../level/player.h"
+#include "../system/atlas.h"
 #include "../system/draw.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "wall.h"
 
 extern Entity *self;
 
 static void touch(Entity *other);
-static int blocking(void);
+static int	blocking(void);
 static void die(void);
 static void activate(void);
 static void draw(void);
@@ -48,10 +49,10 @@ void initWall(Entity *e)
 	e->die = die;
 	e->activate = activate;
 	e->draw = draw;
-	
+
 	e->solid = 1;
 	e->active = 1;
-	
+
 	wallDown = getImageFromAtlas("gfx/sprites/wallDown.png", 1);
 }
 
@@ -68,13 +69,13 @@ static void touch(Entity *other)
 static void activate(void)
 {
 	Entity *candidates[MAX_CANDIDATES];
-	int i, n;
-	
+	int		i, n;
+
 	self->solid = self->active = !self->active;
-	
+
 	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
-	for (i = 0 ; i < n ; i++)
+	for (i = 0; i < n; i++)
 	{
 		if (isGuy(candidates[i]))
 		{
@@ -85,20 +86,20 @@ static void activate(void)
 			self->alive = 0;
 		}
 	}
-	
+
 	playSound(SND_WALL, 2);
 }
 
 static void draw(void)
 {
 	int x, y;
-	
+
 	x = LEVEL_RENDER_X + self->x * TILE_SIZE;
 	y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
 
 	x += TILE_SIZE / 2;
 	y += TILE_SIZE / 2;
-	
+
 	if (self->active)
 	{
 		blitAtlasImage(getCurrentFrame(self->sprite), x, y, 1);
@@ -112,7 +113,7 @@ static void draw(void)
 static void die(void)
 {
 	playSound(SND_DIE, -1);
-	
+
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }
 

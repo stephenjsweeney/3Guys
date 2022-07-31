@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,23 +19,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
+
 #include "lookup.h"
 
-static Lookup head;
+static Lookup  head;
 static Lookup *tail;
 
-static void addLookup(const char *name, long value); 
+static void addLookup(const char *name, long value);
 
 void initLookups(void)
 {
 	memset(&head, 0, sizeof(Lookup));
 	tail = &head;
-	
+
 	addLookup("WT_BUTTON", WT_BUTTON);
 	addLookup("WT_IMAGE", WT_IMAGE);
 	addLookup("WT_SLIDER", WT_SLIDER);
 	addLookup("WT_SPINNER", WT_SPINNER);
-	
+
 	addLookup("STAT_MOVES", STAT_MOVES);
 	addLookup("STAT_SQUARES", STAT_SQUARES);
 	addLookup("STAT_DIAMONDS", STAT_DIAMONDS);
@@ -64,7 +65,7 @@ long lookup(const char *name)
 {
 	Lookup *l;
 
-	for (l = head.next ; l != NULL ; l = l->next)
+	for (l = head.next; l != NULL; l = l->next)
 	{
 		if (strcmp(l->name, name) == 0)
 		{
@@ -82,7 +83,7 @@ char *getLookupName(const char *prefix, long num)
 {
 	Lookup *l;
 
-	for (l = head.next ; l != NULL ; l = l->next)
+	for (l = head.next; l != NULL; l = l->next)
 	{
 		if (l->value == num && strncmp(prefix, l->name, strlen(prefix)) == 0)
 		{
@@ -99,14 +100,14 @@ char *getLookupName(const char *prefix, long num)
 const char *getFlagValues(const char *prefix, long flags)
 {
 	static char flagStr[MAX_DESCRIPTION_LENGTH];
-	int requirePlus;
-	Lookup *l;
+	int			requirePlus;
+	Lookup	   *l;
 
 	memset(flagStr, '\0', MAX_DESCRIPTION_LENGTH);
 
 	requirePlus = 0;
 
-	for (l = head.next ; l != NULL ; l = l->next)
+	for (l = head.next; l != NULL; l = l->next)
 	{
 		if (flags & l->value && strncmp(prefix, l->name, strlen(prefix)) == 0)
 		{

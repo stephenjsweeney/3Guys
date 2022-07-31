@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,8 +19,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "item.h"
+
 #include "../util/maths.h"
+#include "item.h"
 
 extern Entity *self;
 
@@ -30,9 +31,9 @@ static void resetSpinTimer(void);
 void initItem(Entity *e)
 {
 	self = e;
-	
+
 	resetSpinTimer();
-	
+
 	e->tick = tick;
 }
 
@@ -42,9 +43,9 @@ static void tick(void)
 	{
 		self->spin += 0.1f;
 
-		self->angle = (float) sin(self->spin) * 25;
+		self->angle = (float)sin(self->spin) * 25;
 
-		if (self->spinTimer < -(FPS * 3) && (int) self->angle == 0)
+		if (self->spinTimer < -(FPS * 3) && (int)self->angle == 0)
 		{
 			resetSpinTimer();
 		}

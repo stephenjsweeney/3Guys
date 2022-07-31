@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,17 +19,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "pressurePlate.h"
+
 #include "../level/entities.h"
 #include "../system/sound.h"
 #include "../system/sprites.h"
+#include "pressurePlate.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 static void tick(void);
 
 void initPressurePlate(Entity *e)
@@ -44,17 +45,17 @@ void initPressurePlate(Entity *e)
 static void tick(void)
 {
 	Entity *candidates[MAX_CANDIDATES];
-	int n;
-	
+	int		n;
+
 	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
 	if (n != self->weight)
 	{
 		activateEntities(self->target);
-		
+
 		playSound(SND_PRESSURE_PLATE, 2);
 	}
-	
+
 	self->weight = n;
 }
 

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,21 +19,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "door.h"
+
+#include "../entities/guy.h"
 #include "../level/player.h"
 #include "../system/sound.h"
 #include "../system/sprites.h"
-#include "../entities/guy.h"
+#include "door.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Game game;
-extern Level level;
+extern Game	   game;
+extern Level   level;
 
-static int canOpen(Entity *other);
+static int	canOpen(Entity *other);
 static void touch(Entity *other);
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 
 void initNormalDoor(Entity *e)
 {
@@ -42,7 +43,7 @@ void initNormalDoor(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
-	
+
 	e->solid = 1;
 }
 
@@ -80,19 +81,19 @@ static void touch(Entity *other)
 		if (other->carrying != NULL && canOpen(other))
 		{
 			other->carrying = NULL;
-			
+
 			self->alive = 0;
-			
+
 			playSound(SND_OPEN, -1);
-			
+
 			game.stats[STAT_KEYS_USED]++;
 		}
 		else
 		{
 			stepBack();
-			
+
 			clearRoute();
-			
+
 			/* for continuous movement */
 			level.moves--;
 		}
@@ -105,13 +106,13 @@ static int canOpen(Entity *other)
 	{
 		case ET_RED_DOOR:
 			return other->carrying->type == ET_RED_KEY;
-			
+
 		case ET_GREEN_DOOR:
 			return other->carrying->type == ET_GREEN_KEY;
-			
+
 		case ET_YELLOW_DOOR:
 			return other->carrying->type == ET_YELLOW_KEY;
-			
+
 		default:
 			return other->carrying->type == ET_NORMAL_KEY;
 	}

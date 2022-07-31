@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,12 +18,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../../common.h"
-#include "win32Init.h"
-#include "../../util/util.h"
+#include <errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <errno.h>
+
+#include "../../common.h"
+
+#include "../../util/util.h"
+#include "win32Init.h"
 
 extern App app;
 
@@ -55,13 +57,13 @@ void createSaveFolder(void)
 static void mkpath(const char *path)
 {
 	char dir[MAX_FILENAME_LENGTH];
-	int i, rootPath;
+	int	 i, rootPath;
 
 	strcpy(dir, "");
 
 	rootPath = 1;
 
-	for (i = 0 ; i < strlen(path) ; i++)
+	for (i = 0; i < strlen(path); i++)
 	{
 		if (path[i] == '\\' || i == strlen(path) - 1)
 		{

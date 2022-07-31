@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -18,26 +18,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "../common.h"
-#include "init.h"
-#include "locale.h"
+#include <locale.h>
 #include <SDL2/SDL_image.h>
-#include "../json/cJSON.h"
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-#include "../system/strings.h"
-#include "../system/atlas.h"
-#include "../system/sprites.h"
+
+#include "../common.h"
+
 #include "../game/game.h"
-#include "../system/sound.h"
-#include "../util/util.h"
+#include "../json/cJSON.h"
+#include "../level/levelLoader.h"
+#include "../plat/win32/win32Init.h"
+#include "../system/atlas.h"
+#include "../system/draw.h"
 #include "../system/i18n.h"
 #include "../system/io.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "../system/strings.h"
 #include "../system/text.h"
-#include "../level/levelLoader.h"
-#include "../system/draw.h"
 #include "../system/widgets.h"
-#include "../plat/win32/win32Init.h"
+#include "../util/util.h"
+#include "init.h"
 
 extern App app;
 
@@ -52,7 +54,7 @@ void init18N(int argc, char *argv[])
 
 	setlocale(LC_NUMERIC, "");
 
-	for (i = 1 ; i < argc ; i++)
+	for (i = 1; i < argc; i++)
 	{
 		if (strcmp(argv[i], "-language") == 0)
 		{
@@ -78,16 +80,16 @@ void initSDL(void)
 
 	loadConfig();
 
-	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0)
 	{
 		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 		exit(1);
 	}
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
-    {
+	{
 		exit(1);
-    }
+	}
 
 	Mix_Volume(-1, app.config.soundVolume);
 	Mix_VolumeMusic(app.config.musicVolume);
@@ -110,23 +112,15 @@ void initSDL(void)
 void initGameSystem(void)
 {
 	int i, numInitFuncs;
-	void (*initFuncs[]) (void) = {
-		initStrings,
-		initFonts,
-		initWidgets,
-		initEntityDefs,
-		initSprites,
-		initSounds,
-		initGame
-	};
+	void (*initFuncs[])(void) = {initStrings, initFonts, initWidgets, initEntityDefs, initSprites, initSounds, initGame};
 
 	initAtlas();
 
 	initGraphics();
 
-	numInitFuncs = sizeof(initFuncs) / sizeof(void*);
+	numInitFuncs = sizeof(initFuncs) / sizeof(void *);
 
-	for (i = 0 ; i < numInitFuncs ; i++)
+	for (i = 0; i < numInitFuncs; i++)
 	{
 		showLoadingStep(i + 1, numInitFuncs);
 
@@ -175,7 +169,7 @@ static void loadConfig(void)
 	char *filename;
 
 	/* load default config first */
-	loadConfigFile("data/app/"CONFIG_FILENAME);
+	loadConfigFile("data/app/" CONFIG_FILENAME);
 
 	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);
 
@@ -193,7 +187,7 @@ static void loadConfig(void)
 static void loadConfigFile(char *filename)
 {
 	cJSON *root;
-	char *text;
+	char	 *text;
 
 	text = readFile(filename);
 
@@ -216,7 +210,7 @@ static void loadConfigFile(char *filename)
 
 void saveConfig(void)
 {
-	char *out, *filename;
+	char	 *out, *filename;
 	cJSON *root;
 
 	filename = buildFormattedString("%s/%s", app.saveDir, CONFIG_FILENAME);

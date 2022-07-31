@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,19 +19,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "key.h"
-#include "../entities/item.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
-#include "../entities/guy.h"
 
-extern App app;
+#include "../entities/guy.h"
+#include "../entities/item.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "key.h"
+
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void touch(Entity *other);
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 
 void initNormalKey(Entity *e)
 {
@@ -40,7 +41,7 @@ void initNormalKey(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
-	
+
 	initItem(e);
 }
 
@@ -51,7 +52,7 @@ void initYellowKey(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
-	
+
 	initItem(e);
 }
 
@@ -62,7 +63,7 @@ void initGreenKey(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
-	
+
 	initItem(e);
 }
 
@@ -73,7 +74,7 @@ void initRedKey(Entity *e)
 	e->touch = touch;
 	e->describe = describe;
 	e->isBlocking = blocking;
-	
+
 	initItem(e);
 }
 
@@ -86,7 +87,7 @@ static void touch(Entity *other)
 			other->carrying = self;
 			self->owner = other;
 			self->alive = 0;
-			
+
 			playSound(SND_PICKUP, -1);
 		}
 		else

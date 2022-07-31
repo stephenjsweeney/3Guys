@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
+
 #include "maths.h"
 
 float mod(float n, float x)
@@ -52,23 +53,23 @@ float limit(float i, float a, float b)
 	{
 		return a;
 	}
-	
+
 	if (i > b)
 	{
 		return b;
 	}
-	
+
 	return i;
 }
 
 int getDistance(int x1, int y1, int x2, int y2)
 {
 	int x, y;
-	
+
 	x = x2 - x1;
 	y = y2 - y1;
-	
-	return sqrt(x * x + y *y);
+
+	return sqrt(x * x + y * y);
 }
 
 void getSlope(int x1, int y1, int x2, int y2, float *dx, float *dy)
@@ -105,19 +106,19 @@ float wrap(float value, float low, float high)
 
 unsigned long hashcode(const char *str)
 {
-    unsigned long hash = 5381;
-    int c;
+	unsigned long hash = 5381;
+	int			  c;
 
 	c = *str;
 
 	while (c)
 	{
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+		hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
-        c = *str++;
+		c = *str++;
 	}
 
 	hash = ((hash << 5) + hash);
-	
+
 	return hash;
 }

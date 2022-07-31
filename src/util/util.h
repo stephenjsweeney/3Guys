@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,4 +23,4 @@ char *buildFormattedString(const char *format, ...);
 void *resize(void *array, int oldSize, int newSize);
 char *timeToDate(long millis);
 char *timeToString(int seconds, int showHours);
-int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
+int	  collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);

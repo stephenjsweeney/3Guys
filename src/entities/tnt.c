@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,18 +19,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "tnt.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
-#include "../entities/guy.h"
 
-extern App app;
+#include "../entities/guy.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "tnt.h"
+
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void touch(Entity *other);
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 
 void initTNT(Entity *e)
 {
@@ -48,7 +49,7 @@ static void touch(Entity *other)
 		self->alive = 0;
 
 		playSound(SND_PICKUP, -1);
-		
+
 		level.tnt++;
 	}
 }

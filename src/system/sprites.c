@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,18 +19,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "sprites.h"
+
 #include "../json/cJSON.h"
 #include "../system/atlas.h"
-#include "../util/maths.h"
 #include "../system/io.h"
+#include "../util/maths.h"
+#include "sprites.h"
 
 static void animateSprite(Sprite *s);
 static void loadGameSprites(void);
 static void loadSprite(cJSON *root);
 static void loadSpriteList(char *filename);
 
-static Sprite spriteHead;
+static Sprite  spriteHead;
 static Sprite *spriteTail;
 
 void initSprites(void)
@@ -45,7 +46,7 @@ Sprite *getSprite(char *name)
 {
 	Sprite *s;
 
-	for (s = spriteHead.next ; s != NULL ; s = s->next)
+	for (s = spriteHead.next; s != NULL; s = s->next)
 	{
 		if (strcmp(s->name, name) == 0)
 		{
@@ -63,7 +64,7 @@ void animateSprites(void)
 {
 	Sprite *s;
 
-	for (s = spriteHead.next ; s != NULL ; s = s->next)
+	for (s = spriteHead.next; s != NULL; s = s->next)
 	{
 		animateSprite(s);
 	}
@@ -91,12 +92,12 @@ AtlasImage *getCurrentFrame(Sprite *s)
 static void loadGameSprites(void)
 {
 	char **filenames;
-	char path[MAX_FILENAME_LENGTH];
-	int count, i;
+	char   path[MAX_FILENAME_LENGTH];
+	int	   count, i;
 
 	filenames = getFileList("data/sprites", &count);
 
-	for (i = 0 ; i < count ; i++)
+	for (i = 0; i < count; i++)
 	{
 		sprintf(path, "data/sprites/%s", filenames[i]);
 
@@ -111,14 +112,14 @@ static void loadGameSprites(void)
 static void loadSpriteList(char *filename)
 {
 	cJSON *root, *node;
-	char *text;
+	char	 *text;
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
 
 	text = readFile(filename);
 	root = cJSON_Parse(text);
 
-	for (node = root->child ; node != NULL ; node = node->next)
+	for (node = root->child; node != NULL; node = node->next)
 	{
 		loadSprite(node);
 	}
@@ -131,9 +132,9 @@ static void loadSpriteList(char *filename)
 static void loadSprite(cJSON *root)
 {
 	Sprite *s;
-	cJSON *frame;
-	char *filename;
-	int i;
+	cJSON  *frame;
+	char	 *filename;
+	int		i;
 
 	s = malloc(sizeof(Sprite));
 	memset(s, 0, sizeof(Sprite));
@@ -142,18 +143,18 @@ static void loadSprite(cJSON *root)
 
 	STRNCPY(s->name, cJSON_GetObjectItem(root, "name")->valuestring, MAX_NAME_LENGTH);
 
-	for (frame = cJSON_GetObjectItem(root, "frames")->child ; frame != NULL ; frame = frame->next)
+	for (frame = cJSON_GetObjectItem(root, "frames")->child; frame != NULL; frame = frame->next)
 	{
 		s->numFrames++;
 	}
 
 	s->times = malloc(sizeof(int) * s->numFrames);
-	s->filenames = malloc(sizeof(char*) * s->numFrames);
-	s->frames = malloc(sizeof(AtlasImage*) * s->numFrames);
+	s->filenames = malloc(sizeof(char *) * s->numFrames);
+	s->frames = malloc(sizeof(AtlasImage *) * s->numFrames);
 
 	i = 0;
 
-	for (frame = cJSON_GetObjectItem(root, "frames")->child ; frame != NULL ; frame = frame->next)
+	for (frame = cJSON_GetObjectItem(root, "frames")->child; frame != NULL; frame = frame->next)
 	{
 		s->times[i] = cJSON_GetObjectItem(frame, "time")->valueint;
 

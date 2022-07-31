@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,21 +19,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "atlas.h"
+
 #include "../json/cJSON.h"
+#include "../system/io.h"
 #include "../system/textures.h"
 #include "../util/maths.h"
-#include "../system/io.h"
+#include "atlas.h"
 
 static void loadAtlasData(void);
 
 static AtlasImage atlases[NUM_ATLAS_BUCKETS];
-static Texture *atlasTexture;
+static Texture   *atlasTexture;
 
 void initAtlas(void)
 {
 	memset(&atlases, 0, sizeof(AtlasImage) * NUM_ATLAS_BUCKETS);
-	
+
 	atlasTexture = getTexture("gfx/atlas/atlas.png");
 
 	loadAtlasData();
@@ -41,41 +42,41 @@ void initAtlas(void)
 
 AtlasImage *getImageFromAtlas(char *filename, int required)
 {
-	AtlasImage *a;
+	AtlasImage   *a;
 	unsigned long i;
 
 	i = hashcode(filename) % NUM_ATLAS_BUCKETS;
-	
-	for (a = atlases[i].next ; a != NULL ; a = a->next)
+
+	for (a = atlases[i].next; a != NULL; a = a->next)
 	{
 		if (strcmp(a->filename, filename) == 0)
 		{
 			return a;
 		}
 	}
-	
+
 	if (required)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL, "No such atlas image '%s'", filename);
 		exit(1);
 	}
-	
+
 	return NULL;
 }
 
 static void loadAtlasData(void)
 {
-	AtlasImage *atlasImage, *a;
-	int x, y, w, h;
-	cJSON *root, *node;
-	char *text, *filename;
+	AtlasImage   *atlasImage, *a;
+	int			  x, y, w, h;
+	cJSON		  *root, *node;
+	char		 *text, *filename;
 	unsigned long i;
-	
+
 	text = readFile("data/atlas/atlas.json");
 
 	root = cJSON_Parse(text);
-	
-	for (node = root->child ; node != NULL ; node = node->next)
+
+	for (node = root->child; node != NULL; node = node->next)
 	{
 		filename = cJSON_GetObjectItem(node, "filename")->valuestring;
 		x = cJSON_GetObjectItem(node, "x")->valueint;
@@ -92,21 +93,21 @@ static void loadAtlasData(void)
 		{
 			a = a->next;
 		}
-		
+
 		atlasImage = malloc(sizeof(AtlasImage));
 		memset(atlasImage, 0, sizeof(AtlasImage));
 		a->next = atlasImage;
-		
+
 		STRNCPY(atlasImage->filename, filename, MAX_FILENAME_LENGTH);
 		atlasImage->rect.x = x;
 		atlasImage->rect.y = y;
 		atlasImage->rect.w = w;
 		atlasImage->rect.h = h;
-		
+
 		atlasImage->texture = atlasTexture->texture;
 	}
-	
+
 	cJSON_Delete(root);
-	
+
 	free(text);
 }

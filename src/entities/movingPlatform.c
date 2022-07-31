@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,18 +19,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "movingPlatform.h"
+
+#include "../entities/guy.h"
 #include "../level/entities.h"
 #include "../system/sprites.h"
-#include "../entities/guy.h"
+#include "movingPlatform.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
 static void touch(Entity *other);
 static void describe(void);
-static int blocking(void);
+static int	blocking(void);
 static void move(void);
 static void initPlatformDestination(void);
 
@@ -42,7 +43,7 @@ void initMovingPlatform(Entity *e)
 	e->describe = describe;
 	e->move = move;
 	e->isBlocking = blocking;
-	
+
 	e->backgroundPlane = 1;
 }
 
@@ -57,13 +58,13 @@ static void touch(Entity *other)
 static void initPlatformDestination(void)
 {
 	Entity *candidates[MAX_CANDIDATES];
-	int n, i, hit;
-	
+	int		n, i, hit;
+
 	self->active = self->dx = self->dy = 0;
-	
+
 	getEntitiesAt(self->x, self->y, &n, self, candidates);
 
-	for (i = 0 ; i < n ; i++)
+	for (i = 0; i < n; i++)
 	{
 		if (candidates[i] == level.guy)
 		{
@@ -72,11 +73,11 @@ static void initPlatformDestination(void)
 			self->active = 1;
 		}
 	}
-	
+
 	if (self->active)
 	{
 		hit = 0;
-		
+
 		self->tx = self->x;
 		self->ty = self->y;
 
@@ -92,8 +93,8 @@ static void initPlatformDestination(void)
 			else
 			{
 				getEntitiesAt(self->tx, self->ty, &n, self, candidates);
-				
-				for (i = 0 ; i < n ; i++)
+
+				for (i = 0; i < n; i++)
 				{
 					if ((candidates[i]->solid && candidates[i]->visible) || candidates[i]->type == ET_MOVING_PLATFORM)
 					{
@@ -101,8 +102,7 @@ static void initPlatformDestination(void)
 					}
 				}
 			}
-		}
-		while (!hit);
+		} while (!hit);
 
 		self->tx -= self->dx;
 		self->ty -= self->dy;
@@ -120,7 +120,7 @@ static void move(void)
 	{
 		initPlatformDestination();
 	}
-	
+
 	self->x += self->dx;
 	self->y += self->dy;
 

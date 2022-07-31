@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2018 Parallel Realities
+Copyright (C) 2018,2022 Parallel Realities
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -19,20 +19,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../common.h"
-#include "laserTrap.h"
-#include "../system/atlas.h"
+
 #include "../entities/guy.h"
-#include "../system/sprites.h"
-#include "../system/sound.h"
 #include "../level/effects.h"
 #include "../level/entities.h"
+#include "../system/atlas.h"
 #include "../system/draw.h"
+#include "../system/sound.h"
+#include "../system/sprites.h"
+#include "laserTrap.h"
 
-extern App app;
+extern App	   app;
 extern Entity *self;
-extern Level level;
+extern Level   level;
 
-static int blocking(void);
+static int	blocking(void);
 static void tick(void);
 static void die(void);
 static void activate(void);
@@ -40,7 +41,7 @@ static void describe(void);
 static void draw(void);
 static void initLaserTrap(Entity *e);
 
-static Sprite *laserBeam;
+static Sprite	  *laserBeam;
 static AtlasImage *inactive;
 
 void initHorizontalLaserTrap(Entity *e)
@@ -51,7 +52,7 @@ void initHorizontalLaserTrap(Entity *e)
 void initVerticalLaserTrap(Entity *e)
 {
 	initLaserTrap(e);
-	
+
 	e->angle = 90;
 }
 
@@ -64,24 +65,24 @@ static void initLaserTrap(Entity *e)
 	e->describe = describe;
 	e->draw = draw;
 	e->tick = tick;
-	
+
 	e->sprite = getSprite("LaserTrap");
-	
+
 	laserBeam = getSprite("LaserBeam");
-	
+
 	inactive = getImageFromAtlas("gfx/sprites/laserTrap.png", 1);
-	
+
 	e->solid = 1;
 }
 
 static void tick(void)
 {
-	int i, n, dx, dy, hit;
+	int		i, n, dx, dy, hit;
 	Entity *candidates[MAX_CANDIDATES];
-	
+
 	self->tx = self->x;
 	self->ty = self->y;
-	
+
 	if (self->active)
 	{
 		hit = dx = dy = 0;
@@ -94,7 +95,7 @@ static void tick(void)
 		{
 			dx = 1;
 		}
-		
+
 		while (!hit)
 		{
 			if (self->tx < 0 || self->ty < 0 || self->tx >= MAP_WIDTH || self->ty >= MAP_HEIGHT || level.data[self->tx][self->ty] >= TILE_WALL)
@@ -104,8 +105,8 @@ static void tick(void)
 			else
 			{
 				getEntitiesAt(self->tx, self->ty, &n, self, candidates);
-				
-				for (i = 0 ; i < n ; i++)
+
+				for (i = 0; i < n; i++)
 				{
 					if (isGuy(candidates[i]))
 					{
@@ -116,7 +117,7 @@ static void tick(void)
 						hit = 1;
 					}
 				}
-				
+
 				if (!hit)
 				{
 					self->tx += dx;
@@ -130,7 +131,7 @@ static void tick(void)
 static void draw(void)
 {
 	int hit, x, y, dx, dy, ex, ey;
-	
+
 	if (self->active)
 	{
 		hit = dx = dy = 0;
@@ -143,7 +144,7 @@ static void draw(void)
 		{
 			dx = 1;
 		}
-		
+
 		ex = self->x;
 		ey = self->y;
 
@@ -151,21 +152,21 @@ static void draw(void)
 		{
 			x = LEVEL_RENDER_X + ex * TILE_SIZE;
 			y = LEVEL_RENDER_Y + ey * TILE_SIZE;
-			
+
 			x += TILE_SIZE / 2;
 			y += TILE_SIZE / 2;
-			
+
 			blitAtlasImageRotated(getCurrentFrame(laserBeam), x, y, 1, self->angle);
-			
+
 			ex += dx;
 			ey += dy;
-			
+
 			hit = (ex == self->tx && ey == self->ty);
 		}
-		
+
 		x = LEVEL_RENDER_X + (self->x * TILE_SIZE);
 		y = LEVEL_RENDER_Y + (self->y * TILE_SIZE);
-		
+
 		x += TILE_SIZE / 2;
 		y += TILE_SIZE / 2;
 
@@ -175,9 +176,9 @@ static void draw(void)
 	{
 		x = LEVEL_RENDER_X + self->x * TILE_SIZE;
 		y = LEVEL_RENDER_Y + self->y * TILE_SIZE;
-		
+
 		x += TILE_SIZE / 2;
-			y += TILE_SIZE / 2;
+		y += TILE_SIZE / 2;
 
 		blitAtlasImageRotated(inactive, x, y, 1, self->angle);
 	}
@@ -191,7 +192,7 @@ static void activate(void)
 static void die(void)
 {
 	playSound(SND_DIE, -1);
-	
+
 	addExplosionEffect(self->x, self->y, 255, 255, 255);
 }
 
